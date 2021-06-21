@@ -9,7 +9,7 @@ import Propuesta from './componentes/EnvioPropuesta';
 function App() {
   return (
     <div className="App">
-        <Propuesta/>
+        <Propuesta />
     </div>
   );
 }
