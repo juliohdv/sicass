@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Form, Col } from "react-bootstrap";
 
 /* Componente donde se tiene la base del formulario de la
