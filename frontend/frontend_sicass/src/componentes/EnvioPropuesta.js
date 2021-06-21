@@ -9,7 +9,7 @@ import { Row, Col, Form, Button } from "react-bootstrap";
 class Propuesta extends Component {
   render() {
     //Retorna todo la interfas respectiva para la solicitud de la propuesta
-    return <Dashboard contenedor={<Cuerpo />} />;
+    return <Form><Dashboard contenedor={<Cuerpo />} /></Form>;
   }
 }
 
@@ -20,8 +20,7 @@ function Cuerpo() {
     cuerpo referente a los campos de informacion de la entidad
     columnas referente a las columnas necesarias para maquetación de la interfaz
     descripcion hace referencia a los campos de informacion del servicio social a solicitar*/
-    <div className="align-center">
-      <Form className="pl-5 pr-5">
+    <div className="pl-5 pr-5">
         <div>
           <Card titulo="Datos de entidad" cuerpo={<Entidad />} />
         </div>
@@ -36,7 +35,7 @@ function Cuerpo() {
             }
           />
         </div>
-        <div className="container pt-4">
+        <div className="pt-4">
           <div className="row">
             <div className="col text-right pr-5">
               <Button variant="success" type="submit" onClick="">
@@ -50,7 +49,6 @@ function Cuerpo() {
             </div>
           </div>
         </div>
-      </Form>
     </div>
   );
 }

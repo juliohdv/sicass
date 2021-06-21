@@ -9,7 +9,7 @@ export default function SolicitudServicio(props) {
     de la propuesta, columnas que se refiere a la cantidad columnas de el
     contenedor y descripción que es el campo agregado en la propuesta*/
     //<Form>
-      <Row className="pl-5 pr-5">
+      <Row>
         <Col sm={props.columnas} className="pl-5">
           <Form.Group as={Row}>
             <Form.Label>Facultad</Form.Label>
