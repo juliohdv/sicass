@@ -1,3 +1,4 @@
+from django.db.models import fields
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import *
@@ -19,4 +20,12 @@ class TipoServicioSocialSerializer(serializers.ModelSerializer):
         model = TipoServicioSocial
         fields = ['condigo_tipo_servicio_social', 'nombre_tipo_servicio_social']
     
-        
+class FacultadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Facultad
+        fields = ['codigo_facultad', 'nombre_facultad']
+
+class CarreraSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Carrera
+        fields = ['codigo_carrera','nombre_carrera', 'cantidad_materias','facultad']
