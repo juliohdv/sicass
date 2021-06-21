@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from .models import *
 from rest_framework.authtoken.models import Token
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -12,3 +13,10 @@ class UsuarioSerializer(serializers.ModelSerializer):
         usuario = User.objects.create_user(**validated_data)
         Token.objects.create(user=usuario) #Asignamos un token al usuario creado
         return usuario
+
+class TipoServicioSocialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TipoServicioSocial
+        fields = ['condigo_tipo_servicio_social', 'nombre_tipo_servicio_social']
+    
+        
