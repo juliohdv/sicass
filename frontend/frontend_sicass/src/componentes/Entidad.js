@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Form, Col} from "react-bootstrap";
+import React from "react";
+import { Form, Col } from "react-bootstrap";
 
 /* Componente donde se tiene la base del formulario de la
 solicitud de servicio social por parte de la entidad externa */
@@ -7,7 +7,7 @@ export default function Entidad(props) {
   return (
     //Falta aun validación de campos
     //<Form className="pl-3 pr-3">
-    <div className="pl-5 pr-5">
+    <>
       <Form.Row>
         <Form.Group as={Col} className="pr-5">
           <Form.Label>Nombre entidad</Form.Label>
@@ -39,7 +39,7 @@ export default function Entidad(props) {
           </Form.Control>
         </Form.Group>
       </Form.Row>
-      </div>
+    </>
     //</Form>
   );
 }
