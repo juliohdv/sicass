@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-import Dashboard from "./Dashboard";
-import Card from "./Card";
-import Botones from "./BotonesRegistro";
 import { Col, Form  } from "react-bootstrap";
 import axios from 'axios'
 

@@ -9,7 +9,7 @@ class SolicitudServicio extends Component {
     super(props);
     this.state = {
       columnas: '',
-      descripcion: '',
+      descripcion: 'descripcion',
       tipos_servicio_social:[],
       facultades:[],
       carreras:[],
