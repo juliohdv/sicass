@@ -2,13 +2,12 @@ import React, { Component } from "react";
 import Dashboard from "./Dashboard";
 import Card from "./Card";
 import Registro from "./Registro";
-import Botones from "./BotonesRegistro";
-import { Form } from "react-bootstrap";
+
 
 //Clase principal del componente
 class EnvioRegistro extends Component {
   render() {
-    return <Form><Dashboard contenedor={<Cuerpo />} /></Form>;
+    return(<Dashboard contenedor={<Cuerpo />} />); 
   }
 }
 
@@ -26,7 +25,6 @@ function Cuerpo() {
             }
           />
         </div>
-        <Botones />
     </div>
   );
 }

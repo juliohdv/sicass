@@ -29,3 +29,11 @@ class CarreraSerializer(serializers.ModelSerializer):
     class Meta:
         model = Carrera
         fields = ['codigo_carrera','nombre_carrera', 'cantidad_materias','facultad']
+
+class EstudianteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Estudiante
+        fields = ['carnet','nombres_estudiante','apellidos_estudiante','correo_estudiante','sexo','direccion_estudiante','telefono_estudiante','carrera']
+    def create(self, validated_data):
+        estudiante = Estudiante.objects.create(**validated_data)
+        return estudiante
