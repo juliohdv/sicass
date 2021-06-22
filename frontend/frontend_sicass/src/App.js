@@ -21,6 +21,7 @@ import LogoSicass from './componentes/LogoSicass';
 import EnvioRegistro from './componentes/EnvioRegistro';
 import EnvioPropuesta from './componentes/EnvioPropuesta';
 import EnvioSolicitud from './componentes/EnvioSolicitud';
+import Roles from './componentes/Roles';
 
 function Copyright() {
   return (
@@ -178,6 +179,9 @@ export default function Dashboard(props) {
               <Route path="/RegistrarSolicitud">
                 <RegistrarSolicitud />
               </Route>
+              <Route path="/GestionarRoles">
+                <GestionarRoles />
+              </Route>
             </Switch>
           <Box pt={4}>
             <Copyright />
@@ -204,3 +208,8 @@ function RegistrarSolicitud(){
     <EnvioSolicitud></EnvioSolicitud>
   );
 }
+function GestionarRoles(){
+  return(
+    <Roles></Roles>
+    );
+  }

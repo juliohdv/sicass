@@ -1,6 +1,7 @@
 from django.db.models import fields
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Permission
 from .models import *
 from rest_framework.authtoken.models import Token
 
@@ -37,3 +38,8 @@ class EstudianteSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return Estudiante.objects.create(**validated_data)
+
+class PermisosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Permission
+        fields = ['id', 'name', 'content_type_id', 'codename']

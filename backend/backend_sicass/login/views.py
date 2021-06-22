@@ -5,6 +5,7 @@ from .models import TipoServicioSocial
 from django.shortcuts import render
 from rest_framework import viewsets
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Permission
 from .serializers import *
 from rest_framework.decorators import api_view
 
@@ -49,3 +50,7 @@ class EstudianteVistas(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.data, status=status.HTTP_404_BAD_REQUEST)
+
+class PermisosVistas(viewsets.ModelViewSet):
+    queryset = Permission.objects.all()
+    serializer_class = PermisosSerializer

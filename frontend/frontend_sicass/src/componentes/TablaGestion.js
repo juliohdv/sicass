@@ -5,15 +5,10 @@ import MaterialTable from "material-table";
 export default function Tabla(props) {
   return (
     <div>
-      <div className="text-right">
-        <Button variant="success" onClick={props.crear}>
-          Crear
-        </Button>
-      </div>
       <div className="pt-3">
         <MaterialTable
-          columns={props.columnas}
-          data={props.datos}
+          columns={props.columna}
+          data={props.dato}
           title={props.titulo}
           options={{
             actionsColumnIndex: -1,
