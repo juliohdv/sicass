@@ -35,22 +35,9 @@ class CarreraPorFacultadVistas(viewsets.ModelViewSet) :
         if facultad is not None:
             queryset = queryset.filter(facultad = facultad)
         return queryset
-
-class EstudianteVistas(viewsets.ModelViewSet):
-    queryset = Estudiante.objects.all()
+class EstudiantesVistas(viewsets.ModelViewSet):
     serializer_class = EstudianteSerializer
-
-    @api_view(["POST"])
-    def agregarEstudiante(request):
-        data = JSONParser().parse(request)
-        estudiante = Estudiante(estudiante = request.user)
-        serializer = EstudianteSerializer(estudiante, data=data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.data, status=status.HTTP_404_BAD_REQUEST)
-
+    
 class PermisosVistas(viewsets.ModelViewSet):
     queryset = Permission.objects.all()
     serializer_class = PermisosSerializer
