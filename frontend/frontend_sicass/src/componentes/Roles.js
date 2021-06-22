@@ -49,11 +49,10 @@ class Roles extends Component {
 
 //Funccion que contiene los campos para la gestion
 function Cuerpo(props) {
-  console.log(props.datos);
   return (
     <div className="pt-4">
       <div>
-          <Button variant="success" onClick={props.crear}>
+          <Button variant="success" onClick="">
             Crear
           </Button>
         </div>

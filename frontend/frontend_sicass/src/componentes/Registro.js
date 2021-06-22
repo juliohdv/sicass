@@ -3,6 +3,7 @@ import { Col, Form  } from "react-bootstrap";
 import Botones from "./BotonesRegistro";
 import axios from 'axios'
 import {Formik} from 'formik'
+import Swal from 'sweetalert2'
 
 
 //Clase principal del componente
@@ -13,7 +14,6 @@ class Registro extends Component {
       facultades:[],
       carreras:[],
       facultadSeleccionada:'',
-      
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -61,7 +61,7 @@ class Registro extends Component {
       }}
       onSubmit={async values=>{
         await new Promise(resolve => setTimeout(resolve,500))
-        alert(JSON.stringify(values,null,2))
+        //alert(JSON.stringify(values,null,2))
         axios
           .post("http://127.0.0.1:8000/login/estudiantes/",{
             carnet:values.carnet,
@@ -74,7 +74,13 @@ class Registro extends Component {
             carrera:values.carrera_id
           })
           .then((response)=>{
-
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Te has registrado con exito',
+              showConfirmButton: false,
+              timer: 2500
+            })
           }).catch((error)=>{
             console.log(error)
           })
@@ -91,21 +97,28 @@ class Registro extends Component {
             <Form.Label>Carnet</Form.Label>
             <Form.Control 
             type="text" 
-            placeholder="Ingrese carnet" 
+            placeholder="AA00000" 
             id="carnet"
+            maxLength="7"
+            pattern="([A-Z]{2})([0-9]{5})"
+            required
             value={values.carnet}
             onChange={handleChange}
             />
           </Form.Group>
           <Form.Group as={Col}>
-            <Form.Label>Dirección</Form.Label>
+          <Form.Label>Email</Form.Label>
             <Form.Control 
-            type="text" 
-            placeholder="Ingrese dirección" 
-            id="direccion_estudiante"
-            value={values.direccion_estudiante}
+            type="email" 
+            placeholder="AA00000@ues.edu.sv"
+            id="correo_estudiante"
+            pattern="([A-Z]{2})([0-9]{5})@ues[.]edu[.]sv"
+            maxLength="18"
+            required
+            value={values.correo_estudiante}
             onChange={handleChange}
-            />
+             />
+            
           </Form.Group>
         </Form.Row>
         <Form.Row>
@@ -113,8 +126,11 @@ class Registro extends Component {
             <Form.Label>Nombres</Form.Label>
             <Form.Control 
             type="text" 
-            placeholder="Ingrese nombres"
+            placeholder="Carlos Roberto"
+            maxLength="50"
             id="nombres_estudiante"
+            pattern="([A-Z]{1}[a-z]+)[ ]([A-Z]{1}[a-z]+)"
+            required
             value={values.nombres_estudiante}
             onChange={handleChange}
              />
@@ -123,53 +139,64 @@ class Registro extends Component {
             <Form.Label>Apellidos</Form.Label>
             <Form.Control 
             type="text" 
-            placeholder="Ingrese apellidos" 
+            placeholder="Perez Quintanilla"
+            maxLength="50" 
             id="apellidos_estudiante"
+            pattern="([A-Z]{1}[a-z]+)[ ]([A-Z]{1}[a-z]+)"
+            required
             value={values.apellidos_estudiante}
             onChange={handleChange}
             />
           </Form.Group>
         </Form.Row>
         <Form.Row>
-          <Form.Group as={Col} className="pr-5">
-            <Form.Label>Email</Form.Label>
-            <Form.Control 
-            type="email" 
-            placeholder="Ingrese correo electronico"
-            id="correo_estudiante"
-            value={values.correo_estudiante}
-            onChange={handleChange}
-             />
-          </Form.Group>
-          <Form.Group as={Col}>
-            <Form.Label>Teléfono</Form.Label>
+          <Form.Group as={Col} className="pr-2">
+          <Form.Label>Dirección</Form.Label>
             <Form.Control 
             type="text" 
-            placeholder="Ingrese teléfono" 
-            id="telefono_estudiante"
-            value={values.telefono_estudiante}
+            placeholder="Departamento, Municipio, Residencia"
+            maxLength="250"
+            id="direccion_estudiante"
+            required
+            value={values.direccion_estudiante}
             onChange={handleChange}
             />
           </Form.Group>
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col} className="pr-5">
+            <Form.Label>Teléfono</Form.Label>
+            <Form.Control 
+            type="text" 
+            placeholder="########"
+            maxLength="8" 
+            id="telefono_estudiante"
+            pattern="([267]{1})([0-9]{7})"
+            required
+            value={values.telefono_estudiante}
+            onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group as={Col}>
             <Form.Label>Sexo</Form.Label>
             <Form.Control 
               as="select"
               id="sexo"
+              required
               value={values.sexo}
               onChange={handleChange}
             >
-              <option value="">Seleccione...</option>
+              <option value="" disabled="true" selected="true">Seleccione...</option>
               <option key={0} value="Masculino">Masculino</option>
               <option key={1} value="Femenino">Femenino</option>
             </Form.Control>
           </Form.Group>
-          <Form.Group as={Col}>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col} className="pr-5">
           <Form.Label >Facultad</Form.Label>
           <Form.Control as="select" onChange={this.handleChange}>
-                <option value="">Seleccione..</option>
+                <option value="" disabled="true" selected="true">Seleccione..</option>
                 {this.state.facultades.map(elemento=>(
                     <option 
                     key={elemento.codigo_facultad} 
@@ -179,17 +206,16 @@ class Registro extends Component {
                 ))}
                 </Form.Control>
           </Form.Group>
-        </Form.Row>
-        <Form.Row>
-          <Form.Group as={Col} className="pr-5">
+          <Form.Group as={Col}>
           <Form.Label>Carrera</Form.Label>
           <Form.Control 
             as="select"
             id="carrera_id"
+            required
             value={values.carrera_id}
             onChange={handleChange}
             >
-                <option value="">Seleccione..</option>
+                <option value="" disabled="disabled">Seleccione..</option>
                 {this.state.carreras.map(elemento=>(
                     <option 
                     key={elemento.codigo_carrera} 
@@ -198,9 +224,6 @@ class Registro extends Component {
                     </option>
                 ))}
                 </Form.Control>
-          </Form.Group>
-          <Form.Group as={Col}>
-
           </Form.Group>
         </Form.Row>
         <Botones />
