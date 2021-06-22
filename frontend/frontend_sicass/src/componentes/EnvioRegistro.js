@@ -6,7 +6,7 @@ import { Button, Form } from "react-bootstrap";
 import axios from "axios";
 
 //Clase principal del componente
-class Propuesta extends Component {
+class EnvioRegistro extends Component {
   render() {
     //Retorna todo la interfas respectiva para la solicitud de la propuesta
     return <Dashboard contenedor={<Cuerpo enlace={this.peticionPost}/>} />;
@@ -28,5 +28,4 @@ function Cuerpo(props) {
   );
 }
 
-
-export default Propuesta;
+export default EnvioRegistro;

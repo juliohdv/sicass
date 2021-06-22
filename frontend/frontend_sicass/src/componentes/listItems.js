@@ -1,48 +1,55 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
+import { Link } from 'react-router-dom'
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import HomeIcon from '@material-ui/icons/Home';
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import PeopleIcon from "@material-ui/icons/People";
-import BarChartIcon from "@material-ui/icons/BarChart";
-import LayersIcon from "@material-ui/icons/Layers";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ClassIcon from '@material-ui/icons/Class';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
-import { Button, Collapse } from "react-bootstrap";
+import { Collapse } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
+
+const useStyles = makeStyles((theme)=>({
+  nested:{
+    paddingLeft: theme.spacing(4),
+  },
+}))
 export const mainListItems = (
   <div>
-    <ListItem button>
-      <ListItemIcon>
-        <HomeIcon />
-      </ListItemIcon>
-      <ListItemText primary="Inicio" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Registrarse" />
-    </ListItem>
+      <ListItem button component={Link} to="/">
+        <ListItemIcon>
+          <HomeIcon />
+        </ListItemIcon>
+          <ListItemText primary="Inicio" />
+      </ListItem>
+      <ListItem button component={Link} to="/RegistroEstudiante">
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+          <ListItemText primary="Registrarse" />
+      </ListItem>
     <Desplegar 
     opcionGeneral={"Gestionar solicitud"} 
     opcion1={"Registrar solicitud"}
+    link1={"/RegistrarSolicitud"}
     opcion2={"Consultar solicitud"}
+    link2={"/ConsultarSolicitud"}
     />
     <Desplegar 
     opcionGeneral={"Gestionar propuesta"} 
     opcion1={"Registrar propuesta"}
+    link1={"/RegistrarPropuesta"}
     opcion2={"Consultar propuesta"}
+    link2={"/ConsultarPropuesta"}
     />
   </div>
 );
-
 function Desplegar(props) {
   const [open, setOpen] = useState(false);
-
+  const classes = useStyles();
   return (
     <>
       <ListItem
@@ -56,16 +63,16 @@ function Desplegar(props) {
         </ListItemIcon>
         <ListItemText primary={props.opcionGeneral} />
       </ListItem>
-      <Collapse in={open}>
-        <ListItem button>
+      <Collapse in={open} timeout="auto">
+        <ListItem button className={classes.nested} component={Link} to={props.link1}>
           <ListItemIcon>
             <ClassIcon />
           </ListItemIcon>
           <ListItemText primary={props.opcion1} />
         </ListItem>
       </Collapse>
-      <Collapse in={open}>
-        <ListItem button>
+      <Collapse in={open} timeout="auto">
+        <ListItem button className={classes.nested} component={Link} to={props.link2}> 
           <ListItemIcon>
             <AnnouncementIcon />
           </ListItemIcon>

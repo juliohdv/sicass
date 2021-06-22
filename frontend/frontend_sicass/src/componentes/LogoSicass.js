@@ -7,7 +7,7 @@ class LogoSicass extends Component {
   render() {
     return (    
         <div className="pr-3">
-            <img src={sicass} width="50" height="50"/>
+            <img src={sicass} width="50" height="50" alt="Lgo SICASS"/>
         </div>
     );
   }
