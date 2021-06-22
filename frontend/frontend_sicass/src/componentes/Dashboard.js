@@ -97,16 +97,8 @@ export default function Dashboard(props) {
   };
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid spacing={3}>
-            {props.contenedor}
-          </Grid>
-        </Container>
-      </main>
-    </div>
+    <Grid spacing={3}>
+      {props.contenedor}
+    </Grid>
   );
 }

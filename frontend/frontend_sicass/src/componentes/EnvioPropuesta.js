@@ -20,9 +20,8 @@ function Cuerpo() {
     cuerpo referente a los campos de informacion de la entidad
     columnas referente a las columnas necesarias para maquetación de la interfaz
     descripcion hace referencia a los campos de informacion del servicio social a solicitar*/
-    <div className="pl-5 pr-5">
-      <Form>
-        <div>
+      <Form className="pl-5 pr-5">
+        <div className="pt-4">
           <Card titulo="Datos de entidad" cuerpo={<Entidad />} />
         </div>
         <div className="pt-4">
@@ -38,7 +37,7 @@ function Cuerpo() {
         </div>
         <Botones />
       </Form>
-    </div>
+ 
   );
 }
 

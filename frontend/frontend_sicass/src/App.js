@@ -20,7 +20,7 @@ import {Button} from 'react-bootstrap';
 import LogoSicass from './componentes/LogoSicass';
 import EnvioRegistro from './componentes/EnvioRegistro';
 import EnvioPropuesta from './componentes/EnvioPropuesta';
-import SolicitudServicio from './componentes/SolicitudServicio';
+import EnvioSolicitud from './componentes/EnvioSolicitud';
 
 function Copyright() {
   return (
@@ -166,8 +166,7 @@ export default function Dashboard(props) {
       </Drawer>
        <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid spacing={3}>
+        <Container>
             {props.contenedor}
             <Switch>
               <Route path="/RegistroEstudiante">
@@ -180,8 +179,6 @@ export default function Dashboard(props) {
                 <RegistrarSolicitud />
               </Route>
             </Switch>
-          </Grid>
-          
           <Box pt={4}>
             <Copyright />
           </Box>
@@ -204,6 +201,6 @@ function RegistrarPropuesta(){
 }
 function RegistrarSolicitud(){
   return(
-    <SolicitudServicio></SolicitudServicio>
+    <EnvioSolicitud></EnvioSolicitud>
   );
 }
