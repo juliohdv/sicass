@@ -9,7 +9,6 @@ class SolicitudServicio extends Component {
     super(props);
     this.state = {
       columnas: '',
-      descripcion: '',
       tipos_servicio_social:[],
       facultades:[],
       carreras:[],
@@ -57,10 +56,8 @@ class SolicitudServicio extends Component {
     return (
       /* Recibe dos propiedades las cuales solo se utilizaran en la interfas
       de la propuesta, columnas que se refiere a la cantidad columnas de el
-      contenedor y descripción que es el campo agregado en la propuesta*/
-      //<Form>
-        
-        <Row className="pl-5 pr-5">
+      contenedor y descripción que es el campo agregado en la propuesta*/        
+        <>
           <Col sm={this.columnas} className="pl-5">
             <Form.Group as={Row}>
               <Form.Label>Facultad</Form.Label>
@@ -103,12 +100,9 @@ class SolicitudServicio extends Component {
               <Form.Control type="Date"></Form.Control>
             </Form.Group>
           </Col>
-          {this.descripcion}
-        </Row>
-      //</Form>
+        </>
     );
   }
-
 }
 
 export default SolicitudServicio;

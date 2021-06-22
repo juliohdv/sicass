@@ -4,18 +4,14 @@ import './App.css';
 import Dashboard from './componentes/Dashboard';
 import Login from './componentes/login';
 import Propuesta from './componentes/EnvioPropuesta';
-<<<<<<< HEAD
-import Registro from './componentes/Registro';
 import Roles from './componentes/Roles';
-=======
-import Registro from './componentes/EnvioRegistro';
->>>>>>> origin/main
+import EnvioRegistro from './componentes/EnvioRegistro'
 
 
 function App() {
   return (
     <div className="App">
-        <Roles />
+        <Propuesta />
     </div>
   );
 }
