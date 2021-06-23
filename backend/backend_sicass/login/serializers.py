@@ -19,7 +19,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 class TipoServicioSocialSerializer(serializers.ModelSerializer):
     class Meta:
         model = TipoServicioSocial
-        fields = ['condigo_tipo_servicio_social', 'nombre_tipo_servicio_social']
+        fields = ['condigo_tipo_servicio_social', 'nombre_tipo_servicio_social','carrera']
     
 class FacultadSerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,7 +33,7 @@ class CarreraSerializer(serializers.ModelSerializer):
 
 class EstudianteSerializer(serializers.ModelSerializer):
     class Meta:
-        model= Estudiante
+        model = Estudiante
         fields = ['carnet','nombres_estudiante','apellidos_estudiante','correo_estudiante','sexo','direccion_estudiante','telefono_estudiante','carrera']
     
     def create(self, validated_data):
@@ -44,3 +44,11 @@ class PermisosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Permission
         fields = ['id', 'name', 'content_type_id', 'codename']
+
+class SolicitudSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Solicitud
+        fields = ['codigo_solicitud','fecha_inicio_solicitud','fecha_fin_solicitud','entidad_externa','carrera','tipo_servicio_social']
+    def create(self, validated_data):
+        solicitud = Solicitud.objects.create(**validated_data)
+        return solicitud

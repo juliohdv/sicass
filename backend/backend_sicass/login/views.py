@@ -19,6 +19,15 @@ class TipoServicioSocialVistas(viewsets.ModelViewSet):
     queryset =  TipoServicioSocial.objects.all()
     serializer_class = TipoServicioSocialSerializer
 
+class TipoServicioSocialPorCarreraVistas(viewsets.ModelViewSet):
+    serializer_class = TipoServicioSocialSerializer
+    def get_queryset(self):
+        carrera = self.request.query_params.get('carrera')
+        queryset = TipoServicioSocial.objects.all().filter(carrera_id=carrera)
+        if carrera is not None:
+            queryset = queryset.filter(carrera = carrera)
+        return queryset
+
 class FacultadVistas(viewsets.ModelViewSet):
     queryset = Facultad.objects.all()
     serializer_class = FacultadSerializer
@@ -41,3 +50,7 @@ class EstudiantesVistas(viewsets.ModelViewSet):
 class PermisosVistas(viewsets.ModelViewSet):
     queryset = Permission.objects.all()
     serializer_class = PermisosSerializer
+
+class SolicitudesVista(viewsets.ModelViewSet):
+    serializer_class = SolicitudSerializer
+    queryset = Solicitud.objects.all()
