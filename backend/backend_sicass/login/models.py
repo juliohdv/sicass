@@ -20,12 +20,6 @@ class Facultad(models.Model):
     def __str__(self):
         return '%s' % (self.nombre_facultad)
 
-class TipoServicioSocial(models.Model):
-    condigo_tipo_servicio_social = CharField(max_length=25, primary_key=True, unique=True)
-    nombre_tipo_servicio_social = CharField(max_length=100)
-    def __str__(self):
-        return '%s' % (self.nombre_tipo_servicio_social)
-
 class Estado(models.Model):
     codigo_estado = models.IntegerField(primary_key=True, unique=True)
     estado_actual = models.CharField(max_length=25)
@@ -40,7 +34,14 @@ class Carrera(models.Model):
     cantidad_materias = models.IntegerField()
     facultad = ForeignKey(Facultad, on_delete=models.CASCADE)
     def __str__(self):
+
         return '%s' % (self.nombre_carrera)
+class TipoServicioSocial(models.Model):
+    condigo_tipo_servicio_social = CharField(max_length=25, primary_key=True, unique=True)
+    nombre_tipo_servicio_social = CharField(max_length=100)
+    carrera = ForeignKey(Carrera, on_delete=models.CASCADE,default='')
+    def __str__(self):
+        return '%s' % (self.nombre_tipo_servicio_social)
 
 class Estudiante(models.Model):
     carnet = models.CharField(max_length=10, primary_key=True, unique=True)
@@ -59,7 +60,7 @@ class Solicitud(models.Model):
     fecha_inicio_solicitud = DateField()
     fecha_fin_solicitud = DateField()
     entidad_externa = models.ForeignKey(EntidadExterna, on_delete=models.CASCADE)
-    facultad = models.ForeignKey(Facultad, on_delete=models.CASCADE)
+    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
     tipo_servicio_social = models.ForeignKey(TipoServicioSocial, on_delete=models.CASCADE)
     def __str__(self):
         return '%s' % (self.codigo_solicitud)
@@ -70,7 +71,7 @@ class Propuesta(models.Model):
     fecha_fin_propuesta = DateField
     descripcion_propuesta = TextField(max_length=750)
     entidad_externa =models.ForeignKey(EntidadExterna, on_delete=models.CASCADE)
-    facultad = models.ForeignKey(Facultad, on_delete=models.CASCADE)
+    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE, default='')
     tipo_servicio_social = models.ForeignKey(TipoServicioSocial, on_delete=models.CASCADE)
     def __str__(self):
         return '%s' % (self.codigo_propuesta)

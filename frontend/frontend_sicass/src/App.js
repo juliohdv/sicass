@@ -20,7 +20,7 @@ import {Button} from 'react-bootstrap';
 import LogoSicass from './componentes/LogoSicass';
 import EnvioRegistro from './componentes/EnvioRegistro';
 import EnvioPropuesta from './componentes/EnvioPropuesta';
-import SolicitudServicio from './componentes/SolicitudServicio';
+import EnvioSolicitud from './componentes/EnvioSolicitud';
 
 function Copyright() {
   return (
@@ -204,6 +204,6 @@ function RegistrarPropuesta(){
 }
 function RegistrarSolicitud(){
   return(
-    <SolicitudServicio></SolicitudServicio>
+    <EnvioSolicitud></EnvioSolicitud>
   );
 }

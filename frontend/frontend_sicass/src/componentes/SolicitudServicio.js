@@ -14,12 +14,15 @@ class SolicitudServicio extends Component {
       facultades:[],
       carreras:[],
       facultadSeleccionada:'',
+      carreraSeleccionada:'',
+      tipoServicioSocialSeleccionado:'',
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleOtro = this.handleOtro.bind(this)
 }
   handleChange(event){
-    console.log(event.target.value)
     this.setState({facultadSeleccionada: event.target.value})
+    this.setState({carreraSeleccionada: event.target.value})
     axios
       .get('http://127.0.0.1:8000/login/carreraPorFacultad/', {params:{facultad: event.target.value}})
       .then((response) =>{
@@ -30,17 +33,19 @@ class SolicitudServicio extends Component {
         console.log(error)
       })
   }
-  componentDidMount(){
-    //Consulta lista de tipos de servicio social
+  
+  handleOtro(event){
     axios
-    .get('http://127.0.0.1:8000/login/tiposServicioSocial/')
-    .then((response) => {
-      console.log(response);
-      this.setState({tipos_servicio_social:response.data})
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      .get('http://127.0.0.1:8000/login/tiposServicioSocialPorCarrera/', {params:{carrera: event.target.value}})
+      .then((response) => {
+        console.log(response);
+        this.setState({tipos_servicio_social:response.data})
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  componentDidMount(){
     //Consulta lista de facultades
     axios
       .get('http://127.0.0.1:8000/login/facultades/')
@@ -65,6 +70,7 @@ class SolicitudServicio extends Component {
             <Form.Group as={Row}>
               <Form.Label>Facultad</Form.Label>
               <Form.Control as="select" onChange={this.handleChange}>
+                <option value="">Selecione...</option>
               {this.state.facultades.map(elemento=>(
                   <option 
                   key={elemento.codigo_facultad} 
@@ -76,7 +82,8 @@ class SolicitudServicio extends Component {
             </Form.Group>
             <Form.Group as={Row}>
               <Form.Label>Carrera</Form.Label>
-              <Form.Control as="select">
+              <Form.Control as="select" onChange={this.handleOtro}>
+              <option value="">Selecione...</option>
               {this.state.carreras.map(elemento=>(
                   <option 
                   key={elemento.codigo_carrera} 
@@ -89,6 +96,7 @@ class SolicitudServicio extends Component {
             <Form.Group as={Row}>
               <Form.Label>Tipo de servicio social</Form.Label>
               <Form.Control as="select">
+              <option value="">Selecione...</option>
               {this.state.tipos_servicio_social.map(elemento=>(
                   <option 
                   key={elemento.condigo_tipo_servicio_social} 
