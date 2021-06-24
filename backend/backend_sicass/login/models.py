@@ -5,7 +5,7 @@ from django.db.models.fields.related import ForeignKey
 
 # Create your models here.
 class EntidadExterna(models.Model):
-    codigo_entidad = models.BigAutoField(primary_key=True, unique=True)
+    codigo_entidad = models.BigAutoField(primary_key=True)
     nombre_entidad = models.CharField(max_length=150, unique=True)
     direccion_entidad = models.CharField(max_length=250)
     correo_entidad = models.EmailField()
@@ -19,12 +19,6 @@ class Facultad(models.Model):
     nombre_facultad = models.CharField(max_length=50)
     def __str__(self):
         return '%s' % (self.nombre_facultad)
-
-class TipoServicioSocial(models.Model):
-    condigo_tipo_servicio_social = CharField(max_length=25, primary_key=True, unique=True)
-    nombre_tipo_servicio_social = CharField(max_length=100)
-    def __str__(self):
-        return '%s' % (self.nombre_tipo_servicio_social)
 
 class Estado(models.Model):
     codigo_estado = models.IntegerField(primary_key=True, unique=True)
@@ -40,7 +34,14 @@ class Carrera(models.Model):
     cantidad_materias = models.IntegerField()
     facultad = ForeignKey(Facultad, on_delete=models.CASCADE)
     def __str__(self):
+
         return '%s' % (self.nombre_carrera)
+class TipoServicioSocial(models.Model):
+    condigo_tipo_servicio_social = CharField(max_length=25, primary_key=True, unique=True)
+    nombre_tipo_servicio_social = CharField(max_length=100)
+    carrera = ForeignKey(Carrera, on_delete=models.CASCADE,default='')
+    def __str__(self):
+        return '%s' % (self.nombre_tipo_servicio_social)
 
 class Estudiante(models.Model):
     carnet = models.CharField(max_length=10, primary_key=True, unique=True)
@@ -55,22 +56,24 @@ class Estudiante(models.Model):
         return '%s %s' % (self.nombres_estudiante, self.apellidos_estudiante)
 
 class Solicitud(models.Model):
-    codigo_solicitud = models.IntegerField(primary_key=True,unique=True)
-    fecha_inicio_solicitud = DateField()
+    codigo_solicitud = models.BigAutoField(primary_key=True,unique=True)
+    fecha_inicio_solicitud = DateField(auto_now=True)
     fecha_fin_solicitud = DateField()
+    estado_solicitud = TextField(max_length=50,default='En Proceso')
     entidad_externa = models.ForeignKey(EntidadExterna, on_delete=models.CASCADE)
-    facultad = models.ForeignKey(Facultad, on_delete=models.CASCADE)
+    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
     tipo_servicio_social = models.ForeignKey(TipoServicioSocial, on_delete=models.CASCADE)
     def __str__(self):
         return '%s' % (self.codigo_solicitud)
 
 class Propuesta(models.Model):
-    codigo_propuesta = models.IntegerField(primary_key=True, unique=True)
-    fecha_inicio_propuesta = DateField
+    codigo_propuesta = models.BigAutoField(primary_key=True, unique=True)
+    fecha_inicio_propuesta = DateField(auto_now=True)
     fecha_fin_propuesta = DateField
     descripcion_propuesta = TextField(max_length=750)
+    estado_propuesta = TextField(max_length=50,default='En Proceso')
     entidad_externa =models.ForeignKey(EntidadExterna, on_delete=models.CASCADE)
-    facultad = models.ForeignKey(Facultad, on_delete=models.CASCADE)
+    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE, default='')
     tipo_servicio_social = models.ForeignKey(TipoServicioSocial, on_delete=models.CASCADE)
     def __str__(self):
         return '%s' % (self.codigo_propuesta)

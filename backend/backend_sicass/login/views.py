@@ -1,3 +1,4 @@
+from re import U
 from django.db.models.fields import related
 from django.db.models.fields.related import RelatedField
 from django.http import request
@@ -5,7 +6,9 @@ from .models import TipoServicioSocial
 from django.shortcuts import render
 from rest_framework import viewsets
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Permission
 from .serializers import *
+from rest_framework.decorators import api_view
 
 # Create your views here.
 
@@ -16,6 +19,15 @@ class UsuarioVistas(viewsets.ModelViewSet):
 class TipoServicioSocialVistas(viewsets.ModelViewSet):
     queryset =  TipoServicioSocial.objects.all()
     serializer_class = TipoServicioSocialSerializer
+
+class TipoServicioSocialPorCarreraVistas(viewsets.ModelViewSet):
+    serializer_class = TipoServicioSocialSerializer
+    def get_queryset(self):
+        carrera = self.request.query_params.get('carrera')
+        queryset = TipoServicioSocial.objects.all().filter(carrera_id=carrera)
+        if carrera is not None:
+            queryset = queryset.filter(carrera = carrera)
+        return queryset
 
 class FacultadVistas(viewsets.ModelViewSet):
     queryset = Facultad.objects.all()
@@ -32,4 +44,21 @@ class CarreraPorFacultadVistas(viewsets.ModelViewSet) :
         queryset = Carrera.objects.all().filter(facultad_id=facultad)
         if facultad is not None:
             queryset = queryset.filter(facultad = facultad)
+        return queryset
+class EstudiantesVistas(viewsets.ModelViewSet):
+    serializer_class = EstudianteSerializer
+    
+class PermisosVistas(viewsets.ModelViewSet):
+    queryset = Permission.objects.all()
+    serializer_class = PermisosSerializer
+
+class SolicitudesVista(viewsets.ModelViewSet):
+    serializer_class = SolicitudSerializer
+    queryset = Solicitud.objects.all()
+
+class UltimaEntidadExternaVista(viewsets.ModelViewSet):
+    serializer_class = EntidadExternaSerializer
+    def get_queryset(self):
+        ultimaEntidad = EntidadExterna.objects.order_by('codigo_entidad').last()
+        queryset =EntidadExterna.objects.filter(codigo_entidad=ultimaEntidad.codigo_entidad)
         return queryset

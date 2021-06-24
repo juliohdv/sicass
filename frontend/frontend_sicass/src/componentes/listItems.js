@@ -25,6 +25,12 @@ export const mainListItems = (
         </ListItemIcon>
           <ListItemText primary="Inicio" />
       </ListItem>
+      <ListItem button component={Link} to="/GestionarRoles">
+        <ListItemIcon>
+          <AssignmentIcon />
+        </ListItemIcon>
+          <ListItemText primary="Gestionar roles y privilegios" />
+      </ListItem>
       <ListItem button component={Link} to="/RegistroEstudiante">
         <ListItemIcon>
           <PeopleIcon />
