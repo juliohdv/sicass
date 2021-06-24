@@ -45,6 +45,14 @@ class CarreraPorFacultadVistas(viewsets.ModelViewSet) :
         if facultad is not None:
             queryset = queryset.filter(facultad = facultad)
         return queryset
+class CarreraPorId(viewsets.ModelViewSet) :
+    serializer_class = CarreraSerializer
+    def get_queryset(self):
+        carrera = self.request.query_params.get('carrera')
+        queryset = Carrera.objects.all().filter(codigo_carrera=carrera)
+        if carrera is not None:
+            queryset = queryset.filter(codigo_carrera=carrera)
+        return queryset
 class EstudiantesVistas(viewsets.ModelViewSet):
     serializer_class = EstudianteSerializer
     

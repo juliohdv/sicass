@@ -3,6 +3,7 @@ import { Form, Col, Row } from "react-bootstrap";
 import axios from "axios";
 import {Formik} from 'formik'
 import Botones from "./BotonesRegistro";
+import Swal from 'sweetalert2'
 
 
 /* Componente que contiene el formulario base de los datos del servicio
@@ -98,7 +99,13 @@ class SolicitudServicio extends Component {
                     tipo_servicio_social:values.tipo_servicio_social_id
                  })
                   .then((response)=>{
-                    console.log(response.data)
+                    Swal.fire({
+                      position: 'center',
+                      icon: 'success',
+                      title: 'Te solicitud de servicio social ha sido registrada con éxito.',
+                      showConfirmButton: false,
+                      timer: 2500
+                    })
                   }).catch((error)=>{
                     console.log(error)
                   })
@@ -123,6 +130,7 @@ class SolicitudServicio extends Component {
               type="text" 
               placeholder="Ingrese nombre" 
               id="nombre_entidad"
+              required
               value={values.nombre_entidad}
               onChange = {handleChange}
               />
@@ -133,6 +141,9 @@ class SolicitudServicio extends Component {
             type="text" 
             placeholder="Ingrese dirección" 
             id="direccion_entidad"
+            required
+            maxLength="250"
+            pattern="([A-Z]{2})([0-9]{5})"
             value={values.direccion_entidad}
             onChange = {handleChange}
             />
@@ -145,6 +156,7 @@ class SolicitudServicio extends Component {
             type="email" 
             placeholder="Ingrese correo electronico" 
             id="correo_entidad"
+            required
             value={values.correo_entidad}
             onChange = {handleChange}
             />
@@ -153,8 +165,11 @@ class SolicitudServicio extends Component {
             <Form.Label>Teléfono</Form.Label>
             <Form.Control 
             type="text" 
-            placeholder="Ingrese teléfono" 
             id="telefono_entidad"
+            placeholder="########"
+            maxLength="8" 
+            pattern="([267]{1})([0-9]{7})"
+            required
             value={values.telefono_entidad}
             onChange = {handleChange}
             />
@@ -169,6 +184,7 @@ class SolicitudServicio extends Component {
             as="select"
             id="clasificacion_entidad"
             value={values.clasificacion_entidad}
+            required
             onChange={handleChange}
             >
               <option value="">Seleccione...</option>
@@ -185,6 +201,7 @@ class SolicitudServicio extends Component {
                 <Form.Control 
                 as="select" 
                 onChange={this.handleFacultad}
+                required
                 >
                   <option value="">Selecione...</option>
                 {this.state.facultades.map(elemento=>(
@@ -202,6 +219,7 @@ class SolicitudServicio extends Component {
                 as="select"
                 id="carrera_id" 
                 value={values.carrera_id}
+                required
                 onChange={handleChange}
                 >
                 <option value="">Selecione...</option>
@@ -219,6 +237,7 @@ class SolicitudServicio extends Component {
                 <Form.Control 
                 as="select"
                 id="tipo_servicio_social_id"
+                required
                 value={values.tipo_servicio_social_id}
                 onChange={handleChange}
                 >
@@ -237,6 +256,7 @@ class SolicitudServicio extends Component {
                 <Form.Control 
                 type="Date"
                 id="fecha_fin_solicitud"
+                required
                 value={values.fecha_fin_solicitud}
                 onChange={handleChange}
                 ></Form.Control>
