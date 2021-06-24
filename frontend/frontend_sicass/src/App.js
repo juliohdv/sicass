@@ -21,6 +21,7 @@ import LogoSicass from './componentes/LogoSicass';
 import EnvioRegistro from './componentes/EnvioRegistro';
 import EnvioPropuesta from './componentes/EnvioPropuesta';
 import SolicitudServicio from './componentes/SolicitudServicio';
+import SolicitudConsulta from './componentes/SolicitudConsulta';
 
 function Copyright() {
   return (
@@ -179,6 +180,9 @@ export default function Dashboard(props) {
               <Route path="/RegistrarSolicitud">
                 <RegistrarSolicitud />
               </Route>
+              <Route path="/ConsultarSolicitud">
+                <ConsultarSolicitud />
+              </Route>
             </Switch>
           </Grid>
           
@@ -205,5 +209,10 @@ function RegistrarPropuesta(){
 function RegistrarSolicitud(){
   return(
     <SolicitudServicio></SolicitudServicio>
+  );
+}
+function ConsultarSolicitud(){
+  return(
+    <SolicitudConsulta></SolicitudConsulta>
   );
 }
