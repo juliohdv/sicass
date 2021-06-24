@@ -22,6 +22,7 @@ import EnvioRegistro from './componentes/EnvioRegistro';
 import EnvioPropuesta from './componentes/EnvioPropuesta';
 import EnvioSolicitud from './componentes/EnvioSolicitud';
 import Roles from './componentes/Roles';
+import Solicitudes from './componentes/Solicitudes';
 
 function Copyright() {
   return (
@@ -36,7 +37,7 @@ function Copyright() {
   );
 }
 
-const drawerWidth = 240;
+const drawerWidth = 290;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
+    
   },
   toolbarIcon: {
     display: 'flex',
@@ -182,6 +184,9 @@ export default function Dashboard(props) {
               <Route path="/GestionarRoles">
                 <GestionarRoles />
               </Route>
+              <Route path="/ConsultarSolicitud">
+                <ConsultarSolicitud />
+              </Route>
             </Switch>
           <Box pt={4}>
             <Copyright />
@@ -213,3 +218,8 @@ function GestionarRoles(){
     <Roles></Roles>
     );
   }
+function ConsultarSolicitud(){
+  return(
+    <Solicitudes></Solicitudes>
+  );
+}

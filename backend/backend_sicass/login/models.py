@@ -65,6 +65,8 @@ class Solicitud(models.Model):
     tipo_servicio_social = models.ForeignKey(TipoServicioSocial, on_delete=models.CASCADE)
     def __str__(self):
         return '%s' % (self.codigo_solicitud)
+    
+        
 
 class Propuesta(models.Model):
     codigo_propuesta = models.BigAutoField(primary_key=True, unique=True)
