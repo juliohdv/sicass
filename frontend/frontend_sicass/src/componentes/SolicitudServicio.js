@@ -60,7 +60,16 @@ class SolicitudServicio extends Component {
       });
 
   }
-
+  limpiarFormulario() {
+    document.getElementById("nombre_entidad").value = "";
+    document.getElementById("direccion_entidad").value = "";
+    document.getElementById("correo_entidad").value = "";
+    document.getElementById("telefono_entidad").value = "";
+    document.getElementById("clasificacion_entidad").selectedIndex = "0";
+    document.getElementById("facultad").selectedIndex = "0";
+    document.getElementById("carrera_id").selectedIndex = "0";
+    document.getElementById("tipo_servicio_social_id").selectedIndex = "0";
+  }
   render(){
     return (
       <Formik initialValues={{
@@ -102,12 +111,20 @@ class SolicitudServicio extends Component {
                     Swal.fire({
                       position: 'center',
                       icon: 'success',
-                      title: 'Te solicitud de servicio social ha sido registrada con éxito.',
+                      title: 'Tu solicitud de servicio social ha sido registrada con éxito.',
                       showConfirmButton: false,
                       timer: 2500
                     })
+                    this.limpiarFormulario();
                   }).catch((error)=>{
                     console.log(error)
+                    Swal.fire({
+                      position: 'center',
+                      icon: 'error',
+                      title: 'No se pudo realizar su registro',
+                      showConfirmButton: false,
+                      timer: 2500
+                    });
                   })
               }).catch((error)=>{
                 console.log(error)
@@ -128,9 +145,10 @@ class SolicitudServicio extends Component {
             <Form.Label>Nombre entidad</Form.Label>
             <Form.Control 
               type="text" 
-              placeholder="Ingrese nombre" 
+              placeholder="Ministerio de hacienda" 
               id="nombre_entidad"
               required
+              maxLength="150"
               value={values.nombre_entidad}
               onChange = {handleChange}
               />
@@ -139,11 +157,10 @@ class SolicitudServicio extends Component {
             <Form.Label>Dirección</Form.Label>
             <Form.Control 
             type="text" 
-            placeholder="Ingrese dirección" 
+            placeholder="Departamento, Municipio, Residencia" 
             id="direccion_entidad"
             required
             maxLength="250"
-            pattern="([A-Z]{2})([0-9]{5})"
             value={values.direccion_entidad}
             onChange = {handleChange}
             />
@@ -154,9 +171,11 @@ class SolicitudServicio extends Component {
             <Form.Label>Correo</Form.Label>
             <Form.Control 
             type="email" 
-            placeholder="Ingrese correo electronico" 
+            placeholder="example@name.com" 
             id="correo_entidad"
             required
+            maxLength="254"
+            pattern="([A-z]+)@([A-z]+)[.]com"
             value={values.correo_entidad}
             onChange = {handleChange}
             />
@@ -175,7 +194,7 @@ class SolicitudServicio extends Component {
             />
           </Form.Group>
         </Form.Row>
-        <Form.Row className="text-right pl-5 pr-5">
+        <Form.Row className="text-right pl-5 pr-5 pt-3">
           <Form.Group as={Col} className="pr-5">
             <Form.Label className="pt-2">Clasificación de la entidad</Form.Label>
           </Form.Group>
@@ -200,6 +219,7 @@ class SolicitudServicio extends Component {
                 <Form.Label>Facultad</Form.Label>
                 <Form.Control 
                 as="select" 
+                id="facultad"
                 onChange={this.handleFacultad}
                 required
                 >

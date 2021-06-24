@@ -19,7 +19,7 @@ class inicioInformacion extends Component {
                 </div>
                 <div id="header_front">
                   <h1>Universidad de El Salvador</h1>
-                  <h4>"HACIA LA LIBERTAD POR LA CULTURA"</h4>
+                  <h4>"Hacia la libertad por la cultura"</h4>
                 </div>
               </div>
             </div>
@@ -42,14 +42,17 @@ class inicioInformacion extends Component {
         </Row>
         <Row className="pt-5">
           <Card>
-            <Card.Header>Sistema informatico...</Card.Header>
+            <Card.Header align="center">
+              Sistema informatico para el control y aplicación del servicio 
+              social de los estudiantes de la Universidad de El Salvador (SICASS).
+            </Card.Header>
             <Card.Body>
               <Card.Title>Descripción</Card.Title>
-              <Card.Text>
-                Sistema informatico web, para la digitalizacion, automatizacion
-                y eficiencia en la realizacion del proceso de registrarse,
-                solicitar el servicio social que es requisito en la universidad
-                para obtener el titulo al que aspira el estudiante.
+              <Card.Text className="align-justify">
+                Sistema informatico en la plataforma web, para la digitalización, automatización
+                y eficiencia en la realizacion del proceso de registro,
+                solicitud y control del servicio social que es realizado por los estudiantes 
+                de la universidad de El Salvador, como pre-requisito para su titulación.
               </Card.Text>
             </Card.Body>
           </Card>

@@ -22,7 +22,7 @@ import EnvioRegistro from "./componentes/EnvioRegistro";
 import EnvioPropuesta from "./componentes/EnvioPropuesta";
 import EnvioSolicitud from "./componentes/EnvioSolicitud";
 import Roles from "./componentes/Roles";
-import SolicitudConsulta from "./componentes/SolicitudConsulta";
+import Propuestas from "./componentes/Propuestas";
 import Dashboard from "./componentes/Dashboard";
 import InicioInformacion from "./componentes/InicioInformacion";
 import Solicitudes from './componentes/Solicitudes';
@@ -183,7 +183,7 @@ export default function App() {
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Container>
-            
+            <Dashboard contenedor={<InicioInformacion/>} />
             <Switch>
               <Route path="/RegistroEstudiante">
                 <RegistroEstudiante />
@@ -199,6 +199,9 @@ export default function App() {
               </Route>
               <Route path="/ConsultarSolicitud">
                 <ConsultarSolicitud />
+              </Route>
+              <Route path="/ConsultarPropuesta">
+                <ConsultarPropuesta />
               </Route>
             </Switch>
           </Container>
@@ -223,12 +226,9 @@ function RegistrarSolicitud() {
 function GestionarRoles() {
   return <Roles></Roles>;
 }
-
-/*
 function ConsultarPropuesta() {
-  return <SolicitudPropuesta></SolicitudPropuesta>;
-}*/
-
+  return <Propuestas></Propuestas>;
+}
 function ConsultarSolicitud(){
   return(
     <Solicitudes></Solicitudes>

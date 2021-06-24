@@ -46,7 +46,7 @@ const tableIcons = {
 const COLUMNAS = [
   {
     title: "Codigo",
-    field: "codigo_solicitud",
+    field: "codigo_propuesta",
   },
   {
     title: "Entidad que solicita",
@@ -58,37 +58,42 @@ const COLUMNAS = [
   },
   {
     title: "Fecha de Solicitud",
-    field: "fecha_inicio_solicitud",
+    field: "fecha_inicio_propuesta",
   },
   {
     title: "Fecha de Finalización",
-    field: "fecha_fin_solicitud",
+    field: "fecha_fin_propuesta",
   },
   {
     title: "Estado",
-    field: "estado_solicitud",
+    field: "estado_propuesta",
   },
   {
     title: "Tipo de Servicio Social",
     field: "tipo_servicio_social",
   },
+  {
+    title: "Descripción propuesta",
+    field: "descripcion_propuesta",
+  },
 ];
 
-const url = "http://127.0.0.1:8000/login/solicitudes/";
+const url = "http://127.0.0.1:8000/login/propuestas/";
 //Clase principal del componente
-class Solicitudes extends Component {
+class Propuestas extends Component {
   constructor(props) {
     super(props);
     this.state = {
       solicitudes: [],
       form: {
-        codigo_solicitud: "",
+        codigo_propuesta: "",
         entidad_externa: "",
         carrera: "",
-        fecha_inicio_solicitud: "",
-        fecha_fin_solicitud: "",
-        estado_solicitud:"",
+        fecha_inicio_propuesta: "",
+        fecha_fin_propuesta: "",
+        estado_propuesta:"",
         tipo_servicio_social:"",
+        descripcion_propuesta: "",
       },
     };
   }
@@ -98,13 +103,14 @@ class Solicitudes extends Component {
     this.setState({
       carrera_id:"",
       form: {
-        codigo_solicitud: solicitud.codigo_solicitud,
+        codigo_propuesta: solicitud.codigo_propuesta,
         entidad_externa: solicitud.entidad_externa,
         carrera: solicitud.carrera,
-        fecha_inicio_solicitud: solicitud.fecha_inicio_solicitud,
-        fecha_fin_solicitud: solicitud.fecha_fin_solicitud,
-        estado_solicitud: solicitud.estado_solicitud,
+        fecha_inicio_propuesta: solicitud.fecha_inicio_propuesta,
+        fecha_fin_propuesta: solicitud.fecha_fin_propuesta,
+        estado_propuesta: solicitud.estado_propuesta,
         tipo_servicio_social: solicitud.tipo_servicio_social,
+        descripcion_propuesta: solicitud.descripcion_propuesta,
       },
     });
   };
@@ -120,7 +126,7 @@ class Solicitudes extends Component {
   };
   componentDidMount() {
     axios
-      .get("http://127.0.0.1:8000/login/solicitudes/")
+      .get("http://127.0.0.1:8000/login/propuestas/")
       .then((response) => {
         this.setState({ solicitudes: response.data });
       })
@@ -141,7 +147,7 @@ class Solicitudes extends Component {
                   icons={tableIcons}
                   columns={COLUMNAS}
                   data={this.state.solicitudes}
-                  title="Solicitudes de Servicio Social"
+                  title="Propuestas de Servicio Social"
                   options={{
                     actionsColumnIndex: -1,
                   }}
@@ -170,4 +176,4 @@ class Solicitudes extends Component {
   }
 }
 
-export default Solicitudes;
+export default Propuestas;

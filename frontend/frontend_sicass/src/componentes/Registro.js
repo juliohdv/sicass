@@ -42,7 +42,17 @@ class Registro extends Component {
         console.log(error);
       });
   }
- 
+  limpiarFormulario() {
+    document.getElementById("carnet").value = "";
+    document.getElementById("correo_estudiante").value = "";
+    document.getElementById("nombres_estudiante").value = "";
+    document.getElementById("apellidos_estudiante").value = "";
+    document.getElementById("direccion_estudiante").value = "";
+    document.getElementById("telefono_estudiante").value = "";
+    document.getElementById("sexo").selectedIndex = "0";
+    document.getElementById("facultad").selectedIndex = "0";
+    document.getElementById("carrera_id").selectedIndex = "0";
+  }
   render() {
     const {form}=this.state;
     //Retorna todo la interfas respectiva para la solicitud de la propuesta
@@ -80,9 +90,17 @@ class Registro extends Component {
               title: 'Te has registrado con exito',
               showConfirmButton: false,
               timer: 2500
-            })
+            });
+            this.limpiarFormulario();
           }).catch((error)=>{
             console.log(error)
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'No se pudo realizar su registro',
+              showConfirmButton: false,
+              timer: 2500
+            });
           })
       }}
     >
@@ -195,7 +213,7 @@ class Registro extends Component {
         <Form.Row>
           <Form.Group as={Col} className="pr-5">
           <Form.Label >Facultad</Form.Label>
-          <Form.Control as="select" onChange={this.handleChange}>
+          <Form.Control as="select" id="facultad" required onChange={this.handleChange}>
                 <option value="" disabled="true" selected="true">Seleccione..</option>
                 {this.state.facultades.map(elemento=>(
                     <option 
