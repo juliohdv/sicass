@@ -1,7 +1,5 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 import MaterialTable from "material-table";
-
 export default function Tabla(props) {
   return (
     <div>

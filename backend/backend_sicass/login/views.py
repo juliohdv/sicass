@@ -1,3 +1,4 @@
+from re import U
 from django.db.models.fields import related
 from django.db.models.fields.related import RelatedField
 from django.http import request
@@ -54,3 +55,10 @@ class PermisosVistas(viewsets.ModelViewSet):
 class SolicitudesVista(viewsets.ModelViewSet):
     serializer_class = SolicitudSerializer
     queryset = Solicitud.objects.all()
+
+class UltimaEntidadExternaVista(viewsets.ModelViewSet):
+    serializer_class = EntidadExternaSerializer
+    def get_queryset(self):
+        ultimaEntidad = EntidadExterna.objects.order_by('codigo_entidad').last()
+        queryset =EntidadExterna.objects.filter(codigo_entidad=ultimaEntidad.codigo_entidad)
+        return queryset
