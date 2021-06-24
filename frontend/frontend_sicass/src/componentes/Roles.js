@@ -20,7 +20,6 @@ import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import { Formik } from "formik";
 import Swal from "sweetalert2";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
@@ -92,7 +91,8 @@ class Roles extends Component {
       .post(url, this.state.form)
       .then((response) => {
         this.modalInsertar();
-        //this.componentDidMount();
+        this.componentDidMount();
+
       })
       .catch((error) => {
         console.log(error.masage);
@@ -102,7 +102,7 @@ class Roles extends Component {
     console.log(this.state.form.id);
     axios.put(url + this.state.form.id, this.state.form.id).then((response) => {
       this.modalInsertar();
-      //this.componentDidMount();
+      this.componentDidMount();
     });
   };
 
@@ -181,7 +181,7 @@ class Roles extends Component {
                       icon: EditIcon,
                       tooltip: "Editar elemento",
                       onClick: (event, rowData) => {
-                        this.seleccionPrivilegio(this.state.permisos); //Hqy que mandar bien el elemento seleccionado
+                        this.seleccionPrivilegio(rowData); //Hqy que mandar bien el elemento seleccionado
                         this.modalInsertar();
                       },
                     },
@@ -189,7 +189,7 @@ class Roles extends Component {
                       icon: DeleteIcon,
                       tooltip: "Eliminar elemento",
                       onClick: (event, rowData) => {
-                        this.seleccionPrivilegio(this.state.permisos); //Hqy que mandar bien el elemento seleccionado
+                        this.seleccionPrivilegio(rowData); //Hqy que mandar bien el elemento seleccionado
                         this.setState({modalEliminar: true});
                       },
                     },
