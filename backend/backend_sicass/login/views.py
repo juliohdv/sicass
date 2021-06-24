@@ -62,3 +62,7 @@ class UltimaEntidadExternaVista(viewsets.ModelViewSet):
         ultimaEntidad = EntidadExterna.objects.order_by('codigo_entidad').last()
         queryset =EntidadExterna.objects.filter(codigo_entidad=ultimaEntidad.codigo_entidad)
         return queryset
+
+class PropuestasVista(viewsets.ModelViewSet):
+    serializer_class = PropuestaSerializer
+    queryset = Propuesta.objects.all()

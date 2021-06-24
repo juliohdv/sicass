@@ -23,6 +23,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import Swal from "sweetalert2";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
+//Constante que contiene todo los iconos de la tabla de Datatable con material UI
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -47,6 +48,7 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
+//Constante que contiene los datos estaticos de la tabla
 const COLUMNAS = [
   {
     title: "Codigo",
@@ -66,16 +68,18 @@ const COLUMNAS = [
   },
 ];
 
+//Constannte que contiene la url de conexion con la api de rest
 const url = "http://127.0.0.1:8000/login/permisos/";
+
 //Clase principal del componente
 class Roles extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      permisos: [],
-      modalInsertar: false,
+      permisos: [], //Estdo que contendra todo lo que digite el usuario
+      modalInsertar: false, //Estado que controla el abrir o cerra el modal correspondiente
       modalEliminar: false,
-      form: {
+      form: { //Estado que contiene los campos del formulario a ingresar
         id: "",
         name: "",
         content_type_id: "",
@@ -85,33 +89,65 @@ class Roles extends Component {
     };
   }
 
+  //Metodo en que realiza la peticion para ingreso de datos a la BD mediante la api
   peticionPost = async () => {
     //delete this.state.form.id;
+    console.log(this.state.form)
     await axios
-      .post(url, this.state.form)
+      .post(url, {
+        id:this.state.form.id,
+        name:this.state.form.name,
+        content_type_id: parseInt(this.state.form.content_type_id),
+        codename:this.state.form.codename
+      })
       .then((response) => {
         this.modalInsertar();
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Se a guardado con exito',
+          showConfirmButton: false,
+          timer: 2500
+        })
         this.componentDidMount();
-
       })
       .catch((error) => {
         console.log(error.masage);
       });
   };
+
+  //Metodo en que realiza la peticion para actualizar los datos a la BD mediante la api
   peticionPut = () => {
     console.log(this.state.form.id);
-    axios.put(url + this.state.form.id, this.state.form.id).then((response) => {
+    axios.put(url + this.state.form.id, this.state.form).then((response) => {
       this.modalInsertar();
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Se a guardado con exito',
+        showConfirmButton: false,
+        timer: 2500
+      })
       this.componentDidMount();
     });
   };
 
+  //Metodo en que realiza la peticion para eliminar los datos a la BD mediante la api
   peticionDelete = () => {
     axios.delete(url + this.state.form.id).then((response) => {
       this.setState({ modalEliminar: false });
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Se a eliminado con exito',
+        showConfirmButton: false,
+        timer: 2500
+      })
       this.componentDidMount();
     });
   };
+
+  //Metodo que funciona para saber que elemento a selecciconado de la tabla y mandarlo al modal
   seleccionPrivilegio = (privilegio) => {
     console.log(privilegio);
 
@@ -125,9 +161,13 @@ class Roles extends Component {
       },
     });
   };
+
+  //Metodo que sirve para manejar el estado del modal
   modalInsertar = () => {
     this.setState({ modalInsertar: !this.state.modalInsertar });
   };
+
+  //Metodo que va guardado el estado de lo que digita el usuario en el formulario
   handleChange = async (e) => {
     e.persist();
     await this.setState({
@@ -138,9 +178,11 @@ class Roles extends Component {
     });
     console.log(this.state.form);
   };
+
+  //Metodo que hace la peticion de consulta a la BD mediante api
   componentDidMount() {
     axios
-      .get("http://127.0.0.1:8000/login/permisos/")
+      .get(url)
       .then((response) => {
         this.setState({ permisos: response.data });
       })
@@ -150,7 +192,7 @@ class Roles extends Component {
   }
   render() {
     //Retorna todo la interfas respectiva para la gestion de roles y privilegios
-    const { form } = this.state;
+    const { form } = this.state; //Constante que contiene el estado del formulario
     return (
       <Dashboard
         contenedor={
@@ -181,7 +223,7 @@ class Roles extends Component {
                       icon: EditIcon,
                       tooltip: "Editar elemento",
                       onClick: (event, rowData) => {
-                        this.seleccionPrivilegio(rowData); //Hqy que mandar bien el elemento seleccionado
+                        this.seleccionPrivilegio(rowData); 
                         this.modalInsertar();
                       },
                     },
@@ -189,7 +231,7 @@ class Roles extends Component {
                       icon: DeleteIcon,
                       tooltip: "Eliminar elemento",
                       onClick: (event, rowData) => {
-                        this.seleccionPrivilegio(rowData); //Hqy que mandar bien el elemento seleccionado
+                        this.seleccionPrivilegio(rowData); 
                         this.setState({modalEliminar: true});
                       },
                     },
@@ -230,14 +272,12 @@ class Roles extends Component {
                     type="text"
                     id="name"
                     name="name"
-                    maxLength="100"
                     placeholder="Ejemplo de nombre"
                     required
                     value={form ? form.name : ""}
                     onChange={this.handleChange}
                   />
                 </Form.Group>
-
                 <Form.Group>
                   <Form.Label>Grupo</Form.Label>
                   <Form.Control
@@ -262,7 +302,6 @@ class Roles extends Component {
                     onChange={this.handleChange}
                   />
                 </Form.Group>
-
                 <ModalFooter>
                   {this.state.tipoModal == "insertar" ? (
                     <Button
@@ -287,12 +326,11 @@ class Roles extends Component {
                   </Button>
                 </ModalFooter>
               </ModalBody>
+                
             </Modal>
-
             <Modal isOpen={this.state.modalEliminar} centered>
               <ModalBody>
-                ¿Esta seguro de eliminar el privilegio seleccionado?{" "}
-                {form && form.name}
+                ¿Esta seguro de eliminar el privilegio seleccionado?
               </ModalBody>
               <ModalFooter>
                 <Button variant="danger" onClick={()=>this.peticionDelete()}>Si</Button>

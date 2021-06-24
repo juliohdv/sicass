@@ -56,6 +56,14 @@ class SolicitudSerializer(serializers.ModelSerializer):
         solicitud = Solicitud.objects.create(**validated_data)
         return solicitud
 
+class PropuestaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Propuesta
+        fields = ['codigo_propuesta','fecha_inicio_propuesta','fecha_fin_propuesta', 'descripcion_propuesta', 'estado_propuesta','entidad_externa','carrera','tipo_servicio_social']
+    def create(self, validated_data):
+        propuesta = Propuesta.objects.create(**validated_data)
+        return propuesta
+
 class EntidadExternaSerializer(serializers.ModelSerializer):
     class Meta:
         model = EntidadExterna
