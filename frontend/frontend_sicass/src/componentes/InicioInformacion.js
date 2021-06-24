@@ -33,7 +33,7 @@ class InicioInformacion extends Component {
                   </a>
                 </div>
                 <div id="header_front">
-                  <h1>Secretaria de proyección social</h1>
+                  <h1>Secretar&iacute;a de Proyección Social</h1>
                   <h4>"De la mano con la comunidad"</h4>
                 </div>
               </div>
@@ -43,16 +43,16 @@ class InicioInformacion extends Component {
         <Row className="pt-5">
           <Card>
             <Card.Header align="center">
-              Sistema informatico para el control y aplicación del servicio 
-              social de los estudiantes de la Universidad de El Salvador (SICASS).
+              Sistema inform&aacute;tico para el control y aplicación del Servicio 
+              Social de los estudiantes de la Universidad de El Salvador (SICASS).
             </Card.Header>
             <Card.Body>
               <Card.Title>Descripción</Card.Title>
               <Card.Text className="align-justify">
-                Sistema informatico en la plataforma web, para la digitalización, automatización
+                Sistema inform&aacute;tico en la plataforma web, para la digitalización, automatización
                 y eficiencia en la realizacion del proceso de registro,
                 solicitud y control del servicio social que es realizado por los estudiantes 
-                de la universidad de El Salvador, como pre-requisito para su titulación.
+                de la Universidad de El Salvador, como pre-requisito para su titulación.
               </Card.Text>
             </Card.Body>
           </Card>
