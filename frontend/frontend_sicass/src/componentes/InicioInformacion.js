@@ -4,7 +4,7 @@ import LogoUes from "./LogoUes";
 import LogoProyeccion from "./LogoProyeccion";
 import { Row, Col, Card } from "react-bootstrap";
 
-class inicioInformacion extends Component {
+class InicioInformacion extends Component {
   render() {
     return (
       <>
@@ -62,4 +62,4 @@ class inicioInformacion extends Component {
   }
 }
 
-export default inicioInformacion;
+export default InicioInformacion;

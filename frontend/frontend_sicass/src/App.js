@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -183,9 +183,10 @@ export default function App() {
           <div className={classes.appBarSpacer} />
           <Container>
             <Switch>
-              {/*<Route path="/">
-                <Informacion />
-                </Route>*/}
+              {    
+              <Route exact path="/">
+                <Inicio />
+              </Route>}
               <Route path="/RegistroEstudiante">
                 <RegistroEstudiante />
               </Route>
@@ -239,7 +240,6 @@ function ConsultarSolicitud() {
 function GestionUsuarios() {
   return <Usuarios></Usuarios>;
 }
-
-function Informacion() {
+function Inicio() {
   return <InicioInformacion></InicioInformacion>;
 }
