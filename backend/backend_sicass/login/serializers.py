@@ -41,7 +41,16 @@ class EstudianteSerializer(serializers.ModelSerializer):
 class SolicitudSerializer(serializers.ModelSerializer):
     class Meta:
         model = Solicitud
-        fields = ['codigo_solicitud','fecha_inicio_solicitud','fecha_fin_solicitud','entidad_externa','carrera','tipo_servicio_social']
+        fields = ['codigo_solicitud','fecha_inicio_solicitud','fecha_fin_solicitud','estado_solicitud','entidad_externa','carrera','tipo_servicio_social']
     def create(self, validated_data):
         solicitud = Solicitud.objects.create(**validated_data)
         return solicitud
+
+class EntidadExternaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EntidadExterna
+        fields = ['codigo_entidad','nombre_entidad','direccion_entidad','correo_entidad','telefono_entidad','clasificacion_entidad']
+    def create(self, validate_data):
+        entidad = EntidadExterna.objects.create(**validate_data)
+        return entidad
+        

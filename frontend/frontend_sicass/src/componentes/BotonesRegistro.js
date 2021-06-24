@@ -7,12 +7,12 @@ export default function botones(props) {
     <div className="pt-4">
       <div className="row">
         <div className="col text-right pr-5">
-          <Button variant="success" type="submit" onClick={props.registro}>
+          <Button variant="success" type="submit">
             Registrar
           </Button>
         </div>
         <div className="col pl-5">
-          <Button variant="secondary" type="button" onClick="">
+          <Button variant="secondary" type="button">
             Cancelar
           </Button>
         </div>
