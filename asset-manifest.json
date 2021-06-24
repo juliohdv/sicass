@@ -1,0 +1,37 @@
+{
+  "files": {
+    "main.css": "/juliohdv/sicass/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/juliohdv/sicass/static/js/main.6b1f3597.chunk.js",
+    "main.js.map": "/juliohdv/sicass/static/js/main.6b1f3597.chunk.js.map",
+    "runtime-main.js": "/juliohdv/sicass/static/js/runtime-main.777d57b9.js",
+    "runtime-main.js.map": "/juliohdv/sicass/static/js/runtime-main.777d57b9.js.map",
+    "static/css/2.ef9168ec.chunk.css": "/juliohdv/sicass/static/css/2.ef9168ec.chunk.css",
+    "static/js/2.c6d5c0eb.chunk.js": "/juliohdv/sicass/static/js/2.c6d5c0eb.chunk.js",
+    "static/js/2.c6d5c0eb.chunk.js.map": "/juliohdv/sicass/static/js/2.c6d5c0eb.chunk.js.map",
+    "static/js/3.8cc7ba83.chunk.js": "/juliohdv/sicass/static/js/3.8cc7ba83.chunk.js",
+    "static/js/3.8cc7ba83.chunk.js.map": "/juliohdv/sicass/static/js/3.8cc7ba83.chunk.js.map",
+    "static/js/4.4abd95cc.chunk.js": "/juliohdv/sicass/static/js/4.4abd95cc.chunk.js",
+    "static/js/4.4abd95cc.chunk.js.map": "/juliohdv/sicass/static/js/4.4abd95cc.chunk.js.map",
+    "static/js/5.abf207c5.chunk.js": "/juliohdv/sicass/static/js/5.abf207c5.chunk.js",
+    "static/js/5.abf207c5.chunk.js.map": "/juliohdv/sicass/static/js/5.abf207c5.chunk.js.map",
+    "static/js/6.e2a612d6.chunk.js": "/juliohdv/sicass/static/js/6.e2a612d6.chunk.js",
+    "static/js/6.e2a612d6.chunk.js.map": "/juliohdv/sicass/static/js/6.e2a612d6.chunk.js.map",
+    "index.html": "/juliohdv/sicass/index.html",
+    "static/css/2.ef9168ec.chunk.css.map": "/juliohdv/sicass/static/css/2.ef9168ec.chunk.css.map",
+    "static/css/main.6dea0f05.chunk.css.map": "/juliohdv/sicass/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.c6d5c0eb.chunk.js.LICENSE.txt": "/juliohdv/sicass/static/js/2.c6d5c0eb.chunk.js.LICENSE.txt",
+    "static/js/3.8cc7ba83.chunk.js.LICENSE.txt": "/juliohdv/sicass/static/js/3.8cc7ba83.chunk.js.LICENSE.txt",
+    "static/js/4.4abd95cc.chunk.js.LICENSE.txt": "/juliohdv/sicass/static/js/4.4abd95cc.chunk.js.LICENSE.txt",
+    "static/js/5.abf207c5.chunk.js.LICENSE.txt": "/juliohdv/sicass/static/js/5.abf207c5.chunk.js.LICENSE.txt",
+    "static/media/iconoSicass.7d10827a.png": "/juliohdv/sicass/static/media/iconoSicass.7d10827a.png",
+    "static/media/logoProyeccionSocial.f4534b1d.jpg": "/juliohdv/sicass/static/media/logoProyeccionSocial.f4534b1d.jpg",
+    "static/media/logoUes.308b8d5e.png": "/juliohdv/sicass/static/media/logoUes.308b8d5e.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.777d57b9.js",
+    "static/css/2.ef9168ec.chunk.css",
+    "static/js/2.c6d5c0eb.chunk.js",
+    "static/css/main.6dea0f05.chunk.css",
+    "static/js/main.6b1f3597.chunk.js"
+  ]
+}
