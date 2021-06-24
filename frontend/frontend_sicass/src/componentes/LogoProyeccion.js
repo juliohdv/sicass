@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 //Aqui importamos nuestra imagen
 import logoProyeccion from './logoProyeccionSocial.jpg';
 
-
 class LogoProyeccion extends Component {
   render() {
     return (    

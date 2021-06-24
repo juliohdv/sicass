@@ -5,7 +5,6 @@ import {Formik} from 'formik'
 import Botones from "./BotonesRegistro";
 import Swal from 'sweetalert2'
 
-
 /* Componente que contiene el formulario base de los datos del servicio
 social a solicitar */
 class SolicitudServicio extends Component {

@@ -74,3 +74,7 @@ class UltimaEntidadExternaVista(viewsets.ModelViewSet):
 class PropuestasVista(viewsets.ModelViewSet):
     serializer_class = PropuestaSerializer
     queryset = Propuesta.objects.all()
+
+class UsuariosGestionVista(viewsets.ModelViewSet):
+    serializer_class = UsuariosGestionSerializer
+    queryset = User.objects.all()

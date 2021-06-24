@@ -72,3 +72,10 @@ class EntidadExternaSerializer(serializers.ModelSerializer):
         entidad = EntidadExterna.objects.create(**validate_data)
         return entidad
         
+class UsuariosGestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id','last_login','is_superuser', 'username', 'first_name','last_name','email','is_staff','is_active','date_joined']
+    def create(self, validated_data):
+        usuarios = User.objects.create(**validated_data)
+        return usuarios

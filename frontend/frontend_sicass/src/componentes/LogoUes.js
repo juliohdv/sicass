@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 //Aqui importamos nuestra imagen
 import logoUes from './logoUes.png';
 
-
 class LogoUes extends Component {
   render() {
     return (    

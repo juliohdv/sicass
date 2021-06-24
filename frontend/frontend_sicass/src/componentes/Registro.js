@@ -5,7 +5,6 @@ import axios from 'axios'
 import {Formik} from 'formik'
 import Swal from 'sweetalert2'
 
-
 //Clase principal del componente
 class Registro extends Component {
   constructor(props) {

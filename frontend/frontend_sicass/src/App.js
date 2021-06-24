@@ -11,7 +11,6 @@ import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -25,7 +24,8 @@ import Roles from "./componentes/Roles";
 import Propuestas from "./componentes/Propuestas";
 import Dashboard from "./componentes/Dashboard";
 import InicioInformacion from "./componentes/InicioInformacion";
-import Solicitudes from './componentes/Solicitudes';
+import Solicitudes from "./componentes/Solicitudes";
+import Usuarios from "./componentes/Usuarios";
 
 function Copyright() {
   return (
@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
-    
   },
   toolbarIcon: {
     display: "flex",
@@ -183,8 +182,10 @@ export default function App() {
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Container>
-            <Dashboard contenedor={<InicioInformacion/>} />
             <Switch>
+              {/*<Route path="/">
+                <Informacion />
+                </Route>*/}
               <Route path="/RegistroEstudiante">
                 <RegistroEstudiante />
               </Route>
@@ -202,6 +203,9 @@ export default function App() {
               </Route>
               <Route path="/ConsultarPropuesta">
                 <ConsultarPropuesta />
+              </Route>
+              <Route path="/GestionarUsuarios">
+                <GestionUsuarios />
               </Route>
             </Switch>
           </Container>
@@ -229,8 +233,13 @@ function GestionarRoles() {
 function ConsultarPropuesta() {
   return <Propuestas></Propuestas>;
 }
-function ConsultarSolicitud(){
-  return(
-    <Solicitudes></Solicitudes>
-  );
+function ConsultarSolicitud() {
+  return <Solicitudes></Solicitudes>;
+}
+function GestionUsuarios() {
+  return <Usuarios></Usuarios>;
+}
+
+function Informacion() {
+  return <InicioInformacion></InicioInformacion>;
 }

@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import Dashboard from "./Dashboard";
 import Card from "./Card";
-import Entidad from "./Entidad";
 import PropuestaServicio from "./PropuestaServicio";
-import { Row, Col, Form, Button } from "react-bootstrap";
 
 //Clase principal del componente
 class EnvioPropuesta extends Component {
@@ -32,7 +30,5 @@ function Cuerpo() {
       </div>
   );
 }
-
-
 
 export default EnvioPropuesta;

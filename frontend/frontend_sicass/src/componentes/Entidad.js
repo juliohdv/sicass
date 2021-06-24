@@ -5,8 +5,6 @@ import { Form, Col } from "react-bootstrap";
 solicitud de servicio social por parte de la entidad externa */
 export default function Entidad(props) {
   return (
-    //Falta aun validación de campos
-    //<Form className="pl-3 pr-3">
     <>
       <Form.Row>
         <Form.Group as={Col} className="pr-5">
@@ -40,6 +38,5 @@ export default function Entidad(props) {
         </Form.Group>
       </Form.Row>
     </>
-    //</Form>
   );
 }

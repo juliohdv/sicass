@@ -3,8 +3,6 @@ import Dashboard from "./Dashboard";
 import Card from "./Card";
 import SolicitudServicio from "./SolicitudServicio";
 
-
-
 //Clase principal del componente
 class Solicitud extends Component {
   render() {
