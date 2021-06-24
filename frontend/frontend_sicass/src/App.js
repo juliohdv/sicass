@@ -22,6 +22,7 @@ import EnvioRegistro from './componentes/EnvioRegistro';
 import EnvioPropuesta from './componentes/EnvioPropuesta';
 import EnvioSolicitud from './componentes/EnvioSolicitud';
 import Roles from './componentes/Roles';
+import SolicitudConsulta from './componentes/SolicitudConsulta'
 
 function Copyright() {
   return (
@@ -182,6 +183,9 @@ export default function Dashboard(props) {
               <Route path="/GestionarRoles">
                 <GestionarRoles />
               </Route>
+              <Route path="/ConsultarSolicitud">
+                <ConsultarSolicitud />
+              </Route>
             </Switch>
           <Box pt={4}>
             <Copyright />
@@ -211,5 +215,11 @@ function RegistrarSolicitud(){
 function GestionarRoles(){
   return(
     <Roles></Roles>
-    );
-  }
+  );
+}
+
+function ConsultarSolicitud(){
+  return(
+    <SolicitudConsulta></SolicitudConsulta>
+  )
+}

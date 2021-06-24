@@ -44,6 +44,9 @@ class PermisosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Permission
         fields = ['id', 'name', 'content_type_id', 'codename']
+    def create(self, validated_data):
+        permiso = Permission.objects.create(**validated_data)
+        return permiso
 
 class SolicitudSerializer(serializers.ModelSerializer):
     class Meta:
