@@ -74,7 +74,7 @@ const COLUMNAS = [
   },
 ];
 
-const url = "http://127.0.0.1:8000/login/solicitudes/";
+const url = "https://juliohdv.pythonanywhere.com/login/solicitudes/";
 //Clase principal del componente
 class Solicitudes extends Component {
   constructor(props) {
@@ -120,7 +120,7 @@ class Solicitudes extends Component {
   };
   componentDidMount() {
     axios
-      .get("http://127.0.0.1:8000/login/solicitudes/")
+      .get("https://juliohdv.pythonanywhere.com/login/solicitudes/")
       .then((response) => {
         this.setState({ solicitudes: response.data });
       })

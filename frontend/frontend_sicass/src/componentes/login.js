@@ -7,7 +7,7 @@ class Login extends Component {
     }
     login = event =>{
         console.log(this.state.credenciales);
-        fetch('http://127.0.0.1:8000/auth/',{ //solicitud a django regresa el token
+        fetch('https://juliohdv.pythonanywhere.com/auth/',{ //solicitud a django regresa el token
             method: 'POST',
             body: JSON.stringify(this.state.credenciales),
             headers: {'Content-Type': 'application/json'},

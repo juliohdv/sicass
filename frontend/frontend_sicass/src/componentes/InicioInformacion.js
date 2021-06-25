@@ -28,7 +28,7 @@ class InicioInformacion extends Component {
             <div className="container">
               <div className="wrap-center">
                 <div className="navbar-brand">
-                  <a href="http://proyeccionsocial.ues.edu.sv/">
+                  <a href="https://proyeccionsocial.ues.edu.sv/">
                     <LogoProyeccion></LogoProyeccion>
                   </a>
                 </div>

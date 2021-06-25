@@ -25,7 +25,7 @@ class PropuestaServicio extends Component {
     this.setState({ facultadSeleccionada: event.target.value });
     this.setState({ carreraSeleccionada: event.target.value });
     axios
-      .get("http://127.0.0.1:8000/login/carreraPorFacultad/", {
+      .get("https://juliohdv.pythonanywhere.com/login/carreraPorFacultad/", {
         params: { facultad: event.target.value },
       })
       .then((response) => {
@@ -40,7 +40,7 @@ class PropuestaServicio extends Component {
   componentDidMount() {
     //Consulta lista de facultades
     axios
-      .get("http://127.0.0.1:8000/login/facultades/")
+      .get("https://juliohdv.pythonanywhere.com/login/facultades/")
       .then((response) => {
         this.setState({ facultades: response.data });
       })
@@ -49,7 +49,7 @@ class PropuestaServicio extends Component {
       });
 
     axios
-      .get("http://127.0.0.1:8000/login/tiposServicioSocial/")
+      .get("https://juliohdv.pythonanywhere.com/login/tiposServicioSocial/")
       .then((response) => {
         console.log(response);
         this.setState({ tipos_servicio_social: response.data });
@@ -89,7 +89,7 @@ class PropuestaServicio extends Component {
         onSubmit={async (values) => {
           await new Promise((resolve) => setTimeout(resolve, 500));
           axios
-            .post("http://127.0.0.1:8000/login/entidadExterna/", {
+            .post("https://juliohdv.pythonanywhere.com/login/entidadExterna/", {
               nombre_entidad: values.nombre_entidad,
               direccion_entidad: values.direccion_entidad,
               correo_entidad: values.correo_entidad,
@@ -98,10 +98,10 @@ class PropuestaServicio extends Component {
             })
             .then((response) => {
               axios
-                .get("http://127.0.0.1:8000/login/ultimaEntidadExterna/")
+                .get("https://juliohdv.pythonanywhere.com/login/ultimaEntidadExterna/")
                 .then((response) => {
                   axios
-                    .post("http://127.0.0.1:8000/login/propuestas/", {
+                    .post("https://juliohdv.pythonanywhere.com/login/propuestas/", {
                       fecha_fin_propuesta: values.fecha_fin_propuesta,
                       estado_propuesta: values.estado_propuesta,
                       descripcion_propuesta: values.descripcion_propuesta,

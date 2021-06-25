@@ -12,7 +12,7 @@ export default function botones() {
           </Button>
         </div>
         <div className="col pl-5">
-          <a className="btn btn-secondary" href="http://localhost:3000/">Cancelar</a>
+          <a className="btn btn-secondary" href="https://juliohdv.github.io/sicass_app/">Cancelar</a>
         </div>
       </div>
     </div>

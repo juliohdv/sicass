@@ -20,7 +20,7 @@ class Registro extends Component {
     
     this.setState({facultadSeleccionada: event.target.value})
     axios
-      .get("http://127.0.0.1:8000/login/carreraPorFacultad/", {
+      .get("https://juliohdv.pythonanywhere.com/login/carreraPorFacultad/", {
         params: { facultad: event.target.value },
       })
       .then((response) => {
@@ -33,7 +33,7 @@ class Registro extends Component {
   }
   componentDidMount() {
     axios
-      .get("http://127.0.0.1:8000/login/facultades/")
+      .get("https://juliohdv.pythonanywhere.com/login/facultades/")
       .then((response) => {
         this.setState({ facultades: response.data });
       })
@@ -72,7 +72,7 @@ class Registro extends Component {
         await new Promise(resolve => setTimeout(resolve,500))
         //alert(JSON.stringify(values,null,2))
         axios
-          .post("http://127.0.0.1:8000/login/estudiantes/",{
+          .post("https://juliohdv.pythonanywhere.com/login/estudiantes/",{
             carnet:values.carnet,
             nombres_estudiante:values.nombres_estudiante,
             apellidos_estudiante:values.apellidos_estudiante,
