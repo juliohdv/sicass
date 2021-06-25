@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/sicass_app/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/sicass_app/static/js/main.898cd55b.chunk.js",
-    "main.js.map": "/sicass_app/static/js/main.898cd55b.chunk.js.map",
-    "runtime-main.js": "/sicass_app/static/js/runtime-main.d7552e94.js",
-    "runtime-main.js.map": "/sicass_app/static/js/runtime-main.d7552e94.js.map",
+    "main.js": "/sicass_app/static/js/main.e495ae12.chunk.js",
+    "main.js.map": "/sicass_app/static/js/main.e495ae12.chunk.js.map",
+    "runtime-main.js": "/sicass_app/static/js/runtime-main.a247560c.js",
+    "runtime-main.js.map": "/sicass_app/static/js/runtime-main.a247560c.js.map",
     "static/css/2.ef9168ec.chunk.css": "/sicass_app/static/css/2.ef9168ec.chunk.css",
-    "static/js/2.c6d5c0eb.chunk.js": "/sicass_app/static/js/2.c6d5c0eb.chunk.js",
-    "static/js/2.c6d5c0eb.chunk.js.map": "/sicass_app/static/js/2.c6d5c0eb.chunk.js.map",
-    "static/js/3.8cc7ba83.chunk.js": "/sicass_app/static/js/3.8cc7ba83.chunk.js",
-    "static/js/3.8cc7ba83.chunk.js.map": "/sicass_app/static/js/3.8cc7ba83.chunk.js.map",
+    "static/js/2.9ba6f8ea.chunk.js": "/sicass_app/static/js/2.9ba6f8ea.chunk.js",
+    "static/js/2.9ba6f8ea.chunk.js.map": "/sicass_app/static/js/2.9ba6f8ea.chunk.js.map",
+    "static/js/3.ae98a4d5.chunk.js": "/sicass_app/static/js/3.ae98a4d5.chunk.js",
+    "static/js/3.ae98a4d5.chunk.js.map": "/sicass_app/static/js/3.ae98a4d5.chunk.js.map",
     "static/js/4.4abd95cc.chunk.js": "/sicass_app/static/js/4.4abd95cc.chunk.js",
     "static/js/4.4abd95cc.chunk.js.map": "/sicass_app/static/js/4.4abd95cc.chunk.js.map",
     "static/js/5.abf207c5.chunk.js": "/sicass_app/static/js/5.abf207c5.chunk.js",
@@ -19,8 +19,8 @@
     "index.html": "/sicass_app/index.html",
     "static/css/2.ef9168ec.chunk.css.map": "/sicass_app/static/css/2.ef9168ec.chunk.css.map",
     "static/css/main.6dea0f05.chunk.css.map": "/sicass_app/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.c6d5c0eb.chunk.js.LICENSE.txt": "/sicass_app/static/js/2.c6d5c0eb.chunk.js.LICENSE.txt",
-    "static/js/3.8cc7ba83.chunk.js.LICENSE.txt": "/sicass_app/static/js/3.8cc7ba83.chunk.js.LICENSE.txt",
+    "static/js/2.9ba6f8ea.chunk.js.LICENSE.txt": "/sicass_app/static/js/2.9ba6f8ea.chunk.js.LICENSE.txt",
+    "static/js/3.ae98a4d5.chunk.js.LICENSE.txt": "/sicass_app/static/js/3.ae98a4d5.chunk.js.LICENSE.txt",
     "static/js/4.4abd95cc.chunk.js.LICENSE.txt": "/sicass_app/static/js/4.4abd95cc.chunk.js.LICENSE.txt",
     "static/js/5.abf207c5.chunk.js.LICENSE.txt": "/sicass_app/static/js/5.abf207c5.chunk.js.LICENSE.txt",
     "static/media/iconoSicass.7d10827a.png": "/sicass_app/static/media/iconoSicass.7d10827a.png",
@@ -28,10 +28,10 @@
     "static/media/logoUes.308b8d5e.png": "/sicass_app/static/media/logoUes.308b8d5e.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.d7552e94.js",
+    "static/js/runtime-main.a247560c.js",
     "static/css/2.ef9168ec.chunk.css",
-    "static/js/2.c6d5c0eb.chunk.js",
+    "static/js/2.9ba6f8ea.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.898cd55b.chunk.js"
+    "static/js/main.e495ae12.chunk.js"
   ]
 }
