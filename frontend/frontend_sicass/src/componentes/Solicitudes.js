@@ -57,6 +57,10 @@ const COLUMNAS = [
     field: "entidad_externa",
   },
   {
+    title: "Tipo de entidad",
+    field: "tipo_entidad",
+  },
+  {
     title: "Carrera",
     field: "carrera",
   },
@@ -85,11 +89,10 @@ class Solicitudes extends Component {
     super(props);
     this.state = {
       solicitudes: [],
-      modalInsertar: false,
-      modalEliminar: false,
       form: {
         codigo_solicitud: "",
         entidad_externa: "",
+        tipo_entidad:"",
         carrera: "",
         fecha_inicio_solicitud: "",
         fecha_fin_solicitud: "",
@@ -99,34 +102,8 @@ class Solicitudes extends Component {
     };
   }
 
-  /* peticionPost = async () => {
-    //delete this.state.form.id;
-    await axios
-      .post(url, this.state.form)
-      .then((response) => {
-        this.modalInsertar();
-        this.componentDidMount();
-
-      })
-      .catch((error) => {
-        console.log(error.masage);
-      });
-  };
-  peticionPut = () => {
-    console.log(this.state.form.id);
-    axios.put(url + this.state.form.id, this.state.form.id).then((response) => {
-      this.modalInsertar();
-      this.componentDidMount();
-    });
-  };
-
-  peticionDelete = () => {
-    axios.delete(url + this.state.form.id).then((response) => {
-      this.setState({ modalEliminar: false });
-      this.componentDidMount();
-    });
-  }; */
-  seleccionSolicitud = (solicitud) => {
+  
+  /* seleccionSolicitud = (solicitud) => {
     console.log(solicitud);
 
     this.setState({
@@ -135,6 +112,7 @@ class Solicitudes extends Component {
       form: {
         codigo_solicitud: solicitud.codigo_solicitud,
         entidad_externa: solicitud.entidad_externa,
+        tipo_entidad: "",
         carrera: solicitud.carrera,
         fecha_inicio_solicitud: solicitud.fecha_inicio_solicitud,
         fecha_fin_solicitud: solicitud.fecha_fin_solicitud,
@@ -142,7 +120,7 @@ class Solicitudes extends Component {
         tipo_servicio_social: solicitud.tipo_servicio_social,
       },
     });
-  };
+  }; */
  /*  modalInsertar = () => {
     this.setState({ modalInsertar: !this.state.modalInsertar });
   }; */
@@ -160,19 +138,20 @@ class Solicitudes extends Component {
     axios
       .get("http://127.0.0.1:8000/login/solicitudes/")
       .then((response) => {
-        this.setState({ solicitudes: response.data });
-        /* for(let i=0; i<this.state.solicitudes.length; i++){
-          console.log(this.state.solicitudes[i].carrera)
-          this.setState({carrera_id:this.state.solicitudes[i].carrera})
-          axios
-            .get('http://127.0.0.1:8000/login/carreraPorId',{params:{carrera:this.state.carrera_id}})
-            .then((response)=>{
-                console.log(response)
-                console.log(response.data.map(elemento=>(elemento.nombre_carrera)).toString())
-                this.setState({carrera:response.data.map(elemento=>(elemento.nombre_carrera)).toString()})
-                console.log(this.state.carrera)
-            })
-        } */
+        const arreglo_inicial =  response.data //Guardamos el arreglo inicial para su reescritura
+        const solicitud = new Array() //Arreglo donde guardaremos los objetos reescritos
+        for(var i =0; i<arreglo_inicial.length; i++){  //Recorremos el arreglo inicial
+          solicitud[i] = //Asignamos los campos del arrelgo inicial a los del nuevo objeto
+            {'codigo_solicitud': arreglo_inicial[i].codigo_solicitud ,
+            'entidad_externa':arreglo_inicial[i].entidad_externa.nombre_entidad,
+            'tipo_entidad':arreglo_inicial[i].entidad_externa.clasificacion_entidad,
+            'carrera': arreglo_inicial[i].carrera.nombre_carrera,
+            'tipo_servicio_social':arreglo_inicial[i].tipo_servicio_social.nombre_tipo_servicio_social,
+            'fecha_inicio_solicitud':arreglo_inicial[i].fecha_inicio_solicitud,
+            'fecha_fin_solicitud':arreglo_inicial[i].fecha_fin_solicitud,
+            'estado_solicitud':arreglo_inicial[i].estado_solicitud}
+        }
+        this.setState({ solicitudes: solicitud }); //Asignamos el nuevo arreglo reescrito al del estado
       })
       .catch((error) => {
         console.log(error);
@@ -185,17 +164,6 @@ class Solicitudes extends Component {
       <Dashboard
         contenedor={
           <div className="pt-4">
-          {/*   <div>
-              <Button
-                variant="success"
-                onClick={() => {
-                  this.setState({ form: null, tipoModal: "insertar" });
-                  this.modalInsertar();
-                }}
-              >
-                Crear
-              </Button>
-            </div> */}
             <div>
               <div className="pt-3">
                 <MaterialTable
@@ -207,23 +175,7 @@ class Solicitudes extends Component {
                     actionsColumnIndex: -1,
                   }}
                   actions={[
-                    {
-                      icon: EditIcon,
-                      tooltip: "Editar elemento",
-                      onClick: (event, rowData) => {
-                        this.seleccionSolicitud(rowData); //Hqy que mandar bien el elemento seleccionado
-                        //this.modalInsertar();
-                        alert("Selecionada" + rowData)
-                      },
-                    },
-                    /* {
-                      icon: DeleteIcon,
-                      tooltip: "Eliminar elemento",
-                      onClick: (event, rowData) => {
-                        this.seleccionPrivilegio(rowData); //Hqy que mandar bien el elemento seleccionado
-                        this.setState({modalEliminar: true});
-                      },
-                    }, */
+                    
                   ]}
                   localization={{
                     header: {
@@ -233,103 +185,6 @@ class Solicitudes extends Component {
                 />
               </div>
             </div>
-
-            {/* <Modal isOpen={this.state.modalInsertar} centered>
-              <ModalHeader style={{ display: "block" }}>
-              {this.state.tipoModal == "insertar" ? (
-                    <span>Crear privilegios</span>
-                  ) : (
-                    <span>Actualizar privilegios</span>
-                  )}
-              </ModalHeader>
-              <ModalBody>
-                <Form.Group>
-                  <Form.Label>Código</Form.Label>
-                  <Form.Control
-                    type="text"
-                    id="id"
-                    name="id"
-                    value={form ? form.id : this.state.permisos.length + 1}
-                    required
-                    readOnly
-                    onChange={this.handleChange}
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Nombre</Form.Label>
-                  <Form.Control
-                    type="text"
-                    id="name"
-                    name="name"
-                    maxLength="100"
-                    placeholder="Ejemplo de nombre"
-                    required
-                    value={form ? form.name : ""}
-                    onChange={this.handleChange}
-                  />
-                </Form.Group>
-
-                <Form.Group>
-                  <Form.Label>Grupo</Form.Label>
-                  <Form.Control
-                    type="text"
-                    id="content_type_id"
-                    name="content_type_id"
-                    placeholder="######"
-                    required
-                    value={form ? form.content_type_id : ""}
-                    onChange={this.handleChange}
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Privilegio</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Ejemplo de privilegio"
-                    id="codename"
-                    name="codename"
-                    required
-                    value={form ? form.codename : ""}
-                    onChange={this.handleChange}
-                  />
-                </Form.Group>
-
-                <ModalFooter>
-                  {this.state.tipoModal == "insertar" ? (
-                    <Button
-                      variant="primary"
-                      onClick={() => this.peticionPost()}
-                    >
-                      Guardar
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="primary"
-                      onClick={() => this.peticionPut()}
-                    >
-                      Actualizar
-                    </Button>
-                  )}
-                  <Button
-                    variant="secondary"
-                    onClick={() => this.modalInsertar()}
-                  >
-                    Cancelar
-                  </Button>
-                </ModalFooter>
-              </ModalBody>
-            </Modal> */}
-
-            {/* <Modal isOpen={this.state.modalEliminar} centered>
-              <ModalBody>
-                ¿Esta seguro de eliminar el privilegio seleccionado?{" "}
-                {form && form.name}
-              </ModalBody>
-              <ModalFooter>
-                <Button variant="danger" onClick={()=>this.peticionDelete()}>Si</Button>
-                <Button variant="secundary" onClick={()=>this.setState({modalEliminar: false})}>No</Button>
-              </ModalFooter>
-            </Modal> */}
           </div>
         }
       />
