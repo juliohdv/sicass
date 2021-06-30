@@ -230,7 +230,7 @@ class Roles extends Component {
 
             <Modal isOpen={this.state.modalInsertar} centered>
               <ModalHeader style={{ display: "block" }}>
-              {this.state.tipoModal == "insertar" ? (
+              {this.state.tipoModal === "insertar" ? (
                     <span>Crear privilegios</span>
                   ) : (
                     <span>Actualizar privilegios</span>
@@ -286,7 +286,7 @@ class Roles extends Component {
                   />
                 </Form.Group>
                 <ModalFooter>
-                  {this.state.tipoModal == "insertar" ? (
+                  {this.state.tipoModal === "insertar" ? (
                     <Button
                       variant="primary"
                       onClick={() => this.peticionPost()}
