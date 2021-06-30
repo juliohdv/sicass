@@ -246,7 +246,7 @@ class SolicitudServicio extends Component {
                     <option 
                     key={elemento.codigo_carrera} 
                     value={elemento.codigo_carrera}>
-                      {elemento.nombre_carrera}
+                      {elemento.nombre_carrera} {elemento.codigo_carrera}
                     </option>
                 ))}
                 </Form.Control>

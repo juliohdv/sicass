@@ -48,10 +48,21 @@ class PermisosSerializer(serializers.ModelSerializer):
         permiso = Permission.objects.create(**validated_data)
         return permiso
 
+class EntidadExternaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EntidadExterna
+        fields = ['codigo_entidad','nombre_entidad','direccion_entidad','correo_entidad','telefono_entidad','clasificacion_entidad']
+    def create(self, validate_data):
+        entidad = EntidadExterna.objects.create(**validate_data)
+        return entidad
+
 class SolicitudSerializer(serializers.ModelSerializer):
+    entidad_externa =  EntidadExternaSerializer()
+    carrera = CarreraSerializer()
+    tipo_servicio_social = TipoServicioSocialSerializer()
     class Meta:
         model = Solicitud
-        fields = ['codigo_solicitud','fecha_inicio_solicitud','fecha_fin_solicitud','estado_solicitud','entidad_externa','carrera','tipo_servicio_social']
+        fields = "__all__"
     def create(self, validated_data):
         solicitud = Solicitud.objects.create(**validated_data)
         return solicitud

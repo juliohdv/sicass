@@ -35,6 +35,10 @@ const COLUMNAS = [
     field: "entidad_externa",
   },
   {
+    title: "Tipo de entidad",
+    field: "tipo_entidad",
+  },
+  {
     title: "Carrera",
     field: "carrera",
   },
@@ -66,6 +70,7 @@ class Solicitudes extends Component {
       form: {
         codigo_solicitud: "",
         entidad_externa: "",
+        tipo_entidad:"",
         carrera: "",
         fecha_inicio_solicitud: "",
         fecha_fin_solicitud: "",
@@ -74,7 +79,9 @@ class Solicitudes extends Component {
       },
     };
   }
-  seleccionSolicitud = (solicitud) => {
+
+  
+  /* seleccionSolicitud = (solicitud) => {
     console.log(solicitud);
 
     this.setState({
@@ -82,6 +89,7 @@ class Solicitudes extends Component {
       form: {
         codigo_solicitud: solicitud.codigo_solicitud,
         entidad_externa: solicitud.entidad_externa,
+        tipo_entidad: "",
         carrera: solicitud.carrera,
         fecha_inicio_solicitud: solicitud.fecha_inicio_solicitud,
         fecha_fin_solicitud: solicitud.fecha_fin_solicitud,
@@ -89,7 +97,10 @@ class Solicitudes extends Component {
         tipo_servicio_social: solicitud.tipo_servicio_social,
       },
     });
-  };
+  }; */
+ /*  modalInsertar = () => {
+    this.setState({ modalInsertar: !this.state.modalInsertar });
+  }; */
   handleChange = async (e) => {
     e.persist();
     await this.setState({
@@ -104,7 +115,20 @@ class Solicitudes extends Component {
     axios
       .get("http://127.0.0.1:8000/login/solicitudes/")
       .then((response) => {
-        this.setState({ solicitudes: response.data });
+        const arreglo_inicial =  response.data //Guardamos el arreglo inicial para su reescritura
+        const solicitud = new Array() //Arreglo donde guardaremos los objetos reescritos
+        for(var i =0; i<arreglo_inicial.length; i++){  //Recorremos el arreglo inicial
+          solicitud[i] = //Asignamos los campos del arrelgo inicial a los del nuevo objeto
+            {'codigo_solicitud': arreglo_inicial[i].codigo_solicitud ,
+            'entidad_externa':arreglo_inicial[i].entidad_externa.nombre_entidad,
+            'tipo_entidad':arreglo_inicial[i].entidad_externa.clasificacion_entidad,
+            'carrera': arreglo_inicial[i].carrera.nombre_carrera,
+            'tipo_servicio_social':arreglo_inicial[i].tipo_servicio_social.nombre_tipo_servicio_social,
+            'fecha_inicio_solicitud':arreglo_inicial[i].fecha_inicio_solicitud,
+            'fecha_fin_solicitud':arreglo_inicial[i].fecha_fin_solicitud,
+            'estado_solicitud':arreglo_inicial[i].estado_solicitud}
+        }
+        this.setState({ solicitudes: solicitud }); //Asignamos el nuevo arreglo reescrito al del estado
       })
       .catch((error) => {
         console.log(error);
@@ -128,14 +152,7 @@ class Solicitudes extends Component {
                     actionsColumnIndex: -1,
                   }}
                   actions={[
-                    {
-                      icon: Visibility,
-                      tooltip: "Ver datos del proyecto",
-                      onClick: (event, rowData) => {
-                        this.seleccionSolicitud(rowData);
-                        alert("Selecionada" + rowData)
-                      },
-                    },
+                    
                   ]}
                   localization={{
                     header: {
