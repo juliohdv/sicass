@@ -2,53 +2,54 @@ import React, { Component, forwardRef } from "react";
 import Dashboard from "./Dashboard";
 import axios from "axios";
 import { Button, Form } from "react-bootstrap";
-import MaterialTable from "material-table";
-import ArrowDownward from "@material-ui/icons/ArrowDownward";
-import ChevronLeft from "@material-ui/icons/ChevronLeft";
-import ChevronRight from "@material-ui/icons/ChevronRight";
-import Clear from "@material-ui/icons/Clear";
-import FilterList from "@material-ui/icons/FilterList";
-import FirstPage from "@material-ui/icons/FirstPage";
-import LastPage from "@material-ui/icons/LastPage";
-import Search from "@material-ui/icons/Search";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
 import Swal from "sweetalert2";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import MUIDataTable from "mui-datatables";
+import { Tooltip } from "@material-ui/core";
+import Delete from "@material-ui/icons/Delete";
+import Edit from "@material-ui/icons/Edit";
 
-//Constante que contiene todo los iconos de la tabla de Datatable con material UI
-const tableIcons = {
-  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  PreviousPage: forwardRef((props, ref) => (
-    <ChevronLeft {...props} ref={ref} />
-  )),
-  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
+//Constante con las opciones de la tabla
+const options = {
+  download: "false",
+  print: "false",
+  responsive: "simple",
+  selectableRows: false,
+  textLabels: {
+    body: {
+      noMatch: "No hay registros de privilegios",
+      toolTip: "Sort",
+      columnHeaderTooltip: (column) => `Odernar por ${column.label}`,
+    },
+    pagination: {
+      next: "Página siguiente",
+      previous: "Página previa",
+      rowsPerPage: "Filas por página:",
+      displayRows: "de",
+    },
+    toolbar: {
+      search: "Búsqueda",
+      downloadCsv: "Download CSV",
+      print: "Print",
+      viewColumns: "Ver columnas",
+      filterTable: "Filtros de tabla",
+    },
+    filter: {
+      all: "TODOS",
+      title: "FILTROS",
+      reset: "REINICIAR",
+    },
+    viewColumns: {
+      title: "Mostrar columnas",
+      titleAria: "Mostrar/Ocultar columnas de tabla",
+    },
+    selectedRows: {
+      text: "fila(s) seleccionada",
+      delete: "Eliminar",
+      deleteAria: "Eliminar filas seleccionadas",
+    },
+  },
 };
-
-//Constante que contiene los datos estaticos de la tabla
-const COLUMNAS = [
-  {
-    title: "Codigo",
-    field: "id",
-  },
-  {
-    title: "Nombre",
-    field: "name",
-  },
-  {
-    title: "Grupo",
-    field: "content_type_id",
-  },
-  {
-    title: "Privilegio",
-    field: "codename",
-  },
-];
 
 //Constannte que contiene la url de conexion con la api de rest
 const url = "http://127.0.0.1:8000/login/permisos/";
@@ -61,7 +62,8 @@ class Roles extends Component {
       permisos: [], //Estdo que contendra todo lo que digite el usuario
       modalInsertar: false, //Estado que controla el abrir o cerra el modal correspondiente
       modalEliminar: false,
-      form: { //Estado que contiene los campos del formulario a ingresar
+      form: {
+        //Estado que contiene los campos del formulario a ingresar
         id: "",
         name: "",
         content_type_id: "",
@@ -74,44 +76,55 @@ class Roles extends Component {
   //Metodo en que realiza la peticion para ingreso de datos a la BD mediante la api
   peticionPost = async () => {
     //delete this.state.form.id;
-    console.log(this.state.form)
+    //console.log(this.state.form);
     await axios
       .post(url, {
-        id:this.state.form.id,
-        name:this.state.form.name,
-        content_type_id: parseInt(this.state.form.content_type_id),
-        codename:this.state.form.codename
+        id: this.state.form.id,
+        name: this.state.form.name,
+        content_type_id: this.state.form.content_type_id,
+        codename: this.state.form.codename,
       })
       .then((response) => {
         this.modalInsertar();
         Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'Se a guardado con exito',
+          position: "center",
+          icon: "success",
+          title: "Se a guardado con exito",
           showConfirmButton: false,
-          timer: 2500
-        })
+          timer: 2500,
+        });
         this.componentDidMount();
       })
       .catch((error) => {
-        console.log(error.masage);
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Ocurrio un error en el registro del privilegio",
+          showConfirmButton: false,
+          timer: 2500,
+        });  
       });
   };
 
   //Metodo en que realiza la peticion para actualizar los datos a la BD mediante la api
   peticionPut = () => {
     console.log(this.state.form.id);
-    axios.put(url + this.state.form.id, this.state.form).then((response) => {
+    axios.put(url + this.state.form.id, this.state.form)
+    .then((response) => {
       this.modalInsertar();
       Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Se a guardado con exito',
+        position: "center",
+        icon: "success",
+        title: "Se a guardado con exito",
         showConfirmButton: false,
-        timer: 2500
-      })
+        timer: 2500,
+      });
       this.componentDidMount();
+    })
+    .catch((error) => {
+
     });
+    
   };
 
   //Metodo en que realiza la peticion para eliminar los datos a la BD mediante la api
@@ -119,27 +132,30 @@ class Roles extends Component {
     axios.delete(url + this.state.form.id).then((response) => {
       this.setState({ modalEliminar: false });
       Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Se a eliminado con exito',
+        position: "center",
+        icon: "success",
+        title: "Se a eliminado con exito",
         showConfirmButton: false,
-        timer: 2500
-      })
+        timer: 2500,
+      });
       this.componentDidMount();
+    })
+    .catch((error) => {
+
     });
   };
 
   //Metodo que funciona para saber que elemento a selecciconado de la tabla y mandarlo al modal
   seleccionPrivilegio = (privilegio) => {
-    console.log(privilegio);
+    //console.log(privilegio);
 
     this.setState({
       tipoModal: "actualizar",
       form: {
-        id: privilegio.id,
-        name: privilegio.name,
-        content_type_id: privilegio.content_type_id,
-        codename: privilegio.codename,
+        id: privilegio[0],
+        name: privilegio[1],
+        content_type_id: privilegio[2],
+        codename: privilegio[3],
       },
     });
   };
@@ -158,7 +174,7 @@ class Roles extends Component {
         [e.target.name]: e.target.value,
       },
     });
-    console.log(this.state.form);
+    //console.log(this.state.form);
   };
 
   //Metodo que hace la peticion de consulta a la BD mediante api
@@ -169,13 +185,76 @@ class Roles extends Component {
         this.setState({ permisos: response.data });
       })
       .catch((error) => {
-        console.log(error);
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title:
+            "Por el momento no hay conexión con la base de datos, intente en otro momento",
+        });
       });
   }
-  
+
   render() {
     //Retorna todo la interfas respectiva para la gestion de roles y privilegios
     const { form } = this.state; //Constante que contiene el estado del formulario
+    //Constante que contiene los datos estaticos de la tabla
+    const columns = [
+      {
+        name: "id",
+        label: "Código",
+      },
+      {
+        name: "name",
+        label: "Nombre",
+      },
+      {
+        name: "content_type",
+        label: "Código de tipo",
+      },
+      {
+        name: "codename",
+        label: "Privilegio",
+      },
+      {
+        name: "acciones",
+        label: "Acciónes",
+        options: {
+          customBodyRender: (value, tableMeta, updateValue) => {
+            return (
+              <>
+                <Tooltip title="Editar">
+                  <Button
+                    size="sm"
+                    variant="outline-primary"
+                    onClick={() => {
+                      this.seleccionPrivilegio(tableMeta.rowData);
+                      this.modalInsertar();
+                    }}
+                  >
+                    <Edit></Edit>
+                  </Button>
+                </Tooltip>
+                <span className="pl-2">
+                  <Tooltip title="Eliminar">
+                    <Button
+                      size="sm"
+                      variant="outline-danger"
+                      onClick={() => {
+                        this.seleccionPrivilegio(tableMeta.rowData);
+                        this.setState({ modalEliminar: true });
+                      }}
+                    >
+                      <Delete></Delete>
+                    </Button>
+                  </Tooltip>
+                </span>
+              </>
+            );
+          },
+        },
+      },
+    ];
+
     return (
       <Dashboard
         contenedor={
@@ -193,48 +272,22 @@ class Roles extends Component {
             </div>
             <div>
               <div className="pt-3">
-                <MaterialTable
-                  icons={tableIcons}
-                  columns={COLUMNAS}
+                <MUIDataTable
+                  title={"Privilegios"}
                   data={this.state.permisos}
-                  title="Privilegios"
-                  options={{
-                    actionsColumnIndex: -1,
-                  }}
-                  actions={[
-                    {
-                      icon: EditIcon,
-                      tooltip: "Editar elemento",
-                      onClick: (event, rowData) => {
-                        this.seleccionPrivilegio(rowData); 
-                        this.modalInsertar();
-                      },
-                    },
-                    {
-                      icon: DeleteIcon,
-                      tooltip: "Eliminar elemento",
-                      onClick: (event, rowData) => {
-                        this.seleccionPrivilegio(rowData); 
-                        this.setState({modalEliminar: true});
-                      },
-                    },
-                  ]}
-                  localization={{
-                    header: {
-                      actions: "Acciones",
-                    },
-                  }}
+                  columns={columns}
+                  options={options}
                 />
               </div>
             </div>
 
             <Modal isOpen={this.state.modalInsertar} centered>
               <ModalHeader style={{ display: "block" }}>
-              {this.state.tipoModal === "insertar" ? (
-                    <span>Crear privilegios</span>
-                  ) : (
-                    <span>Actualizar privilegios</span>
-                  )}
+                {this.state.tipoModal === "insertar" ? (
+                  <span>Crear privilegios</span>
+                ) : (
+                  <span>Actualizar privilegios</span>
+                )}
               </ModalHeader>
               <ModalBody>
                 <Form.Group>
@@ -309,15 +362,25 @@ class Roles extends Component {
                   </Button>
                 </ModalFooter>
               </ModalBody>
-                
             </Modal>
+
             <Modal isOpen={this.state.modalEliminar} centered>
+            <ModalHeader style={{ display: "block" }}>
+                  <span>Eliminar privilegio</span>
+              </ModalHeader>
               <ModalBody>
                 ¿Esta seguro de eliminar el privilegio seleccionado?
               </ModalBody>
               <ModalFooter>
-                <Button variant="danger" onClick={()=>this.peticionDelete()}>Si</Button>
-                <Button variant="secundary" onClick={()=>this.setState({modalEliminar: false})}>No</Button>
+                <Button variant="danger" onClick={() => this.peticionDelete()}>
+                  Si
+                </Button>
+                <Button
+                  variant="secundary"
+                  onClick={() => this.setState({ modalEliminar: false })}
+                >
+                  No
+                </Button>
               </ModalFooter>
             </Modal>
           </div>

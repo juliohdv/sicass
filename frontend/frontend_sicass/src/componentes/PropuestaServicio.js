@@ -11,7 +11,6 @@ class PropuestaServicio extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      columnas: "",
       tipos_servicio_social: [],
       facultades: [],
       carreras: [],
@@ -30,11 +29,10 @@ class PropuestaServicio extends Component {
         params: { facultad: event.target.value },
       })
       .then((response) => {
-        console.log(response);
         this.setState({ carreras: response.data });
       })
       .catch((error) => {
-        console.log(error);
+
       });
   }
   //Obtiene de la BD las facultadas para cargar el combobox
@@ -55,10 +53,10 @@ class PropuestaServicio extends Component {
     axios
       .get("http://127.0.0.1:8000/login/tiposServicioSocial/")
       .then((response) => {
-        console.log(response);
         this.setState({ tipos_servicio_social: response.data });
       })
-      .catch((error) => {});
+      .catch((error) => {}
+      );
   }
   //Funcion para limpiar los campos ingresados
   limpiarFormulario() {
@@ -255,7 +253,7 @@ class PropuestaServicio extends Component {
                     Pública
                   </option>
                   <option key={2} value="Autónoma">
-                    Pública
+                    Autónoma
                   </option>
                 </Form.Control>
               </Form.Group>
@@ -334,7 +332,7 @@ class PropuestaServicio extends Component {
                     type="Date"
                     id="fecha_fin_propuesta"
                     required={true}
-                    value={values.fecha_fin_solicitud}
+                    value={values.fecha_fin_propuesta}
                     onChange={handleChange}
                   ></Form.Control>
                 </Form.Group>

@@ -43,7 +43,7 @@ class EstudianteSerializer(serializers.ModelSerializer):
 class PermisosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Permission
-        fields = ['id', 'name', 'content_type_id', 'codename']
+        fields = "__all__"
     def create(self, validated_data):
         permiso = Permission.objects.create(**validated_data)
         return permiso
@@ -68,9 +68,12 @@ class SolicitudSerializer(serializers.ModelSerializer):
         return solicitud
 
 class PropuestaSerializer(serializers.ModelSerializer):
+    entidad_externa =  EntidadExternaSerializer()
+    carrera = CarreraSerializer()
+    tipo_servicio_social = TipoServicioSocialSerializer()
     class Meta:
         model = Propuesta
-        fields = ['codigo_propuesta','fecha_inicio_propuesta','fecha_fin_propuesta', 'descripcion_propuesta', 'estado_propuesta','entidad_externa','carrera','tipo_servicio_social']
+        fields = "__all__"
     def create(self, validated_data):
         propuesta = Propuesta.objects.create(**validated_data)
         return propuesta

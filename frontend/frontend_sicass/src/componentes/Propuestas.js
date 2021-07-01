@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import MUIDataTable from "mui-datatables";
 import { Tooltip } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
+import {Button} from "react-bootstrap";
 
 //Constante con las columnas de la tabla
 const columns = [
@@ -17,6 +18,10 @@ const columns = [
     label: "Entidad que solicita",
   },
   {
+    name: "tipo_entidad",
+    label: "Tipo de entidad",
+  },
+  {
     name: "carrera",
     label: "Carrera",
   },
@@ -25,12 +30,12 @@ const columns = [
     label: "Tipo de Servicio Social",
   },
   {
-    name: "fecha_fin_propuesta",
-    label: "Fecha de Finalización",
-  },
-  {
     name: "fecha_inicio_propuesta",
     label: "Fecha de Solicitud",
+  },
+  {
+    name: "fecha_fin_propuesta",
+    label: "Fecha de Finalización",
   },
   {
     name: "descripcion_propuesta",
@@ -41,16 +46,23 @@ const columns = [
     label: "Estado",
   },
   {
-    name: "proyecto",
-    label: "Acciones",
+    name: "acciones",
+    label: "Acciónes",
     options: {
-      customBodyRender: () => {
+      customBodyRender: (value, tableMeta, updateValue) => {
         return (
-          <Tooltip title="Ver proyecto">
-            <a className="btn" href="/">
-              <Visibility>Ver proyecto</Visibility> {/* Aqui debe redirigir a los detalles del proyecto */}
-            </a>
-          </Tooltip>
+            <Tooltip title="Ver proyecto">
+              <Button
+                size="sm"
+                variant="outline-info"
+                /* onClick={() => {
+                  this.seleccionPrivilegio(tableMeta.rowData);
+                  this.modalInsertar();
+                }} */
+              >
+                <Visibility/>
+              </Button>
+            </Tooltip>
         );
       },
     },
@@ -63,7 +75,6 @@ const options = {
   print: "false",
   responsive: "simple",
   selectableRows: false,
-  actionsColumnIndex: -1,
   textLabels: {
     body: {
       noMatch: "No hay registros de solicitudes de propuestas",
@@ -114,7 +125,21 @@ class Propuestas extends Component {
     axios
       .get(url)
       .then((response) => {
-        this.setState({ solicitudes: response.data });
+        const arreglo_inicial =  response.data //Guardamos el arreglo inicial para su reescritura
+        const solicitud = new Array() //Arreglo donde guardaremos los objetos reescritos
+        for(var i =0; i<arreglo_inicial.length; i++){  //Recorremos el arreglo inicial
+          solicitud[i] = //Asignamos los campos del arrelgo inicial a los del nuevo objeto
+            {'codigo_propuesta': arreglo_inicial[i].codigo_propuesta ,
+            'entidad_externa':arreglo_inicial[i].entidad_externa.nombre_entidad,
+            'tipo_entidad':arreglo_inicial[i].entidad_externa.clasificacion_entidad,
+            'carrera': arreglo_inicial[i].carrera.nombre_carrera,
+            'tipo_servicio_social':arreglo_inicial[i].tipo_servicio_social.nombre_tipo_servicio_social,
+            'fecha_inicio_propuesta':arreglo_inicial[i].fecha_inicio_propuesta,
+            'fecha_fin_propuesta':arreglo_inicial[i].fecha_fin_propuesta,
+            'descripcion_propuesta':arreglo_inicial[i].descripcion_propuesta,
+            'estado_propuesta':arreglo_inicial[i].estado_propuesta}
+        }
+        this.setState({ solicitudes: solicitud }); //Asignamos el nuevo arreglo reescrito al del estado
       })
       .catch((error) => {
         Swal.fire({
