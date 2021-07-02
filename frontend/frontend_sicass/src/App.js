@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom'
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,18 +11,17 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { mainListItems } from './componentes/listItems';
-import {Button} from 'react-bootstrap';
 import LogoSicass from './componentes/LogoSicass';
 import EnvioRegistro from './componentes/EnvioRegistro';
 import EnvioPropuesta from './componentes/EnvioPropuesta';
 import EnvioSolicitud from './componentes/EnvioSolicitud';
 import Roles from './componentes/Roles';
 import Solicitudes from './componentes/Solicitudes';
+import Login from './componentes/Login';
+
 
 function Copyright() {
   return (
@@ -147,9 +146,6 @@ export default function Dashboard(props) {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             SICASS
           </Typography>
-          <Button variant="secondary">
-            Iniciar sesion
-          </Button>
         </Toolbar>
       </AppBar>
       <Router>
@@ -187,6 +183,9 @@ export default function Dashboard(props) {
               <Route path="/ConsultarSolicitud">
                 <ConsultarSolicitud />
               </Route>
+              <Route path="/Login">
+                <IniciarSesion/>
+              </Route>
             </Switch>
           <Box pt={4}>
             <Copyright />
@@ -221,5 +220,10 @@ function GestionarRoles(){
 function ConsultarSolicitud(){
   return(
     <Solicitudes></Solicitudes>
+  );
+}
+function IniciarSesion(){
+  return(
+    <Login></Login>
   );
 }

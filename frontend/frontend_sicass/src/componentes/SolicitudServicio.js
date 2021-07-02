@@ -143,7 +143,7 @@ class SolicitudServicio extends Component {
             id="direccion_entidad"
             required
             maxLength="250"
-            pattern="([A-Z]{2})([0-9]{5})"
+            
             value={values.direccion_entidad}
             onChange = {handleChange}
             />

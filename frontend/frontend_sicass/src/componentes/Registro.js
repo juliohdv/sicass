@@ -44,7 +44,7 @@ class Registro extends Component {
   }
  
   render() {
-    const {form}=this.state;
+
     //Retorna todo la interfas respectiva para la solicitud de la propuesta
     
     return (

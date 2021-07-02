@@ -1,14 +1,20 @@
 from re import U
+import re
 from django.db.models.fields import related
 from django.db.models.fields.related import RelatedField
 from django.http import request
+from rest_framework.response import Response
 from .models import TipoServicioSocial
 from django.shortcuts import render
 from rest_framework import viewsets
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Permission
 from .serializers import *
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.authentication import SessionAuthentication, BaseAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+
 
 # Create your views here.
 
@@ -70,3 +76,4 @@ class UltimaEntidadExternaVista(viewsets.ModelViewSet):
         ultimaEntidad = EntidadExterna.objects.order_by('codigo_entidad').last()
         queryset =EntidadExterna.objects.filter(codigo_entidad=ultimaEntidad.codigo_entidad)
         return queryset
+
