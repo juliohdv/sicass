@@ -68,6 +68,7 @@ class Usuarios extends Component {
         last_login: "",
         is_superuser: "",
         username: "",
+        password: "",
         first_name: "",
         last_name: "",
         email: "",
@@ -81,11 +82,12 @@ class Usuarios extends Component {
 
   //Metodo en que realiza la peticion para ingreso de datos a la BD mediante la api
   peticionPost = async () => {
-    //delete this.state.form.id;
+    delete this.state.form.id;
     console.log(this.state.form);
     await axios
       .post(url, {
-        id: this.state.form.id,
+        username: this.state.form.username,
+        password: this.state.form.password,
         is_superuser: this.state.form.is_superuser,
         first_name: this.form.first_name,
         last_name: this.state.form.last_name,
@@ -172,10 +174,10 @@ class Usuarios extends Component {
       tipoModal: "actualizar",
       form: {
         id: usuario[0],
-        is_superuser: usuario[2],
-        username: usuario[3],
-        first_name: usuario[4],
-        last_name: usuario[5],
+        username: usuario[1],
+        first_name: usuario[2],
+        last_name: usuario[3],
+        is_superuser: usuario[5],
         email: usuario[6],
         is_staff: usuario[7],
         is_active: usuario[8],
@@ -224,15 +226,10 @@ class Usuarios extends Component {
     const columns = [
       {
         name: "id",
-        label: "Codigo",
-      },
-      {
-        name: "last_login",
-        label: "Ultimo logeo",
-      },
-      {
-        name: "is_superuser",
-        label: "Super usuario",
+        label: "Código",
+        option: {
+          display: 'excluded',
+        }
       },
       {
         name: "username",
@@ -245,6 +242,14 @@ class Usuarios extends Component {
       {
         name: "last_name",
         label: "Apellidos",
+      },
+      {
+        name: "last_login",
+        label: "Ultimo logeo",
+      },
+      {
+        name: "is_superuser",
+        label: "Super usuario",
       },
       {
         name: "email",
@@ -281,7 +286,7 @@ class Usuarios extends Component {
                     <Edit></Edit>
                   </Button>
                 </Tooltip>
-                <span className="pl-2">
+                <span>
                   <Tooltip title="Eliminar">
                     <Button
                       size="sm"
@@ -342,13 +347,41 @@ class Usuarios extends Component {
                     type="text"
                     id="username"
                     name="username"
+                    autocomplete="off"
                     value={
-                      form ? form.username : ""
+                      form ? form.username: ""
                     }
                     required
                     onChange={this.handleChange}
                   />
                 </Form.Group>
+                {this.state.tipoModal == "insertar" ? (
+                <Form.Group>
+                  <Form.Label>Contraseña</Form.Label>
+                  <Form.Control
+                    type="password"
+                    id="password"
+                    name="password"
+                    autocomplete="off"
+                    value={form ? form.password: ""}
+                    required
+                    onChange={this.handleChange}
+                  />
+                </Form.Group>
+                ) : (
+                  <Form.Group>
+                  <Form.Label>Id</Form.Label>
+                  <Form.Control
+                    type="text"
+                    id="id"
+                    name="id"
+                    readOnly
+                    value={form ? form.id: this.state.usuarios.length + 1}
+                    required
+                    onChange={this.handleChange}
+                  />
+                </Form.Group>
+                )}
                 <Form.Group>
                   <Form.Label>Email</Form.Label>
                   <Form.Control
@@ -356,8 +389,8 @@ class Usuarios extends Component {
                     id="email"
                     name="email"
                     placeholder="example@name.com"
-                    required
-                    value={form ? form.email : ""}
+                    pattern="([A-z]+)@([A-z]+)[.]([A-z.]+)"
+                    value={form ? form.email: ""}
                     onChange={this.handleChange}
                   />
                 </Form.Group>
@@ -368,8 +401,8 @@ class Usuarios extends Component {
                     id="first_name"
                     name="first_name"
                     placeholder="Juan Antonio"
-                    required
-                    value={form ? form.first_name : ""}
+                    autocomplete="off"
+                    value={form ? form.first_name: ""}
                     onChange={this.handleChange}
                   />
                 </Form.Group>
@@ -380,8 +413,8 @@ class Usuarios extends Component {
                     placeholder="Perez Vides"
                     id="last_name"
                     name="last_name"
-                    required
-                    value={form ? form.last_name : ""}
+                    autocomplete="off"
+                    value={form ? form.last_name: ""}
                     onChange={this.handleChange}
                   />
                 </Form.Group>
@@ -391,8 +424,7 @@ class Usuarios extends Component {
                     type="checkbox"
                     id="is_superuser"
                     name="is_superuser"
-                    required
-                    value={form ? form.is_superuser : ""}
+                    value={form ? form.is_superuser: ""}
                     onChange={this.handleChange}
                   />
                 </Form.Group>
@@ -402,8 +434,7 @@ class Usuarios extends Component {
                     type="checkbox"
                     id="is_staff"
                     name="is_staff"
-                    required
-                    value={form ? form.is_staff : ""}
+                    value={form ? form.is_staff: ""}
                     onChange={this.handleChange}
                   />
                 </Form.Group>
@@ -413,7 +444,6 @@ class Usuarios extends Component {
                     type="checkbox"
                     id="is_active"
                     name="is_active"
-                    required
                     value={form ? form.is_active : ""}
                     onChange={this.handleChange}
                   />

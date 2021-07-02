@@ -308,14 +308,14 @@ class Roles extends Component {
                     type="text"
                     id="name"
                     name="name"
-                    placeholder="Ejemplo de nombre"
+                    placeholder="Puede cambiar grupos"
                     required
                     value={form ? form.name : ""}
                     onChange={this.handleChange}
                   />
                 </Form.Group>
                 <Form.Group>
-                  <Form.Label>Grupo</Form.Label>
+                  <Form.Label>Código de tipo</Form.Label>
                   <Form.Control
                     type="text"
                     id="content_type_id"
@@ -330,7 +330,7 @@ class Roles extends Component {
                   <Form.Label>Privilegio</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Ejemplo de privilegio"
+                    placeholder="Cambio de grupo"
                     id="codename"
                     name="codename"
                     required
