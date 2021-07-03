@@ -63,6 +63,7 @@ class Registro extends Component {
       <Formik
         initialValues={{
           carnet: "",
+          password: "",
           nombres_estudiante: "",
           apellidos_estudiante: "",
           correo_estudiante: "",
@@ -134,22 +135,21 @@ class Registro extends Component {
                 </OverlayTrigger>
               </Form.Group>
               <Form.Group as={Col}>
-                <Form.Label>Email</Form.Label>
+                <Form.Label>Contraseña</Form.Label>
                 <OverlayTrigger
                   overlay={
                     <Tooltip>
-                      Carnet con el dominio del correo de la Universidad
+                      Digite una contraseña para la creación de su usuario
                     </Tooltip>
                   }
                 >
                   <Form.Control
-                    type="email"
-                    placeholder="AA00000@ues.edu.sv"
-                    id="correo_estudiante"
-                    pattern="([A-Za-z]{2})([0-9]{5})@ues[.]edu[.]sv"
-                    maxLength="18"
-                    required={true}
-                    value={values.correo_estudiante}
+                    type="password"
+                    placeholder="**********"
+                    id="password"
+                    autoComplete="off"
+                    required={false}
+                    value={values.carnet}
                     onChange={handleChange}
                   />
                 </OverlayTrigger>
@@ -204,7 +204,28 @@ class Registro extends Component {
               </Form.Group>
             </Form.Row>
             <Form.Row>
-              <Form.Group as={Col} className="pr-2">
+            <Form.Group as={Col} className="pr-5">
+                <Form.Label>Email</Form.Label>
+                <OverlayTrigger
+                  overlay={
+                    <Tooltip>
+                      Carnet con el dominio del correo de la Universidad
+                    </Tooltip>
+                  }
+                >
+                  <Form.Control
+                    type="email"
+                    placeholder="AA00000@ues.edu.sv"
+                    id="correo_estudiante"
+                    pattern="([A-Za-z]{2})([0-9]{5})@ues[.]edu[.]sv"
+                    maxLength="18"
+                    required={true}
+                    value={values.correo_estudiante}
+                    onChange={handleChange}
+                  />
+                </OverlayTrigger>
+              </Form.Group>
+              <Form.Group as={Col}>
                 <Form.Label>Dirección</Form.Label>
                 <OverlayTrigger
                   overlay={

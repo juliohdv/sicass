@@ -20,7 +20,7 @@ class InicioInformacion extends Component {
                       </Tooltip>
                     }
                   >
-                    <a href="https://www.ues.edu.sv/" target="_blank">
+                    <a href="https://www.ues.edu.sv/" target="_blank" rel="noreferrer">
                       <LogoUes></LogoUes>
                     </a>
                   </OverlayTrigger>
@@ -46,7 +46,7 @@ class InicioInformacion extends Component {
                   >
                     <a
                       href="http://proyeccionsocial.ues.edu.sv/"
-                      target="_blank"
+                      target="_blank" rel="noreferrer"
                     >
                       <LogoProyeccion></LogoProyeccion>
                     </a>

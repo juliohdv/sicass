@@ -131,10 +131,9 @@ class PropuestaServicio extends Component {
                         showConfirmButton: false,
                         timer: 2500,
                       });
-                      //this.limpiarFormulario();
+                      this.limpiarFormulario();
                     })
                     .catch((error) => {
-                      console.log(error)
                       Swal.fire({
                         position: "center",
                         icon: "error",
@@ -260,7 +259,6 @@ class PropuestaServicio extends Component {
                 </Form.Control>
               </Form.Group>
             </Form.Row>
-
             <Row className="pt-5">
               <Col sm={6} className="pl-5">
                 <Form.Group as={Row}>

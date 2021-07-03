@@ -1,4 +1,4 @@
-import React, { Component, forwardRef } from "react";
+import React, { Component } from "react";
 import Dashboard from "./Dashboard";
 import axios from "axios";
 import { Button, Form } from "react-bootstrap";
@@ -15,6 +15,9 @@ const options = {
   print: "false",
   responsive: "simple",
   selectableRows: false,
+  tableBodyHeight: "320px",
+  rowsPerPage: 5,
+  rowsPerPageOptions: [5,10,20],
   textLabels: {
     body: {
       noMatch: "No hay registros de privilegios",
@@ -76,7 +79,6 @@ class Roles extends Component {
   //Metodo en que realiza la peticion para ingreso de datos a la BD mediante la api
   peticionPost = async () => {
     //delete this.state.form.id;
-    //console.log(this.state.form);
     await axios
       .post(url, {
         id: this.state.form.id,
@@ -147,8 +149,6 @@ class Roles extends Component {
 
   //Metodo que funciona para saber que elemento a selecciconado de la tabla y mandarlo al modal
   seleccionPrivilegio = (privilegio) => {
-    //console.log(privilegio);
-
     this.setState({
       tipoModal: "actualizar",
       form: {
@@ -174,7 +174,6 @@ class Roles extends Component {
         [e.target.name]: e.target.value,
       },
     });
-    //console.log(this.state.form);
   };
 
   //Metodo que hace la peticion de consulta a la BD mediante api
@@ -195,7 +194,6 @@ class Roles extends Component {
   }
 
   render() {
-    //Retorna todo la interfas respectiva para la gestion de roles y privilegios
     const { form } = this.state; //Constante que contiene el estado del formulario
     //Constante que contiene los datos estaticos de la tabla
     const columns = [
@@ -222,6 +220,7 @@ class Roles extends Component {
           customBodyRender: (value, tableMeta, updateValue) => {
             return (
               <>
+              {/* Botones para editar y eliminar */}
                 <Tooltip title="Editar">
                   <Button
                     size="sm"
@@ -260,6 +259,7 @@ class Roles extends Component {
         contenedor={
           <div className="pt-4">
             <div>
+              {/* Boton para crear */}
               <Button
                 variant="success"
                 onClick={() => {
@@ -272,6 +272,7 @@ class Roles extends Component {
             </div>
             <div>
               <div className="pt-3">
+                {/* Invocacion de la tabla, con sus opciones */}
                 <MUIDataTable
                   title={"Privilegios"}
                   data={this.state.permisos}
@@ -280,7 +281,8 @@ class Roles extends Component {
                 />
               </div>
             </div>
-
+            
+            {/* Modal para actualizar o crear */}
             <Modal isOpen={this.state.modalInsertar} centered>
               <ModalHeader style={{ display: "block" }}>
                 {this.state.tipoModal === "insertar" ? (
@@ -364,6 +366,7 @@ class Roles extends Component {
               </ModalBody>
             </Modal>
 
+            {/* Modal para eliminar */}
             <Modal isOpen={this.state.modalEliminar} centered>
             <ModalHeader style={{ display: "block" }}>
                   <span>Eliminar privilegio</span>

@@ -1,4 +1,4 @@
-import React, { Component, forwardRef } from "react";
+import React, { Component} from "react";
 import Dashboard from "./Dashboard";
 import axios from "axios";
 import { Button, Form } from "react-bootstrap";
@@ -15,9 +15,12 @@ const options = {
   print: "false",
   responsive: "simple",
   selectableRows: false,
+  rowsPerPage: 5,
+  rowsPerPageOptions: [5,10,20],
+  tableBodyHeight: "320px",
   textLabels: {
     body: {
-      noMatch: "No hay registros de privilegios",
+      noMatch: "No hay registros de usuarios",
       toolTip: "Sort",
       columnHeaderTooltip: (column) => `Odernar por ${column.label}`,
     },
@@ -59,7 +62,7 @@ class Usuarios extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      usuarios: [], //Estdo que contendra todo lo que digite el usuario
+      usuarios: [], //Estado que contendra todo lo que digite el usuario
       modalInsertar: false, //Estado que controla el abrir o cerra el modal correspondiente
       modalEliminar: false,
       form: {
@@ -83,7 +86,6 @@ class Usuarios extends Component {
   //Metodo en que realiza la peticion para ingreso de datos a la BD mediante la api
   peticionPost = async () => {
     delete this.state.form.id;
-    console.log(this.state.form);
     await axios
       .post(url, {
         username: this.state.form.username,
@@ -119,7 +121,6 @@ class Usuarios extends Component {
 
   //Metodo en que realiza la peticion para actualizar los datos a la BD mediante la api
   peticionPut = () => {
-    console.log(this.state.form.id);
     axios.put(url + this.state.form.id, this.state.form).then((response) => {
       this.modalInsertar();
       Swal.fire({
@@ -168,8 +169,6 @@ class Usuarios extends Component {
 
   //Metodo que funciona para saber que elemento a selecciconado de la tabla y mandarlo al modal
   seleccionUsuario = (usuario) => {
-    console.log(usuario);
-
     this.setState({
       tipoModal: "actualizar",
       form: {
@@ -199,7 +198,6 @@ class Usuarios extends Component {
         [e.target.name]: e.target.value,
       },
     });
-    console.log(this.state.form);
   };
 
   //Metodo que hace la peticion de consulta a la BD mediante api
@@ -207,7 +205,6 @@ class Usuarios extends Component {
     axios
       .get(url)
       .then((response) => {
-        console.log(response.data)
         this.setState({ usuarios: response.data });
       })
       .catch((error) => {
@@ -220,7 +217,6 @@ class Usuarios extends Component {
       });
   }
   render() {
-    //Retorna todo la interfas respectiva para la gestion de roles y usuarios
     const { form } = this.state; //Constante que contiene el estado del formulario
     //Constante que contiene los datos estaticos de la tabla
     const columns = [
@@ -274,6 +270,7 @@ class Usuarios extends Component {
           customBodyRender: (value, tableMeta, updateValue) => {
             return (
               <>
+              {/* Botones para las opciones de editar y eliminar */}
                 <Tooltip title="Editar">
                   <Button
                     size="sm"
@@ -311,6 +308,7 @@ class Usuarios extends Component {
         contenedor={
           <div className="pt-4">
             <div>
+              {/* Boton crear */}
               {<Button
                 variant="success"
                 onClick={() => {
@@ -323,6 +321,7 @@ class Usuarios extends Component {
             </div>
             <div>
               <div className="pt-3">
+                {/* Invocacion de la tabla, con sus opciones correspondientes */}
               <MUIDataTable
                   title={"Usuarios"}
                   data={this.state.usuarios}
@@ -332,9 +331,10 @@ class Usuarios extends Component {
               </div>
             </div>
 
+            {/* Modales para creacion o actualizacion*/}
             <Modal isOpen={this.state.modalInsertar} centered className="pt-5">
               <ModalHeader style={{ display: "block" }}>
-                {this.state.tipoModal == "insertar" ? (
+                {this.state.tipoModal === "insertar" ? (
                   <span>Crear usuario</span>
                 ) : (
                   <span>Actualizar usuario</span>
@@ -355,7 +355,7 @@ class Usuarios extends Component {
                     onChange={this.handleChange}
                   />
                 </Form.Group>
-                {this.state.tipoModal == "insertar" ? (
+                {this.state.tipoModal === "insertar" ? (
                 <Form.Group>
                   <Form.Label>Contraseña</Form.Label>
                   <Form.Control
@@ -450,7 +450,7 @@ class Usuarios extends Component {
                 </Form.Group>
 
                 <ModalFooter>
-                  {this.state.tipoModal == "insertar" ? (
+                  {this.state.tipoModal === "insertar" ? (
                     <Button
                       variant="primary"
                       onClick={() => this.peticionPost()}
@@ -474,6 +474,8 @@ class Usuarios extends Component {
                 </ModalFooter>
               </ModalBody>
             </Modal>
+
+            {/* Modal para eliminar */}
             <Modal isOpen={this.state.modalEliminar} centered>
             <ModalHeader style={{ display: "block" }}>
                   <span>Eliminar usuario</span>

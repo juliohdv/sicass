@@ -20,7 +20,10 @@ import EnvioPropuesta from './componentes/EnvioPropuesta';
 import EnvioSolicitud from './componentes/EnvioSolicitud';
 import Roles from './componentes/Roles';
 import Solicitudes from './componentes/Solicitudes';
-import Login from './componentes/Login';
+import Login from './componentes/login';
+import Propuestas from './componentes/Propuestas';
+import Usuarios from './componentes/Usuarios';
+import InicioInformacion from './componentes/InicioInformacion';
 
 
 function Copyright() {
@@ -200,6 +203,12 @@ export default function App() {
               <Route path="/Login">
                 <IniciarSesion/>
               </Route>
+              <Route path="/GestionarUsuarios">
+                <GestionUsuarios/>
+              </Route>
+              <Route path="/ConsultarPropuesta">
+                <ConsultarPropuesta/>
+              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -234,16 +243,6 @@ function GestionUsuarios() {
 }
 function Inicio() {
   return <InicioInformacion></InicioInformacion>;
-}
-function GestionarRoles(){
-  return(
-    <Roles></Roles>
-    );
-  }
-function ConsultarSolicitud(){
-  return(
-    <Solicitudes></Solicitudes>
-  );
 }
 function IniciarSesion(){
   return(

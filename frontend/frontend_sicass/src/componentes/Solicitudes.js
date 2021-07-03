@@ -7,6 +7,7 @@ import { Tooltip } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import {Button} from "react-bootstrap";
 
+//Constante con las columnas de la tabla
 const columns = [
   {
     name: "codigo_solicitud",
@@ -54,6 +55,7 @@ const columns = [
     options: {
       customBodyRender: (value, tableMeta, updateValue) => {
         return (
+          /* Boton para redirigir hacia el proyecto que le corresponde a la propuesta */
             <Tooltip title="Ver proyecto">
               <Button
                 size="sm"
@@ -78,11 +80,14 @@ const options = {
   print: "false",
   responsive: "simple",
   selectableRows: false,
+  rowsPerPage: 5,
+  rowsPerPageOptions: [5,10,20],
+  tableBodyHeight: "320px",
   textLabels: {
     body: {
-      noMatch: "No hay registros de solicitudes de propuestas",
+      noMatch: "No hay registros de solicitudes",
       toolTip: "Sort",
-      columnHeaderTooltip: (column) => `Sort for ${column.label}`,
+      columnHeaderTooltip: (column) => `Ordenar por ${column.label}`,
     },
     pagination: {
       next: "Página siguiente",
@@ -114,6 +119,7 @@ const options = {
   },
 };
 
+//Constante con la url de la api (Backend)
 const url = "http://127.0.0.1:8000/login/solicitudes/";
 //Clase principal del componente
 class Solicitudes extends Component {
@@ -125,7 +131,7 @@ class Solicitudes extends Component {
   }
   componentDidMount() {
     axios
-      .get("http://127.0.0.1:8000/login/solicitudes/")
+      .get(url)
       .then((response) => {
         const arreglo_inicial =  response.data //Guardamos el arreglo inicial para su reescritura
         const solicitud = [] //Arreglo donde guardaremos los objetos reescritos
@@ -152,18 +158,16 @@ class Solicitudes extends Component {
       });
   }
   render() {
-    //Retorna todo la interfas respectiva para la gestion de roles y privilegios
-
     return (
       <Dashboard
         contenedor={
           <div className="pt-5">
+            {/* Se invoca la tabla, con los datos correspondientes */}
             <MUIDataTable
               title={"Solicitudes de servicios"}
               data={this.state.solicitudes}
               columns={columns}
               options={options}
-              tableLayout="auto"
             />
           </div>
         }
