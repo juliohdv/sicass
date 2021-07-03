@@ -57,8 +57,6 @@ class Registro extends Component {
     document.getElementById("carrera_id").selectedIndex = "0";
   }
   render() {
-    //Constante para facilidad de uso del estado
-    //const { form } = this.state;
     //Retorna todo la interfas respectiva para la solicitud de la propuesta
     return (
       /* Componente que facilita el control de los campos del fomrulario */

@@ -1,4 +1,4 @@
-import React, { Component, forwardRef } from "react";
+import React, { Component } from "react";
 import Dashboard from "./Dashboard";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -11,34 +11,42 @@ const columns = [
   {
     name: "codigo_solicitud",
     label: "Codigo",
+    key: "codigo_solicitud",
   },
   {
     name: "entidad_externa",
     label: "Entidad que solicita",
+    key: "entidad_externa",
   },
   {
     name: "tipo_entidad",
     label: "Tipo de entidad",
+    key: "tipo_entidad",
   },
   {
     name: "carrera",
-    label: "carrera",
+    label: "Carrera",
+    key: "carrera",
   },
   {
     name: "tipo_servicio_social",
     label: "Tipo de Servicio Social",
+    key: "tipo_servicio_social",
   },
   {
     name: "fecha_inicio_solicitud",
     label: "Fecha de Solicitud",
+    key: "fecha_inicio_solicitud",
   },
   {
     name: "fecha_fin_solicitud",
     label: "Fecha de Finalización",
+    key: "fecha_fin_solicitud",
   },
   {
     name: "estado_solicitud",
     label: "Estado",
+    key: "estado_solicitud",
   },
   {
     name: "acciones",
@@ -120,14 +128,14 @@ class Solicitudes extends Component {
       .get("http://127.0.0.1:8000/login/solicitudes/")
       .then((response) => {
         const arreglo_inicial =  response.data //Guardamos el arreglo inicial para su reescritura
-        const solicitud = new Array() //Arreglo donde guardaremos los objetos reescritos
+        const solicitud = [] //Arreglo donde guardaremos los objetos reescritos
         for(var i =0; i<arreglo_inicial.length; i++){  //Recorremos el arreglo inicial
           solicitud[i] = //Asignamos los campos del arrelgo inicial a los del nuevo objeto
             {'codigo_solicitud': arreglo_inicial[i].codigo_solicitud ,
-            'entidad_externa':arreglo_inicial[i].entidad_externa.nombre_entidad,
-            'tipo_entidad':arreglo_inicial[i].entidad_externa.clasificacion_entidad,
-            'carrera': arreglo_inicial[i].carrera.nombre_carrera,
-            'tipo_servicio_social':arreglo_inicial[i].tipo_servicio_social.nombre_tipo_servicio_social,
+            'entidad_externa':arreglo_inicial[i].entidad_externa_detalle.nombre_entidad,
+            'tipo_entidad':arreglo_inicial[i].entidad_externa_detalle.clasificacion_entidad,
+            'carrera': arreglo_inicial[i].carrera_detalle.nombre_carrera,
+            'tipo_servicio_social':arreglo_inicial[i].tipo_servicio_social_detalle.nombre_tipo_servicio_social,
             'fecha_inicio_solicitud':arreglo_inicial[i].fecha_inicio_solicitud,
             'fecha_fin_solicitud':arreglo_inicial[i].fecha_fin_solicitud,
             'estado_solicitud':arreglo_inicial[i].estado_solicitud}
@@ -145,7 +153,7 @@ class Solicitudes extends Component {
   }
   render() {
     //Retorna todo la interfas respectiva para la gestion de roles y privilegios
-    const { form } = this.state;
+
     return (
       <Dashboard
         contenedor={
@@ -155,6 +163,7 @@ class Solicitudes extends Component {
               data={this.state.solicitudes}
               columns={columns}
               options={options}
+              tableLayout="auto"
             />
           </div>
         }

@@ -57,9 +57,9 @@ class EntidadExternaSerializer(serializers.ModelSerializer):
         return entidad
 
 class SolicitudSerializer(serializers.ModelSerializer):
-    entidad_externa =  EntidadExternaSerializer()
-    carrera = CarreraSerializer()
-    tipo_servicio_social = TipoServicioSocialSerializer()
+    entidad_externa_detalle =  EntidadExternaSerializer(source = 'entidad_externa', read_only=True)
+    carrera_detalle = CarreraSerializer(source = 'carrera', read_only=True)
+    tipo_servicio_social_detalle = TipoServicioSocialSerializer(source = 'tipo_servicio_social', read_only=True)
     class Meta:
         model = Solicitud
         fields = "__all__"

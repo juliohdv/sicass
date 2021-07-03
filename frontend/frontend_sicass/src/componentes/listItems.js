@@ -8,6 +8,7 @@ import PeopleIcon from "@material-ui/icons/People";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ClassIcon from '@material-ui/icons/Class';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
+import AccountCircle from '@material-ui/icons/AccountCircle'
 import { Collapse } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -18,6 +19,12 @@ const useStyles = makeStyles((theme)=>({
 }))
 export const mainListItems = (
   <div>
+      <ListItem button component={Link} to="/Login">
+          <ListItemIcon>
+            <AccountCircle></AccountCircle>
+          </ListItemIcon>
+            <ListItemText primary="Login" />
+        </ListItem>
       <ListItem button component={Link} to="/">
         <ListItemIcon>
           <HomeIcon />
