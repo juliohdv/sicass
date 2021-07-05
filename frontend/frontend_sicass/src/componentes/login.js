@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button, Form}  from  'react-bootstrap';
+import {Button, Form, Card}  from  'react-bootstrap';
 
 class Login extends Component {
     state = {
@@ -26,43 +26,43 @@ class Login extends Component {
     }
     render(){
         return (
-        <div>
-            <div className="wrapper fadeInDown">
-                <div id="formContent">
-                    <div className="fadeIn firs">
-                        
+        <Card border="info" style={{width:'18rem'}} >
+            <Card.Header className="bg-light">Iniciar Sesión:</Card.Header>
+                <Card.Body>
+                    <div id="formContent">
+                        <Form>
+                            <Form.Label>
+                                Usuario:
+                            </Form.Label>
+                            <Form.Control 
+                                name="username" //mismo name que en el modelo!
+                                type="text"  
+                                placeholder="Ingresar usuario"
+                                value={this.state.credenciales.username}
+                                onChange={this.inputChanged}
+                            />
+                            <Form.Label>
+                                Contraseña:
+                            </Form.Label>
+                            <Form.Control 
+                                name="password" 
+                                type="password" 
+                                placeholder="Contraseña" 
+                                value={this.state.credenciales.password}
+                                onChange={this.inputChanged}
+                            />
+                            <br></br>
+                            <Button 
+                            variant="primary" 
+                            type="button" 
+                            onClick={this.login}>
+                            Iniciar Sesión
+                            </Button>
+                        </Form>
                     </div>
-                    <Form>
-                        <Form.Label>
-                            Usuario:
-                        </Form.Label>
-                        <Form.Control 
-                            name="username" //mismo name que en el modelo!
-                            type="text"  
-                            //placeholder="Ingresar usuario"
-                            value={this.state.credenciales.username}
-                            onChange={this.inputChanged}
-                        />
-                        <Form.Label>
-                            Contraseña:
-                        </Form.Label>
-                        <Form.Control 
-                            name="password" 
-                            type="password" 
-                            placeholder="Password" 
-                            value={this.state.credenciales.password}
-                            onChange={this.inputChanged}
-                        />
-                        <Button 
-                        variant="primary" 
-                        type="button" 
-                        onClick={this.login}>
-                        Iniciar Sesión
-                        </Button>
-                    </Form>
-                </div>
-            </div>
-        </div>
+                </Card.Body>
+        </Card>
+       
         );
     }
 }

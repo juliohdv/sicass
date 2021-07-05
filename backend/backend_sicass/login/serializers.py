@@ -43,23 +43,37 @@ class EstudianteSerializer(serializers.ModelSerializer):
 class PermisosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Permission
-        fields = ['id', 'name', 'content_type_id', 'codename']
+        fields = "__all__"
     def create(self, validated_data):
         permiso = Permission.objects.create(**validated_data)
         return permiso
 
+class EntidadExternaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EntidadExterna
+        fields = ['codigo_entidad','nombre_entidad','direccion_entidad','correo_entidad','telefono_entidad','clasificacion_entidad']
+    def create(self, validate_data):
+        entidad = EntidadExterna.objects.create(**validate_data)
+        return entidad
+
 class SolicitudSerializer(serializers.ModelSerializer):
+    entidad_externa_detalle =  EntidadExternaSerializer(source = 'entidad_externa', read_only=True)
+    carrera_detalle = CarreraSerializer(source = 'carrera', read_only=True)
+    tipo_servicio_social_detalle = TipoServicioSocialSerializer(source = 'tipo_servicio_social', read_only=True)
     class Meta:
         model = Solicitud
-        fields = ['codigo_solicitud','fecha_inicio_solicitud','fecha_fin_solicitud','estado_solicitud','entidad_externa','carrera','tipo_servicio_social']
+        fields = "__all__"
     def create(self, validated_data):
         solicitud = Solicitud.objects.create(**validated_data)
         return solicitud
 
 class PropuestaSerializer(serializers.ModelSerializer):
+    entidad_externa_detalle =  EntidadExternaSerializer(source = 'entidad_externa', read_only=True)
+    carrera_detalle = CarreraSerializer(source = 'carrera', read_only=True)
+    tipo_servicio_social_detalle = TipoServicioSocialSerializer(source = 'tipo_servicio_social', read_only=True)
     class Meta:
         model = Propuesta
-        fields = ['codigo_propuesta','fecha_inicio_propuesta','fecha_fin_propuesta', 'descripcion_propuesta', 'estado_propuesta','entidad_externa','carrera','tipo_servicio_social']
+        fields = "__all__"
     def create(self, validated_data):
         propuesta = Propuesta.objects.create(**validated_data)
         return propuesta
