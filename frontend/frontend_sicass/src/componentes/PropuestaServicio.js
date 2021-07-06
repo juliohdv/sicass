@@ -58,27 +58,20 @@ class PropuestaServicio extends Component {
       .catch((error) => {}
       );
   }
-  //Funcion para limpiar los campos ingresados
-  limpiarFormulario() {
-    document.getElementById("nombre_entidad").value = "";
-    document.getElementById("direccion_entidad").value = "";
-    document.getElementById("correo_entidad").value = "";
-    document.getElementById("telefono_entidad").value = "";
-    document.getElementById("clasificacion_entidad").selectedIndex = "0";
+
+  //Funcion para resetear la facultad seleccionada
+  reiniciarFacultad(){
     document.getElementById("facultad").selectedIndex = "0";
-    document.getElementById("carrera_id").selectedIndex = "0";
-    document.getElementById("tipo_servicio_social_id").selectedIndex = "0";
-    document.getElementById("descripcion_propuesta").value = "";
   }
   //Funcion para obtener la fecha actual
   fechaActual() {
     var fecha = new Date();
     var mes = fecha.getMonth() + 1;
     var dia = fecha.getDate();
-    var ano = fecha.getFullYear();
+    var anio = fecha.getFullYear();
     if (dia < 10) dia = "0" + dia;
     if (mes < 10) mes = "0" + mes;
-    return ano + "-" + mes + "-" + dia;
+    return anio + "-" + mes + "-" + dia;
   }
   render() {
     return (
@@ -96,7 +89,7 @@ class PropuestaServicio extends Component {
           carrera_id: "",
           tipo_servicio_social_id: "",
         }}
-        onSubmit={async (values) => {
+        onSubmit={async (values, {resetForm}) => {
           await new Promise((resolve) => setTimeout(resolve, 500));
           axios
             .post("http://127.0.0.1:8000/login/entidadExterna/", {
@@ -110,7 +103,6 @@ class PropuestaServicio extends Component {
               axios
                 .get("http://127.0.0.1:8000/login/ultimaEntidadExterna/")
                 .then((response) => {
-                  console.log(response.data)
                   axios
                     .post("http://127.0.0.1:8000/login/propuestas/", {
                       entidad_externa: response.data
@@ -131,7 +123,9 @@ class PropuestaServicio extends Component {
                         showConfirmButton: false,
                         timer: 2500,
                       });
-                      this.limpiarFormulario();
+                      //Limpia el formulario ingresado en pantalla
+                      this.reiniciarFacultad();
+                      resetForm({});
                     })
                     .catch((error) => {
                       Swal.fire({
@@ -334,6 +328,7 @@ class PropuestaServicio extends Component {
                     required={true}
                     value={values.fecha_fin_propuesta}
                     onChange={handleChange}
+                    min={this.fechaActual()}
                   ></Form.Control>
                 </Form.Group>
               </Col>
