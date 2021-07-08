@@ -1,83 +1,130 @@
-import React, { Component, forwardRef } from "react";
+import React, { Component } from "react";
 import Dashboard from "./Dashboard";
 import axios from "axios";
-import MaterialTable from "material-table";
-import AddBox from "@material-ui/icons/AddBox";
-import ArrowDownward from "@material-ui/icons/ArrowDownward";
-import Check from "@material-ui/icons/Check";
-import ChevronLeft from "@material-ui/icons/ChevronLeft";
-import ChevronRight from "@material-ui/icons/ChevronRight";
-import Clear from "@material-ui/icons/Clear";
-import DeleteOutline from "@material-ui/icons/DeleteOutline";
-import Edit from "@material-ui/icons/Edit";
-import FilterList from "@material-ui/icons/FilterList";
-import FirstPage from "@material-ui/icons/FirstPage";
-import LastPage from "@material-ui/icons/LastPage";
-import Remove from "@material-ui/icons/Remove";
-import SaveAlt from "@material-ui/icons/SaveAlt";
-import Search from "@material-ui/icons/Search";
-import ViewColumn from "@material-ui/icons/ViewColumn";
+import Swal from "sweetalert2";
+import MUIDataTable from "mui-datatables";
+import { Tooltip } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
+import {Button} from "react-bootstrap";
 
-const tableIcons = {
-  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-  DetailPanel: forwardRef((props, ref) => (
-    <ChevronRight {...props} ref={ref} />
-  )),
-  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  PreviousPage: forwardRef((props, ref) => (
-    <ChevronLeft {...props} ref={ref} />
-  )),
-  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
-};
-
-const COLUMNAS = [
+//Constante con las columnas de la tabla
+const columns = [
   {
-    title: "Codigo",
-    field: "codigo_propuesta",
+    name: "codigo_propuesta",
+    label: "Código",
+    key: "codigo_propuesta",
   },
   {
-    title: "Entidad que solicita",
-    field: "entidad_externa",
+    name: "entidad_externa",
+    label: "Entidad que solicita",
+    key: "entidad_externa",
   },
   {
-    title: "Carrera",
-    field: "carrera",
+    name: "tipo_entidad",
+    label: "Tipo de entidad",
+    key: "tipo_entidad",
   },
   {
-    title: "Fecha de Solicitud",
-    field: "fecha_inicio_propuesta",
+    name: "carrera",
+    label: "Carrera",
+    key: "carrera",
   },
   {
-    title: "Fecha de Finalización",
-    field: "fecha_fin_propuesta",
+    name: "tipo_servicio_social",
+    label: "Tipo de Servicio Social",
+    key: "tipo_servicio_social",
   },
   {
-    title: "Estado",
-    field: "estado_propuesta",
+    name: "fecha_inicio_propuesta",
+    label: "Fecha de Solicitud",
+    key: "fecha_inicio_propuesta",
   },
   {
-    title: "Tipo de Servicio Social",
-    field: "tipo_servicio_social",
+    name: "fecha_fin_propuesta",
+    label: "Fecha de Finalización",
+    key: "fecha_fin_propuesta",
   },
   {
-    title: "Descripción propuesta",
-    field: "descripcion_propuesta",
+    name: "descripcion_propuesta",
+    label: "Descripción propuesta",
+    key: "descripcion_propuesta",
+  },
+  {
+    name: "estado_propuesta",
+    label: "Estado",
+    key: "estado_propuesta",
+  },
+  {
+    name: "acciones",
+    label: "Acciónes",
+    options: {
+      customBodyRender: (value, tableMeta, updateValue) => {
+        return (
+          /* Boton para redirigir hacia el proyecto que le corresponde a la propuesta */
+            <Tooltip title="Ver proyecto">
+              <Button
+                size="sm"
+                variant="outline-info"
+                /* onClick={() => {
+                  this.seleccionPrivilegio(tableMeta.rowData);
+                  this.modalInsertar();
+                }} */
+              >
+                <Visibility/>
+              </Button>
+            </Tooltip>
+        );
+      },
+    },
   },
 ];
 
+//Constante con las opciones de la tabla
+const options = {
+  download: "false",
+  print: "false",
+  responsive: "simple",
+  selectableRows: false,
+  rowsPerPage: 5,
+  rowsPerPageOptions: [5,10,20],
+  tableBodyHeight: "320px",
+  textLabels: {
+    body: {
+      noMatch: "No hay registros de propuestas",
+      toolTip: "Sort",
+      columnHeaderTooltip: (column) => `Ordenar por ${column.label}`,
+    },
+    pagination: {
+      next: "Página siguiente",
+      previous: "Página previa",
+      rowsPerPage: "Filas por página:",
+      displayRows: "de",
+    },
+    toolbar: {
+      search: "Búsqueda",
+      downloadCsv: "Download CSV",
+      print: "Print",
+      viewColumns: "Ver columnas",
+      filterTable: "Filtros de tabla",
+    },
+    filter: {
+      all: "TODOS",
+      title: "FILTROS",
+      reset: "REINICIAR",
+    },
+    viewColumns: {
+      title: "Mostrar columnas",
+      titleAria: "Mostrar/Ocultar columnas de tabla",
+    },
+    selectedRows: {
+      text: "fila(s) seleccionada",
+      delete: "Eliminar",
+      deleteAria: "Eliminar filas seleccionadas",
+    },
+  },
+};
+
+//Constante con la url de la api (Backend)
 const url = "http://127.0.0.1:8000/login/propuestas/";
 //Clase principal del componente
 class Propuestas extends Component {
@@ -85,90 +132,49 @@ class Propuestas extends Component {
     super(props);
     this.state = {
       solicitudes: [],
-      form: {
-        codigo_propuesta: "",
-        entidad_externa: "",
-        carrera: "",
-        fecha_inicio_propuesta: "",
-        fecha_fin_propuesta: "",
-        estado_propuesta:"",
-        tipo_servicio_social:"",
-        descripcion_propuesta: "",
-      },
     };
   }
-  seleccionSolicitud = (solicitud) => {
-    console.log(solicitud);
-
-    this.setState({
-      carrera_id:"",
-      form: {
-        codigo_propuesta: solicitud.codigo_propuesta,
-        entidad_externa: solicitud.entidad_externa,
-        carrera: solicitud.carrera,
-        fecha_inicio_propuesta: solicitud.fecha_inicio_propuesta,
-        fecha_fin_propuesta: solicitud.fecha_fin_propuesta,
-        estado_propuesta: solicitud.estado_propuesta,
-        tipo_servicio_social: solicitud.tipo_servicio_social,
-        descripcion_propuesta: solicitud.descripcion_propuesta,
-      },
-    });
-  };
-  handleChange = async (e) => {
-    e.persist();
-    await this.setState({
-      form: {
-        ...this.state.form,
-        [e.target.name]: e.target.value,
-      },
-    });
-    console.log(this.state.form);
-  };
   componentDidMount() {
     axios
-      .get("http://127.0.0.1:8000/login/propuestas/")
+      .get(url)
       .then((response) => {
-        this.setState({ solicitudes: response.data });
+        const arreglo_inicial =  response.data //Guardamos el arreglo inicial para su reescritura
+        const solicitud = new Array() //Arreglo donde guardaremos los objetos reescritos
+        for(var i =0; i<arreglo_inicial.length; i++){  //Recorremos el arreglo inicial
+          solicitud[i] = //Asignamos los campos del arrelgo inicial a los del nuevo objeto
+            {'codigo_propuesta': arreglo_inicial[i].codigo_propuesta ,
+            'entidad_externa':arreglo_inicial[i].entidad_externa_detalle.nombre_entidad,
+            'tipo_entidad':arreglo_inicial[i].entidad_externa_detalle.clasificacion_entidad,
+            'carrera': arreglo_inicial[i].carrera_detalle.nombre_carrera,
+            'tipo_servicio_social':arreglo_inicial[i].tipo_servicio_social_detalle.nombre_tipo_servicio_social,
+            'fecha_inicio_propuesta':arreglo_inicial[i].fecha_inicio_propuesta,
+            'fecha_fin_propuesta':arreglo_inicial[i].fecha_fin_propuesta,
+            'descripcion_propuesta':arreglo_inicial[i].descripcion_propuesta,
+            'estado_propuesta':arreglo_inicial[i].estado_propuesta}
+        }
+        this.setState({ solicitudes: solicitud }); //Asignamos el nuevo arreglo reescrito al del estado
       })
       .catch((error) => {
-        console.log(error);
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title:
+            "Por el momento no hay conexión con la base de datos, intente en otro momento",
+        });
       });
   }
   render() {
-    //Retorna todo la interfas respectiva para la gestion de roles y privilegios
-    const { form } = this.state;
     return (
       <Dashboard
         contenedor={
-          <div className="pt-4">
-            <div>
-              <div className="pt-3">
-                <MaterialTable
-                  icons={tableIcons}
-                  columns={COLUMNAS}
-                  data={this.state.solicitudes}
-                  title="Propuestas de Servicio Social"
-                  options={{
-                    actionsColumnIndex: -1,
-                  }}
-                  actions={[
-                    {
-                      icon: Visibility,
-                      tooltip: "Ver datos del proyecto",
-                      onClick: (event, rowData) => {
-                        this.seleccionSolicitud(rowData);
-                        alert("Selecionada" + rowData)
-                      },
-                    },
-                  ]}
-                  localization={{
-                    header: {
-                      actions: "Acciones",
-                    },
-                  }}
-                />
-              </div>
-            </div>
+          <div className="pt-5">
+            {/* Se invoca la tabla, con los datos correspondientes */}
+            <MUIDataTable
+              title={"Solicitudes de propuestas"}
+              data={this.state.solicitudes}
+              columns={columns}
+              options={options}
+            />
           </div>
         }
       />
