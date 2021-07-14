@@ -93,3 +93,15 @@ class UsuariosGestionSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         usuarios = User.objects.create(**validated_data)
         return usuarios
+
+class ServicioSocialSerializer(serializers.ModelSerializer):
+    entidad_externa_detalle =  EntidadExternaSerializer(source = 'entidad_externa', read_only=True)
+    tipo_servicio_social_detalle = TipoServicioSocialSerializer(source = 'tipo_servicio_social', read_only=True)
+    solicitud_detalle = SolicitudSerializer(source = 'solicitud', read_only=True)
+    propuesta_detalle = PropuestaSerializer(source = 'propuesta', read_only=True)
+    class Meta:
+        model = ServicioSocial
+        fields = "__all__"
+    def create(self, validated_data):
+        servicioSocial = ServicioSocial.objects.create(**validated_data)
+        return servicioSocial

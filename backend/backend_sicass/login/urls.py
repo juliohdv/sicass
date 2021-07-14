@@ -19,6 +19,7 @@ router.register('permisos', PermisosVistas) #Retorna la gestion de roles y privi
 router.register('carreraPorId',CarreraPorId, basename='Carrera')  #Retorna una carrea filtrada por codigo de carrera
 router.register('propuestas', PropuestasVista, basename='Propuesta') #Crea una propuesta nueva
 router.register('usuarios', UsuariosGestionVista) #Retorna la gestion de roles y privilegios
+router.register('servicioSocial', ServicioSocialVista) #Retorna la gestion de roles y privilegios
 
 urlpatterns = [
     path('', include(router.urls)),

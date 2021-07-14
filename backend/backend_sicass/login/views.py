@@ -84,3 +84,7 @@ class PropuestasVista(viewsets.ModelViewSet):
 class UsuariosGestionVista(viewsets.ModelViewSet):
     serializer_class = UsuariosGestionSerializer
     queryset = User.objects.all()
+
+class ServicioSocialVista(viewsets.ModelViewSet):
+    serializer_class = ServicioSocialSerializer
+    queryset = ServicioSocial.objects.all()
