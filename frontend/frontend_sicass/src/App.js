@@ -28,7 +28,7 @@ import EnvioRegistroUps from './componentes/EnvioRegistroUps';
 import SolicitudInscripcion from './componentes/SolicitudInscripcion';
 import ServicioSocial from './componentes/ServicioSocial';
 import SolicitudProyecto from './componentes/SolicitudProyecto';
-
+import GestionServicioSocial from './componentes/GestionServicioSocial';
 
 function Copyright() {
   return (
@@ -225,6 +225,9 @@ export default function App() {
               <Route path="/SolicitudProyecto">
                 <Proyecto />
               </Route>
+              <Route path="/GestionServicioSocial">
+                <GestionSS />
+              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -276,4 +279,7 @@ function Servicios(){
 }
 function Proyecto(){
   return <SolicitudProyecto />;
+}
+function GestionSS(){
+  return <GestionServicioSocial />;
 }
