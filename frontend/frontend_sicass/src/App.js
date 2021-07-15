@@ -1,31 +1,34 @@
-import React from "react";
-import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Drawer from "@material-ui/core/Drawer";
-import Box from "@material-ui/core/Box";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import Container from "@material-ui/core/Container";
-import Link from "@material-ui/core/Link";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { mainListItems } from "./componentes/listItems";
-import { Button, Row, Col, Card } from "react-bootstrap";
-import LogoSicass from "./componentes/LogoSicass";
-import EnvioRegistro from "./componentes/EnvioRegistro";
-import EnvioPropuesta from "./componentes/EnvioPropuesta";
-import EnvioSolicitud from "./componentes/EnvioSolicitud";
-import Roles from "./componentes/Roles";
-import Propuestas from "./componentes/Propuestas";
-import Dashboard from "./componentes/Dashboard";
-import InicioInformacion from "./componentes/InicioInformacion";
-import Solicitudes from "./componentes/Solicitudes";
-import Usuarios from "./componentes/Usuarios";
+import React from 'react';
+import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom'
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Drawer from '@material-ui/core/Drawer';
+import Box from '@material-ui/core/Box';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import Container from '@material-ui/core/Container';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import { mainListItems } from './componentes/listItems';
+import LogoSicass from './componentes/LogoSicass';
+import EnvioRegistro from './componentes/EnvioRegistro';
+import EnvioPropuesta from './componentes/EnvioPropuesta';
+import EnvioSolicitud from './componentes/EnvioSolicitud';
+import Roles from './componentes/Roles';
+import Solicitudes from './componentes/Solicitudes';
+import Login from './componentes/login';
+import Propuestas from './componentes/Propuestas';
+import Usuarios from './componentes/Usuarios';
+import InicioInformacion from './componentes/InicioInformacion';
+import EnvioRegistroUps from './componentes/EnvioRegistroUps';
+import SolicitudInscripcion from './componentes/SolicitudInscripcion';
+import ServicioSocial from './componentes/ServicioSocial';
+import SolicitudProyecto from './componentes/SolicitudProyecto';
+
 
 function Copyright() {
   return (
@@ -161,7 +164,6 @@ export default function App() {
           >
             SICASS
           </Typography>
-          <Button variant="secondary">Iniciar sesion</Button>
         </Toolbar>
       </AppBar>
       <Router>
@@ -202,11 +204,26 @@ export default function App() {
               <Route path="/ConsultarSolicitud">
                 <ConsultarSolicitud />
               </Route>
-              <Route path="/ConsultarPropuesta">
-                <ConsultarPropuesta />
+              <Route path="/Login">
+                <IniciarSesion/>
               </Route>
               <Route path="/GestionarUsuarios">
-                <GestionUsuarios />
+                <GestionUsuarios/>
+              </Route>
+              <Route path="/ConsultarPropuesta">
+                <ConsultarPropuesta/>
+              </Route>
+              <Route path="/RegistroUps">
+                <RegistrarseUps/>
+              </Route>
+              <Route path="/SolicitudInscripcion">
+                <ConsultarInscripcion />
+              </Route>
+              <Route path="/ServicioSocial">
+                <Servicios />
+              </Route>
+              <Route path="/SolicitudProyecto">
+                <Proyecto />
               </Route>
             </Switch>
           </Container>
@@ -242,4 +259,21 @@ function GestionUsuarios() {
 }
 function Inicio() {
   return <InicioInformacion></InicioInformacion>;
+}
+function IniciarSesion(){
+  return(
+    <Login></Login>
+  );
+}
+function RegistrarseUps(){
+  return <EnvioRegistroUps />;
+}
+function ConsultarInscripcion(){
+  return <SolicitudInscripcion />;
+}
+function Servicios(){
+  return <ServicioSocial />;
+}
+function Proyecto(){
+  return <SolicitudProyecto />;
 }

@@ -8,6 +8,7 @@ import PeopleIcon from "@material-ui/icons/People";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ClassIcon from '@material-ui/icons/Class';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
+import AccountCircle from '@material-ui/icons/AccountCircle'
 import { Collapse } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -18,6 +19,12 @@ const useStyles = makeStyles((theme)=>({
 }))
 export const mainListItems = (
   <div>
+      <ListItem button component={Link} to="/Login">
+          <ListItemIcon>
+            <AccountCircle></AccountCircle>
+          </ListItemIcon>
+            <ListItemText primary="Login" />
+        </ListItem>
       <ListItem button component={Link} to="/">
         <ListItemIcon>
           <HomeIcon />
@@ -55,6 +62,38 @@ export const mainListItems = (
     link1={"/RegistrarPropuesta"}
     opcion2={"Consultar propuesta"}
     link2={"/ConsultarPropuesta"}
+    />
+    {/* <ListItem button component={Link} to="/RegistroUps">
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Registro UPS" />
+    </ListItem>
+    <ListItem button component={Link} to="/SolicitudInscripcion">
+        <ListItemIcon>
+          <AnnouncementIcon />
+        </ListItemIcon>
+        <ListItemText primary="Estado inscripción" />
+    </ListItem>
+    <ListItem button component={Link} to="/ServicioSocial">
+        <ListItemIcon>
+          <AnnouncementIcon />
+        </ListItemIcon>
+        <ListItemText primary="Consultar servicios" />
+    </ListItem> */}
+    <Desplegar 
+    opcionGeneral={"Gestionar registro"} 
+    opcion1={"Registro UPS"}
+    link1={"/RegistroUps"}
+    opcion2={"Estado inscripción"}
+    link2={"/SolicitudInscripcion"}
+    />
+    <Desplegar 
+    opcionGeneral={"Gestionar servicio social"} 
+    opcion1={"Registrar solicitud"}
+    link1={"/ServicioSocial"}
+    opcion2={"Estado solicitud"}
+    link2={"/SolicitudProyecto"}
     />
   </div>
 );
