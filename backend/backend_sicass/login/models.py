@@ -6,7 +6,7 @@ from django.db.models.fields.related import ForeignKey
 # Create your models here.
 class EntidadExterna(models.Model):
     codigo_entidad = models.BigAutoField(primary_key=True)
-    nombre_entidad = models.CharField(max_length=150, unique=True)
+    nombre_entidad = models.CharField(max_length=150)
     direccion_entidad = models.CharField(max_length=250)
     correo_entidad = models.EmailField()
     telefono_entidad = models.IntegerField()
@@ -65,11 +65,13 @@ class Solicitud(models.Model):
     tipo_servicio_social = models.ForeignKey(TipoServicioSocial, on_delete=models.CASCADE)
     def __str__(self):
         return '%s' % (self.codigo_solicitud)
+    
+        
 
 class Propuesta(models.Model):
     codigo_propuesta = models.BigAutoField(primary_key=True, unique=True)
     fecha_inicio_propuesta = DateField(auto_now=True)
-    fecha_fin_propuesta = DateField
+    fecha_fin_propuesta = DateField()
     descripcion_propuesta = TextField(max_length=750)
     estado_propuesta = TextField(max_length=50,default='En Proceso')
     entidad_externa =models.ForeignKey(EntidadExterna, on_delete=models.CASCADE)

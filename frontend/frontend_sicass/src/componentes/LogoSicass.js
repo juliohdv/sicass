@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 //Aqui importamos nuestra imagen
 import sicass from './iconoSicass.png';
 
-
 class LogoSicass extends Component {
   render() {
     return (    

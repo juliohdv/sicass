@@ -45,6 +45,14 @@ class CarreraPorFacultadVistas(viewsets.ModelViewSet) :
         if facultad is not None:
             queryset = queryset.filter(facultad = facultad)
         return queryset
+class CarreraPorId(viewsets.ModelViewSet) :
+    serializer_class = CarreraSerializer
+    def get_queryset(self):
+        carrera = self.request.query_params.get('carrera')
+        queryset = Carrera.objects.all().filter(codigo_carrera=carrera)
+        if carrera is not None:
+            queryset = queryset.filter(codigo_carrera=carrera)
+        return queryset
 class EstudiantesVistas(viewsets.ModelViewSet):
     serializer_class = EstudianteSerializer
     
@@ -62,3 +70,11 @@ class UltimaEntidadExternaVista(viewsets.ModelViewSet):
         ultimaEntidad = EntidadExterna.objects.order_by('codigo_entidad').last()
         queryset =EntidadExterna.objects.filter(codigo_entidad=ultimaEntidad.codigo_entidad)
         return queryset
+
+class PropuestasVista(viewsets.ModelViewSet):
+    serializer_class = PropuestaSerializer
+    queryset = Propuesta.objects.all()
+
+class UsuariosGestionVista(viewsets.ModelViewSet):
+    serializer_class = UsuariosGestionSerializer
+    queryset = User.objects.all()

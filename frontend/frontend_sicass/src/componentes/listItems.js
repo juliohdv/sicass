@@ -11,7 +11,6 @@ import AnnouncementIcon from '@material-ui/icons/Announcement';
 import { Collapse } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-
 const useStyles = makeStyles((theme)=>({
   nested:{
     paddingLeft: theme.spacing(4),
@@ -25,11 +24,17 @@ export const mainListItems = (
         </ListItemIcon>
           <ListItemText primary="Inicio" />
       </ListItem>
-      <ListItem button component={Link} to="/GestionarRoles">
+      <ListItem button component={Link} to="/GestionarPrivilegios">
         <ListItemIcon>
           <AssignmentIcon />
         </ListItemIcon>
-          <ListItemText primary="Gestionar roles y privilegios" />
+          <ListItemText primary="Gestionar privilegios" />
+      </ListItem>
+      <ListItem button component={Link} to="/GestionarUsuarios">
+        <ListItemIcon>
+          <AssignmentIcon />
+        </ListItemIcon>
+          <ListItemText primary="Gestionar usuarios" />
       </ListItem>
       <ListItem button component={Link} to="/RegistroEstudiante">
         <ListItemIcon>
