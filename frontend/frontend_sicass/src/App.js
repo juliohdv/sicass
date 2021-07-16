@@ -24,6 +24,10 @@ import Login from './componentes/login';
 import Propuestas from './componentes/Propuestas';
 import Usuarios from './componentes/Usuarios';
 import InicioInformacion from './componentes/InicioInformacion';
+import EnvioRegistroUps from './componentes/EnvioRegistroUps';
+import SolicitudInscripcion from './componentes/SolicitudInscripcion';
+import ServicioSocial from './componentes/ServicioSocial';
+import SolicitudProyecto from './componentes/SolicitudProyecto';
 
 
 function Copyright() {
@@ -209,6 +213,18 @@ export default function App() {
               <Route path="/ConsultarPropuesta">
                 <ConsultarPropuesta/>
               </Route>
+              <Route path="/RegistroUps">
+                <RegistrarseUps/>
+              </Route>
+              <Route path="/SolicitudInscripcion">
+                <ConsultarInscripcion />
+              </Route>
+              <Route path="/ServicioSocial">
+                <Servicios />
+              </Route>
+              <Route path="/SolicitudProyecto">
+                <Proyecto />
+              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -248,4 +264,16 @@ function IniciarSesion(){
   return(
     <Login></Login>
   );
+}
+function RegistrarseUps(){
+  return <EnvioRegistroUps />;
+}
+function ConsultarInscripcion(){
+  return <SolicitudInscripcion />;
+}
+function Servicios(){
+  return <ServicioSocial />;
+}
+function Proyecto(){
+  return <SolicitudProyecto />;
 }

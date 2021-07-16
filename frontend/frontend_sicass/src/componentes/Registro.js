@@ -44,17 +44,9 @@ class Registro extends Component {
         });
       });
   }
-  //Funcion que limpiar todo los campos del formulario
-  limpiarFormulario() {
-    document.getElementById("carnet").value = "";
-    document.getElementById("correo_estudiante").value = "";
-    document.getElementById("nombres_estudiante").value = "";
-    document.getElementById("apellidos_estudiante").value = "";
-    document.getElementById("direccion_estudiante").value = "";
-    document.getElementById("telefono_estudiante").value = "";
-    document.getElementById("sexo").selectedIndex = "0";
+  //Funcion para resetear la facultad seleccionada
+  reiniciarFacultad(){
     document.getElementById("facultad").selectedIndex = "0";
-    document.getElementById("carrera_id").selectedIndex = "0";
   }
   render() {
     //Retorna todo la interfas respectiva para la solicitud de la propuesta
@@ -73,7 +65,7 @@ class Registro extends Component {
           telefono_estudiante: "",
           carrera_id: "",
         }}
-        onSubmit={async (values) => {
+        onSubmit={async (values, {resetForm}) => {
           await new Promise((resolve) => setTimeout(resolve, 500));
           /* Librearia que facilita la comunicación con el backend */
           axios
