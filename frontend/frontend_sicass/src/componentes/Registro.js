@@ -62,6 +62,7 @@ class Registro extends Component {
       /* Componente que facilita el control de los campos del fomrulario */
       <Formik
         initialValues={{
+          user:"",
           carnet: "",
           password: "",
           nombres_estudiante: "",
@@ -76,36 +77,50 @@ class Registro extends Component {
           await new Promise((resolve) => setTimeout(resolve, 500));
           /* Librearia que facilita la comunicación con el backend */
           axios
-            .post("http://127.0.0.1:8000/login/estudiantes/", {
-              carnet: values.carnet,
-              nombres_estudiante: values.nombres_estudiante,
-              apellidos_estudiante: values.apellidos_estudiante,
-              correo_estudiante: values.correo_estudiante,
-              sexo: values.sexo,
-              direccion_estudiante: values.direccion_estudiante,
-              telefono_estudiante: values.telefono_estudiante,
-              carrera: values.carrera_id,
+            .post("http://127.0.0.1:8000/login/crearUsuario/", {
+              username: values.carnet,
+              password: values.carnet
             })
-            .then((response) => {
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Te has registrado con exito",
-                showConfirmButton: false,
-                timer: 2500,
-              });
-              this.limpiarFormulario();
-              /* Hay que limpiar los valores iniciales los vuelve a poner en los input */
+            .then((response)=>{
+              axios
+                .get("http://127.0.0.1:8000/login/ultimoUsuario/")
+                .then((response) =>{
+                    axios
+                    .post("http://127.0.0.1:8000/login/estudiantes/", {
+                      carnet: values.carnet,
+                      nombres_estudiante: values.nombres_estudiante,
+                      apellidos_estudiante: values.apellidos_estudiante,
+                      correo_estudiante: values.correo_estudiante,
+                      sexo: values.sexo,
+                      direccion_estudiante: values.direccion_estudiante,
+                      telefono_estudiante: values.telefono_estudiante,
+                      carrera: values.carrera_id,
+                      user: response.data.map((elemento) => elemento.id).toString()
+                      //username: response.data.map((elemento) => elemento.username).toString(),
+                      //user_id: response.data.map((elemento) => elemento.id).toString()
+                    })
+                    .then((response) => {
+                      Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Te has registrado con exito",
+                        showConfirmButton: false,
+                        timer: 2500,
+                      });
+                      this.limpiarFormulario();
+                      /* Hay que limpiar los valores iniciales los vuelve a poner en los input */
+                    })
+                    .catch((error) => {
+                      Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title:
+                          "Ocurrio un error en su registro: Estudiante ya registrado",
+                      });
+                    /* Hay que limpiar los valores iniciales los vuelve a poner en los input */
+                  });
+                })
             })
-            .catch((error) => {
-              Swal.fire({
-                position: "center",
-                icon: "error",
-                title:
-                  "Ocurrio un error en su registro: Estudiante ya registrado",
-              });
-              /* Hay que limpiar los valores iniciales los vuelve a poner en los input */
-            });
         }}
       >
         {({ values, handleSubmit, handleChange }) => (

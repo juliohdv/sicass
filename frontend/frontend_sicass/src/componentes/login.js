@@ -3,7 +3,7 @@ import {Button, Form, Card}  from  'react-bootstrap';
 
 class Login extends Component {
     state = {
-        credenciales : {username: '', password: ''}
+        credenciales : {username: '', password: '', token: ''}
     }
     login = event =>{
         console.log(this.state.credenciales);
@@ -16,6 +16,7 @@ class Login extends Component {
         .then(
             data => {
                 console.log(data);
+                this.setState({token:data})
             }
         ).catch(error => console.error(error))
     }
@@ -61,8 +62,8 @@ class Login extends Component {
                         </Form>
                     </div>
                 </Card.Body>
+                <p>{this.state.credenciales.token}</p>
         </Card>
-       
         );
     }
 }

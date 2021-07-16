@@ -1,8 +1,10 @@
-from re import U
+from re import U, escape
 import re
 from django.db.models.fields import related
 from django.db.models.fields.related import RelatedField
+from django.db.models.query_utils import Q
 from django.http import request
+from rest_framework import views
 from rest_framework.response import Response
 from .models import TipoServicioSocial
 from django.shortcuts import render
@@ -13,14 +15,20 @@ from .serializers import *
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, BaseAuthentication
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
 
 
 # Create your views here.
 
-class UsuarioVistas(viewsets.ModelViewSet):
+class Usuarios(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UsuarioSerializer
+
+class UltimoUsuario(viewsets.ModelViewSet):
+    serializer_class = UsuarioSerializer
+    def get_queryset(self):
+        ultimoUsuario = User.objects.order_by('id').last()
+        queryset = User.objects.filter(id=ultimoUsuario.id)
+        return queryset
 
 class TipoServicioSocialVistas(viewsets.ModelViewSet):
     queryset =  TipoServicioSocial.objects.all()
@@ -59,8 +67,10 @@ class CarreraPorId(viewsets.ModelViewSet) :
         if carrera is not None:
             queryset = queryset.filter(codigo_carrera=carrera)
         return queryset
+
 class EstudiantesVistas(viewsets.ModelViewSet):
     serializer_class = EstudianteSerializer
+    queryset = Estudiante.objects.all()
     
 class PermisosVistas(viewsets.ModelViewSet):
     queryset = Permission.objects.all()

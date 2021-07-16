@@ -2,10 +2,12 @@ from django.db.models import base
 from django.urls import path
 from django.conf.urls import include
 from rest_framework import routers
+from rest_framework.fields import BuiltinSignatureError
 from .views import *
 
 router = routers.DefaultRouter()
-router.register('users', UsuarioVistas)  #Crea un usuario
+router.register('crearUsuario', Usuarios)  #Crea un usuario nuevo
+router.register('ultimoUsuario', UltimoUsuario, basename='User')  #Retorna el ultimo usuario creado
 router.register('tiposServicioSocial',TipoServicioSocialVistas) #Retorna lista de tipos de servicio social
 router.register('tiposServicioSocialPorCarrera',TipoServicioSocialPorCarreraVistas, basename='TipoServicioSocial') #Retorna lista de tipos de servicio social por carrera
 router.register('facultades',FacultadVistas) #Retorna lista de facultades

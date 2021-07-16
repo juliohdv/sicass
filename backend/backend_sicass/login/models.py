@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.expressions import Case
 from django.db.models.fields import CharField, DateField, TextField
 from django.db.models.fields.related import ForeignKey
+from django.contrib.auth.models import User
 
 # Create your models here.
 class EntidadExterna(models.Model):
@@ -52,6 +53,7 @@ class Estudiante(models.Model):
     direccion_estudiante = models.CharField(max_length=250)
     telefono_estudiante = models.IntegerField()
     carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     def __str__(self):
         return '%s %s' % (self.nombres_estudiante, self.apellidos_estudiante)
 

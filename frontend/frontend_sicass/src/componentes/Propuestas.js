@@ -139,7 +139,7 @@ class Propuestas extends Component {
       .get(url)
       .then((response) => {
         const arreglo_inicial =  response.data //Guardamos el arreglo inicial para su reescritura
-        const solicitud = new Array() //Arreglo donde guardaremos los objetos reescritos
+        const solicitud = [] //Arreglo donde guardaremos los objetos reescritos
         for(var i =0; i<arreglo_inicial.length; i++){  //Recorremos el arreglo inicial
           solicitud[i] = //Asignamos los campos del arrelgo inicial a los del nuevo objeto
             {'codigo_propuesta': arreglo_inicial[i].codigo_propuesta ,
