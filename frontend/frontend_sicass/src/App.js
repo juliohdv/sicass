@@ -13,7 +13,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems } from './componentes/listItems';
+import { Divider } from '@material-ui/core';
+import { itemsVisitante } from './componentes/itemsVisitante';
+import { itemsEstudiante } from './componentes/itemsEstudiante';
+import { itemsFacultad } from './componentes/itemsFacultad';
+import { itemsEscuela } from './componentes/itemsEscuela';
+import { itemsAdmin } from './componentes/itemsAdmin';
 import LogoSicass from './componentes/LogoSicass';
 import EnvioRegistro from './componentes/EnvioRegistro';
 import EnvioPropuesta from './componentes/EnvioPropuesta';
@@ -43,7 +48,7 @@ function Copyright() {
   );
 }
 
-const drawerWidth = 290;
+const drawerWidth = 335; //Ancho del menú desplegable
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -133,7 +138,9 @@ export default function App() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  const handleClick = () => {
+    setOpen(!open);
+  }
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -179,7 +186,15 @@ export default function App() {
               <ChevronLeftIcon />
             </IconButton>
           </div>
-          <List>{mainListItems}</List>
+          <List>{itemsVisitante}</List>
+          <Divider/>
+          <List>{itemsAdmin}</List>
+          <Divider />
+          <List>{itemsEstudiante}</List>
+          <Divider/>
+          <List>{itemsFacultad}</List>
+          <Divider/>
+          <List>{itemsEscuela}</List>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
@@ -261,9 +276,7 @@ function Inicio() {
   return <InicioInformacion></InicioInformacion>;
 }
 function IniciarSesion(){
-  return(
-    <Login></Login>
-  );
+  return <Login />;
 }
 function RegistrarseUps(){
   return <EnvioRegistroUps />;
