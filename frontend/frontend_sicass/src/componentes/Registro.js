@@ -71,7 +71,8 @@ class Registro extends Component {
           axios
             .post("http://127.0.0.1:8000/login/crearUsuario/", {
               username: values.carnet,
-              password: values.carnet
+              password: values.carnet,
+              tipo_usuario: 1
             })
             .then((response)=>{
               axios

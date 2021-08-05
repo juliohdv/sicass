@@ -35,6 +35,8 @@ import ServicioSocial from "./componentes/ServicioSocial";
 import SolicitudProyecto from "./componentes/SolicitudProyecto";
 import { LockOpen } from "@material-ui/icons";
 import { Backdrop, Fade, Modal } from "@material-ui/core";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 function leerCookie(nombre){
   let key = nombre + "=";
@@ -154,7 +156,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4, 3),
   },
 }));
-
+const LogoutSW = withReactContent(Swal);
 export default function App() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -171,7 +173,6 @@ export default function App() {
   const handleCloseLogin = () => {
     setOpenLogin(false);
   };
-
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -210,10 +211,12 @@ export default function App() {
           >
             Iniciar Sesión
           </Button>
+          
           <Button
             variant="contained"
             color="default"
             startIcon={<LockOpen />}
+            
           >
             Cerrar Sesión
           </Button>
