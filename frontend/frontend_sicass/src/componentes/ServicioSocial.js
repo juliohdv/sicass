@@ -161,6 +161,9 @@ class Propuestas extends Component {
   }
   render() {
     return (
+      /* Obtener el id del usuario, asi obtener su carnet, enviar los datos 
+      a la tabla de solicitud servicio (hacer backend), disminuir la cantidad de cupos
+      disponibles, solo servicios disponibles y aprobados*/
       <Dashboard
         contenedor={
           <div className="pt-5">

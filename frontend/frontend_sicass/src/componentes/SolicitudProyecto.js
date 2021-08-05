@@ -128,6 +128,7 @@ class SolicitudProyecto extends Component {
   } */
   render() {
     return (
+      /* Filtrar por usuario iniciado, los estdos de solicitud respectivos */
       <Dashboard
         contenedor={
           <div className="pt-5">

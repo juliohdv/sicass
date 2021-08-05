@@ -71,7 +71,7 @@ class Registro extends Component {
           axios
             .post("http://127.0.0.1:8000/login/crearUsuario/", {
               username: values.carnet,
-              password: values.carnet,
+              password: values.password,
               tipo_usuario: 1
             })
             .then((response)=>{
@@ -100,8 +100,9 @@ class Registro extends Component {
                         showConfirmButton: false,
                         timer: 2500,
                       });
-                      this.limpiarFormulario();
-                      /* Hay que limpiar los valores iniciales los vuelve a poner en los input */
+                      //Limpia el formulario ingresado en pantalla
+                      this.reiniciarFacultad();
+                      resetForm({});
                     })
                     .catch((error) => {
                       Swal.fire({
@@ -110,10 +111,11 @@ class Registro extends Component {
                         title:
                           "Ocurrio un error en su registro: Estudiante ya registrado",
                       });
-                    /* Hay que limpiar los valores iniciales los vuelve a poner en los input */
                   });
                 })
+                .catch((error)=>{});
             })
+            .catch((error)=>{});
         }}
       >
         {({ values, handleSubmit, handleChange }) => (
@@ -156,8 +158,8 @@ class Registro extends Component {
                     placeholder="**********"
                     id="password"
                     autoComplete="off"
-                    required={false}
-                    value={values.carnet}
+                    required={true}
+                    value={values.password}
                     onChange={handleChange}
                   />
                 </OverlayTrigger>

@@ -128,6 +128,7 @@ class SolicitudInscripcion extends Component {
   } */
   render() {
     return (
+      /* Filtrar por el usuario, los respectivos estado de solicitud */
       <Dashboard
         contenedor={
           <div className="pt-5">

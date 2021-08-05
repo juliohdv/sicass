@@ -6,6 +6,8 @@ import Botones from "./BotonesRegistro";
 class RegistroUps extends Component {
   render() {
     return (
+      /* Obtener el id de usuario del estudiante, con ello obtener su carnet y enviarlo
+      a la tabla de solicitud ups (crear backend)*/
       <Form>
         <Form.Row>
           <Form.Group as={Col} className="pl-5 pr-5">
