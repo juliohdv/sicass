@@ -112,6 +112,7 @@ class Login extends Component {
             console.log(err)
         })
     }
+    
     inputChanged = event =>{ //asociamos el valor actual del form al stado del componente
         const credenc = this.state.credenciales;
         credenc[event.target.name] = event.target.value;

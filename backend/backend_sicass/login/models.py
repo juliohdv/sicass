@@ -13,7 +13,7 @@ class User(AbstractUser):
         (3, 'encargadoEscuela'),
         (4,'admin'),
     )
-    tipo_usuario = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=4)
+    tipo_usuario = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES)
 class EntidadExterna(models.Model):
     codigo_entidad = models.BigAutoField(primary_key=True)
     nombre_entidad = models.CharField(max_length=150)
