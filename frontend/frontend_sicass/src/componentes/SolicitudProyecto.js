@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Dashboard from "./Dashboard";
-import axios from "axios";
 import MUIDataTable from "mui-datatables";
 
 //Constante con las columnas de la tabla
@@ -81,7 +80,7 @@ const data = [
   },
 ];
 //Constante con la url de la api (Backend)
-const url = "http://127.0.0.1:8000/login/solicitudes/";
+
 //Clase principal del componente
 class SolicitudProyecto extends Component {
   /* constructor(props) {

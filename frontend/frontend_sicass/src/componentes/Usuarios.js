@@ -78,6 +78,7 @@ class Usuarios extends Component {
         is_staff: "",
         is_active: "",
         date_joined: "",
+        tipo_usuario:"",
         tipoModal: "",
       },
     };
@@ -96,6 +97,7 @@ class Usuarios extends Component {
         email: this.state.form.email,
         is_staff: this.state.form.is_staff,
         is_active: this.state.form.is_active,
+        tipo_usuario: this.state.form.tipo_usuario,
       })
       .then((response) => {
         this.modalInsertar();
@@ -180,6 +182,7 @@ class Usuarios extends Component {
         email: usuario[6],
         is_staff: usuario[7],
         is_active: usuario[8],
+        tipo_usuario: usuario[9],
       },
     });
   };
@@ -258,6 +261,10 @@ class Usuarios extends Component {
       {
         name: "is_active",
         label: "Activo",
+      },
+      {
+        name: "tipo_usuario",
+        label: "Tipo de Usuario",
       },
       {
         name: "date_joined",
@@ -448,7 +455,16 @@ class Usuarios extends Component {
                     onChange={this.handleChange}
                   />
                 </Form.Group>
-
+                <Form.Group>
+                  <Form.Label>Tipo de Usuario</Form.Label>
+                  <Form.Control
+                    type="text"
+                    id="tipo_usuario"
+                    name="tipo_usuario"
+                    value={form ? form.tipo_usuario : ""}
+                    onChange={this.handleChange}
+                  />
+                </Form.Group>
                 <ModalFooter>
                   {this.state.tipoModal === "insertar" ? (
                     <Button

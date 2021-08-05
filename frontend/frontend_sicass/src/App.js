@@ -1,40 +1,55 @@
-import React from 'react';
-import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom'
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Container from '@material-ui/core/Container';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { Divider } from '@material-ui/core';
-import { itemsVisitante } from './componentes/itemsVisitante';
-import { itemsEstudiante } from './componentes/itemsEstudiante';
-import { itemsFacultad } from './componentes/itemsFacultad';
-import { itemsEscuela } from './componentes/itemsEscuela';
-import { itemsAdmin } from './componentes/itemsAdmin';
-import LogoSicass from './componentes/LogoSicass';
-import EnvioRegistro from './componentes/EnvioRegistro';
-import EnvioPropuesta from './componentes/EnvioPropuesta';
-import EnvioSolicitud from './componentes/EnvioSolicitud';
-import Roles from './componentes/Roles';
-import Solicitudes from './componentes/Solicitudes';
-import Login from './componentes/login';
-import Propuestas from './componentes/Propuestas';
-import Usuarios from './componentes/Usuarios';
-import InicioInformacion from './componentes/InicioInformacion';
-import EnvioRegistroUps from './componentes/EnvioRegistroUps';
-import SolicitudInscripcion from './componentes/SolicitudInscripcion';
-import ServicioSocial from './componentes/ServicioSocial';
-import SolicitudProyecto from './componentes/SolicitudProyecto';
+import React from "react";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Drawer from "@material-ui/core/Drawer";
+import Box from "@material-ui/core/Box";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import List from "@material-ui/core/List";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import Container from "@material-ui/core/Container";
+import MenuIcon from "@material-ui/icons/Menu";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import { Button } from "@material-ui/core";
+import { itemsVisitante } from "./componentes/itemsVisitante";
+import { itemsEstudiante } from "./componentes/itemsEstudiante";
+import { itemsFacultad } from "./componentes/itemsFacultad";
+import { itemsEscuela } from "./componentes/itemsEscuela";
+import { itemsAdmin } from "./componentes/itemsAdmin";
+import LogoSicass from "./componentes/LogoSicass";
+import EnvioRegistro from "./componentes/EnvioRegistro";
+import EnvioPropuesta from "./componentes/EnvioPropuesta";
+import EnvioSolicitud from "./componentes/EnvioSolicitud";
+import Roles from "./componentes/Roles";
+import Solicitudes from "./componentes/Solicitudes";
+import Login from "./componentes/login";
+import Propuestas from "./componentes/Propuestas";
+import Usuarios from "./componentes/Usuarios";
+import InicioInformacion from "./componentes/InicioInformacion";
+import EnvioRegistroUps from "./componentes/EnvioRegistroUps";
+import SolicitudInscripcion from "./componentes/SolicitudInscripcion";
+import ServicioSocial from "./componentes/ServicioSocial";
+import SolicitudProyecto from "./componentes/SolicitudProyecto";
+import { LockOpen } from "@material-ui/icons";
+import { Backdrop, Fade, Modal } from "@material-ui/core";
 
-
+function leerCookie(nombre){
+  let key = nombre + "=";
+  let cookies = document.cookie.split(";")
+  for(let i=0; i<cookies.length; i++){
+    let cookie = cookies[i]
+    while(cookie.charAt(0) === ' '){
+      cookie = cookie.substring(1,cookie.length)
+    }
+    if(cookie.indexOf(key) === 0){
+      return cookie.substring(key.length, cookie.length)
+    }
+  }
+  return null;
+}
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -127,20 +142,36 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  paperLogin: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
 }));
 
 export default function App() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const [openLogin, setOpenLogin] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const handleClick = () => {
-    setOpen(!open);
-  }
+  const handleOpenLogin = () => {
+    setOpenLogin(true);
+  };
+  const handleCloseLogin = () => {
+    setOpenLogin(false);
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -171,6 +202,41 @@ export default function App() {
           >
             SICASS
           </Typography>
+          <Button
+            variant="contained"
+            color="default"
+            startIcon={<LockOpen />}
+            onClick={handleOpenLogin}
+          >
+            Iniciar Sesión
+          </Button>
+          <Button
+            variant="contained"
+            color="default"
+            startIcon={<LockOpen />}
+          >
+            Cerrar Sesión
+          </Button>
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className={classes.modal}
+            open={openLogin}
+            onClose={handleCloseLogin}
+
+            closeAfterTransition={true}
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Fade in={openLogin}>
+              <div className={classes.paperLogin}>
+                <h2 id="transition-modal-title">Inicio de Sesión:</h2>
+                <Login />
+              </div>
+            </Fade>
+          </Modal>
         </Toolbar>
       </AppBar>
       <Router>
@@ -186,24 +252,26 @@ export default function App() {
               <ChevronLeftIcon />
             </IconButton>
           </div>
-          <List>{itemsVisitante}</List>
-          <Divider/>
-          <List>{itemsAdmin}</List>
-          <Divider />
-          <List>{itemsEstudiante}</List>
-          <Divider/>
-          <List>{itemsFacultad}</List>
-          <Divider/>
-          <List>{itemsEscuela}</List>
+          {(() => {
+          let tipo_usuario = leerCookie("tipo_usuario");
+          switch(tipo_usuario) {
+            case "1": return <List>{itemsEstudiante}</List>;
+            case "2": return <List>{itemsFacultad}</List>;
+            case "3": return <List>{itemsEscuela}</List>;
+            case "4": return <List>{itemsAdmin}</List>;
+            default: return <List>{itemsVisitante}</List>
+          }
+        })()}
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Container>
             <Switch>
-              {    
-              <Route exact path="/">
-                <Inicio />
-              </Route>}
+              {
+                <Route exact path="/">
+                  <Inicio />
+                </Route>
+              }
               <Route path="/RegistroEstudiante">
                 <RegistroEstudiante />
               </Route>
@@ -220,16 +288,16 @@ export default function App() {
                 <ConsultarSolicitud />
               </Route>
               <Route path="/Login">
-                <IniciarSesion/>
+                <IniciarSesion />
               </Route>
               <Route path="/GestionarUsuarios">
-                <GestionUsuarios/>
+                <GestionUsuarios />
               </Route>
               <Route path="/ConsultarPropuesta">
-                <ConsultarPropuesta/>
+                <ConsultarPropuesta />
               </Route>
               <Route path="/RegistroUps">
-                <RegistrarseUps/>
+                <RegistrarseUps />
               </Route>
               <Route path="/SolicitudInscripcion">
                 <ConsultarInscripcion />
@@ -275,18 +343,18 @@ function GestionUsuarios() {
 function Inicio() {
   return <InicioInformacion></InicioInformacion>;
 }
-function IniciarSesion(){
+function IniciarSesion() {
   return <Login />;
 }
-function RegistrarseUps(){
+function RegistrarseUps() {
   return <EnvioRegistroUps />;
 }
-function ConsultarInscripcion(){
+function ConsultarInscripcion() {
   return <SolicitudInscripcion />;
 }
-function Servicios(){
+function Servicios() {
   return <ServicioSocial />;
 }
-function Proyecto(){
+function Proyecto() {
   return <SolicitudProyecto />;
 }

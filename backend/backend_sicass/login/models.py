@@ -1,10 +1,19 @@
+from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
 from django.db.models.expressions import Case
 from django.db.models.fields import CharField, DateField, TextField
 from django.db.models.fields.related import ForeignKey
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 
 # Create your models here.
+class User(AbstractUser):
+    USER_TYPE_CHOICES = (
+        (1, 'estudiante'),
+        (2, 'encargadoFacultad'),
+        (3, 'encargadoEscuela'),
+        (4,'admin'),
+    )
+    tipo_usuario = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=4)
 class EntidadExterna(models.Model):
     codigo_entidad = models.BigAutoField(primary_key=True)
     nombre_entidad = models.CharField(max_length=150)

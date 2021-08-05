@@ -4,6 +4,7 @@ from django.conf.urls import include
 from rest_framework import routers
 from rest_framework.fields import BuiltinSignatureError
 from .views import *
+from . import views
 
 router = routers.DefaultRouter()
 router.register('crearUsuario', Usuarios)  #Crea un usuario nuevo
@@ -25,4 +26,9 @@ router.register('servicioSocial', ServicioSocialVista) #Retorna la gestion de ro
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('csrf/',views.get_csrf, name='api-csrf'),
+    path('login/', views.login_view, name='api-login'),
+    path('logout/', views.logout_view, name='api-logout'),
+    path('session/', views.session_view, name='api-session'),
+    path('whoami/', views.whoami_view, name='api-whoami'),
 ]

@@ -10,12 +10,13 @@ import { ListSubheader } from "@material-ui/core";
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
+
 const useStyles = makeStyles((theme) => ({
   nested: {
-    paddingLeft: theme.spacing(4),
-    
+    paddingLeft: theme.spacing(4),  
   },
 }));
+
 export const itemsVisitante = (
   <div>
     <ListSubheader>Menú</ListSubheader>
@@ -56,6 +57,7 @@ export const itemsVisitante = (
 function DesplegarPropuestas(props) {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
+
   return (
     <>
       <ListItem

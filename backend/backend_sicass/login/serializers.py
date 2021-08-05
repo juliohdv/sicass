@@ -3,7 +3,6 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Permission
 from .models import *
-from rest_framework.authtoken.models import Token
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,8 +12,8 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         usuario = User.objects.create_user(**validated_data)
-        Token.objects.create(user=usuario) #Asignamos un token al usuario creado
         return usuario
+    
 
 class TipoServicioSocialSerializer(serializers.ModelSerializer):
     class Meta:
@@ -90,7 +89,7 @@ class EntidadExternaSerializer(serializers.ModelSerializer):
 class UsuariosGestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id','last_login','is_superuser', 'username', 'first_name','last_name','email','is_staff','is_active','date_joined']
+        fields = ['id','last_login','is_superuser', 'username', 'first_name','last_name','email','is_staff','is_active','date_joined','tipo_usuario']
     def create(self, validated_data):
         usuarios = User.objects.create(**validated_data)
         return usuarios
