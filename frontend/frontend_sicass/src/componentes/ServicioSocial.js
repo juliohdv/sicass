@@ -125,7 +125,7 @@ class Propuestas extends Component {
       .then((response) => {
         console.log(response.data);
         const arreglo_inicial = response.data; //Guardamos el arreglo inicial para su reescritura
-        const servicios = new Array(); //Arreglo donde guardaremos los objetos reescritos
+        const servicios = []; //Arreglo donde guardaremos los objetos reescritos
         for (var i = 0; i < arreglo_inicial.length; i++) {
           /*if(arreglo_inicial[i].Propuestas != null){
                 arreglo_inicial[i].entidad = arreglo_inicial[i].Propuestas.entidad_externa_detalle.nombre_entidad;
