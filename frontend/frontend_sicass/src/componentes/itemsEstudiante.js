@@ -36,7 +36,7 @@ export const itemsEstudiante = (
     <DesplegarServicioSocial
       opcionGeneral={"Servicio Social"}
       opcion1={"Consultar SS Disponible"}
-      link1={""}
+      link1={"/ServicioSocial"}
       opcion2={"Estado de Mis Servicios Sociales"}
       link2={"/SolicitudProyecto"}
       opcion3={"Registrar Actividades"}
