@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Button, Form, Card}  from  'react-bootstrap';
-import Cookies from 'universal-cookie';
 
 class Login extends Component {
     constructor(props){
@@ -32,7 +31,7 @@ class Login extends Component {
     }
     getCSRF = () =>{
         fetch("http://127.0.0.1:8000/login/csrf/",{
-            credentials: "same-origin",
+            credentials: "include",
         })
         .then((res)=>{
             let csrfToken = res.headers.get("X-CSRFToken")
@@ -45,7 +44,7 @@ class Login extends Component {
     }
     getSession = () => {
         fetch("http://127.0.0.1:8000/login/session/",{
-            credentials: "same-origin",
+            credentials: "include",
         })
         .then((res) => res.json())
         .then((data) =>{
@@ -66,7 +65,7 @@ class Login extends Component {
             headers:{
                 "Content-Type": "application/json",
             },
-            credentials: "same-origin",
+            credentials: "include",
         })
         .then((res) => res.json())
         .then((data) => {
@@ -77,13 +76,12 @@ class Login extends Component {
         })
     }
     login = event =>{
-        const cookies = new Cookies();
         console.log(this.state.credenciales);
         fetch('http://127.0.0.1:8000/login/login/',{
             method: 'POST',
             headers: {'Content-Type': 'application/json',
-            'X-CSRFToken': cookies.get("csrftoken")},
-            credentials: 'same-origin',
+            'X-CSRFToken': this.state.csrf},
+            credentials: 'include',
             body: JSON.stringify({
                 username: this.state.credenciales.username,
                 password: this.state.credenciales.password
@@ -92,7 +90,7 @@ class Login extends Component {
         .then(this.isResponseOk)
         .then(
             data => {
-                this.setState({isAuthenticated:true})
+                this.setState({isAuthenticated:true, username:"", password:"", error:""})
                 this.createCookie("usuario",data.username);
                 this.createCookie("tipo_usuario", data.tipo_usuario);
                 
@@ -101,10 +99,11 @@ class Login extends Component {
     }
     logout = () =>{
         fetch("http://127.0.0.1:8000/login/logout/",{
-            credentials: "same-origin",
+            credentials: "include",
         })
         .then(this.isResponseOk)
         .then((data)=>{
+            console.log(data)
             this.setState({isAuthenticated:false})
             this.getCSRF();
         })

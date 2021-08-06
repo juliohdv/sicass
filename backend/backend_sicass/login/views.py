@@ -1,7 +1,3 @@
-
-from django.contrib.auth.decorators import login_required
-
-
 from .models import TipoServicioSocial
 from rest_framework import viewsets
 from django.contrib.auth.models import User
@@ -22,7 +18,12 @@ def get_csrf(request):
     response['X-CSRFToken'] = get_token(request)
     return response
 
-
+@ensure_csrf_cookie
+def session_view(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'isAuthenticated': False})
+    return JsonResponse({'isAuthenticated': True})
+    
 @require_POST
 def login_view(request):
     data = json.loads(request.body)
@@ -35,21 +36,16 @@ def login_view(request):
         return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
     login(request, user)
     return JsonResponse({'detail': 'Successfully logged in.', 'username': username, 'tipo_usuario': user.__getattribute__('tipo_usuario')})
+    
 
 
 def logout_view(request):
-    if not request.user.is_authenticated:
-        return JsonResponse({'detail': 'You\'re not logged in.'}, status=400)
-
+    #if not request.user.is_authenticated:
+    #    return JsonResponse({'detail': 'You\'re not logged in.'}, status=400)
     logout(request)
     return JsonResponse({'detail': 'Successfully logged out.'})
 
 
-@ensure_csrf_cookie
-def session_view(request):
-    if not request.user.is_authenticated:
-        return JsonResponse({'isAuthenticated': False})
-    return JsonResponse({'isAuthenticated': True})
 
 
 def whoami_view(request):
