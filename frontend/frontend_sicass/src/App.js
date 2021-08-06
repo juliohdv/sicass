@@ -64,6 +64,7 @@ function Copyright() {
   );
 }
 let tipo_usuario = " ";
+let nombre_usuario = " ";
 const drawerWidth = 335; //Ancho del menú desplegable
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -171,6 +172,8 @@ export default function App() {
   const handleCloseLogin = () => {
     setOpenLogin(false);
     tipo_usuario = leerCookie("tipo_usuario");
+    nombre_usuario = leerCookie("usuario");
+
   };
   const handleOpenLogout = () => {
     setOpenLogout(true);
@@ -178,6 +181,7 @@ export default function App() {
   const handleCloseLogout = () => {
     setOpenLogout(false);
     tipo_usuario = " "
+    nombre_usuario = " "
     
   }
   return (
@@ -213,16 +217,31 @@ export default function App() {
           
           {(() => {
             if(tipo_usuario !== " "){
-              return <Button variant="contained" color="default" startIcon={<LockOpen />}onClick={handleOpenLogout}>Cerrar Sesión</Button>
+              return(
+               <Typography
+                variant ="overline"
+                color="inherit"
+                align="center"
+                display="block">
+                Bienvenid@: {nombre_usuario}{"  "} 
+                    <Button 
+                    variant="contained" 
+                    color="default" 
+                    startIcon={<LockOpen />}
+                    onClick={handleOpenLogout}>
+                      Cerrar Sesión
+                    </Button>
+                </Typography>
+              );
+
             }else{
               return <Button
-              variant="contained"
-              color="default"
-              startIcon={<LockOpen />}
-              onClick={handleOpenLogin}
-            >
-              Iniciar Sesión
-            </Button>
+                variant="contained"
+                color="default"
+                startIcon={<LockOpen />}
+                onClick={handleOpenLogin}>
+                Iniciar Sesión
+              </Button>
             }
         })()}
           
