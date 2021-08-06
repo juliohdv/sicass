@@ -26,6 +26,7 @@ import EnvioSolicitud from "./componentes/EnvioSolicitud";
 import Roles from "./componentes/Roles";
 import Solicitudes from "./componentes/Solicitudes";
 import Login from "./componentes/login";
+import Logout from "./componentes/logout";
 import Propuestas from "./componentes/Propuestas";
 import Usuarios from "./componentes/Usuarios";
 import InicioInformacion from "./componentes/InicioInformacion";
@@ -35,8 +36,6 @@ import ServicioSocial from "./componentes/ServicioSocial";
 import SolicitudProyecto from "./componentes/SolicitudProyecto";
 import { LockOpen } from "@material-ui/icons";
 import { Backdrop, Fade, Modal } from "@material-ui/core";
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
 
 function leerCookie(nombre){
   let key = nombre + "=";
@@ -64,9 +63,9 @@ function Copyright() {
     </Typography>
   );
 }
-
+let tipo_usuario = " ";
+let nombre_usuario = " ";
 const drawerWidth = 335; //Ancho del menú desplegable
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -156,11 +155,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4, 3),
   },
 }));
-const LogoutSW = withReactContent(Swal);
 export default function App() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [openLogin, setOpenLogin] = React.useState(false);
+  const [openLogout, setOpenLogout] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -172,7 +171,19 @@ export default function App() {
   };
   const handleCloseLogin = () => {
     setOpenLogin(false);
+    tipo_usuario = leerCookie("tipo_usuario");
+    nombre_usuario = leerCookie("usuario");
+
   };
+  const handleOpenLogout = () => {
+    setOpenLogout(true);
+  }
+  const handleCloseLogout = () => {
+    setOpenLogout(false);
+    tipo_usuario = " "
+    nombre_usuario = " "
+    
+  }
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -203,23 +214,38 @@ export default function App() {
           >
             SICASS
           </Typography>
-          <Button
-            variant="contained"
-            color="default"
-            startIcon={<LockOpen />}
-            onClick={handleOpenLogin}
-          >
-            Iniciar Sesión
-          </Button>
           
-          <Button
-            variant="contained"
-            color="default"
-            startIcon={<LockOpen />}
-            
-          >
-            Cerrar Sesión
-          </Button>
+          {(() => {
+            if(tipo_usuario !== " "){
+              return(
+               <Typography
+                variant ="overline"
+                color="inherit"
+                align="center"
+                display="block">
+                Bienvenid@: {nombre_usuario}{"  "} 
+                    <Button 
+                    variant="contained" 
+                    color="default" 
+                    startIcon={<LockOpen />}
+                    onClick={handleOpenLogout}>
+                      Cerrar Sesión
+                    </Button>
+                </Typography>
+              );
+
+            }else{
+              return <Button
+                variant="contained"
+                color="default"
+                startIcon={<LockOpen />}
+                onClick={handleOpenLogin}>
+                Iniciar Sesión
+              </Button>
+            }
+        })()}
+          
+          
           <Modal
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
@@ -240,6 +266,26 @@ export default function App() {
               </div>
             </Fade>
           </Modal>
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className={classes.modal}
+            open={openLogout}
+            onClose={handleCloseLogout}
+
+            closeAfterTransition={true}
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Fade in={openLogout}>
+              <div className={classes.paperLogin}>
+                <h2 id="transition-modal-title">Cerrar Sesión:</h2>
+                <Logout />
+              </div>
+            </Fade>
+          </Modal>
         </Toolbar>
       </AppBar>
       <Router>
@@ -256,7 +302,6 @@ export default function App() {
             </IconButton>
           </div>
           {(() => {
-          let tipo_usuario = leerCookie("tipo_usuario");
           switch(tipo_usuario) {
             case "1": return <List>{itemsEstudiante}</List>;
             case "2": return <List>{itemsFacultad}</List>;
@@ -361,3 +406,4 @@ function Servicios() {
 function Proyecto() {
   return <SolicitudProyecto />;
 }
+
