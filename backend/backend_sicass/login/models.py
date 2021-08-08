@@ -103,3 +103,13 @@ class ServicioSocial(models.Model):
 
     def __str__(self):
         return '%s' % (self.codigo_servicio_social)
+
+class SolicitudUps(models.Model):
+    codigo_solicitud_ups = models.BigAutoField(primary_key=True, unique=True)
+    enlace = models.CharField(max_length=500)
+    observaciones = models.CharField(max_length=500)
+    estado_solicitud = TextField(max_length=50, default='En Proceso')
+    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '%s' % (self.codigo_solicitud_ups)

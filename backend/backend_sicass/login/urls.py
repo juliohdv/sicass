@@ -23,6 +23,7 @@ router.register('carreraPorId',CarreraPorId, basename='Carrera')  #Retorna una c
 router.register('propuestas', PropuestasVista, basename='Propuesta') #Crea una propuesta nueva
 router.register('usuarios', UsuariosGestionVista) #Retorna la gestion de roles y privilegios
 router.register('servicioSocial', ServicioSocialVista) #Retorna la gestion de roles y privilegios
+router.register('registroUps', SolicitudUpsVista) #Retorna la gestion de roles y privilegios
 
 urlpatterns = [
     path('', include(router.urls)),
