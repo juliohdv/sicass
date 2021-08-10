@@ -24,6 +24,7 @@ router.register('propuestas', PropuestasVista, basename='Propuesta') #Crea una p
 router.register('usuarios', UsuariosGestionVista) #Retorna la gestion de roles y privilegios
 router.register('servicioSocial', ServicioSocialVista) #Retorna la gestion de roles y privilegios
 router.register('registroUps', SolicitudUpsVista) #Retorna la gestion de roles y privilegios
+router.register('tipoContenido', TipoContenidoVistas) #Retorna el tipo de contenido de roles y privilegios
 
 urlpatterns = [
     path('', include(router.urls)),

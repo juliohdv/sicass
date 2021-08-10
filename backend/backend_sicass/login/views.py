@@ -2,6 +2,7 @@ from .models import TipoServicioSocial
 from rest_framework import viewsets
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from .serializers import *
 import json
 from django.contrib.auth import authenticate, login, logout
@@ -160,3 +161,7 @@ class ServicioSocialVista(viewsets.ModelViewSet):
 class SolicitudUpsVista(viewsets.ModelViewSet):
     serializer_class = SolicitudUpsSerializer
     queryset = SolicitudUps.objects.all()
+
+class TipoContenidoVistas(viewsets.ModelViewSet):
+    queryset = ContentType.objects.all()
+    serializer_class = TipoContenidoSerializer

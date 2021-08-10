@@ -2,6 +2,7 @@ from django.db.models import fields
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from .models import *
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -113,3 +114,11 @@ class SolicitudUpsSerializer(serializers.ModelSerializer):
     def create(self, validate_data):
         solicitudUps = SolicitudUps.objects.create(**validate_data)
         return solicitudUps
+
+class TipoContenidoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContentType
+        fields = "__all__"
+    def create(self, validated_data):
+        tipoContenido = ContentType.objects.create(**validated_data)
+        return tipoContenido
