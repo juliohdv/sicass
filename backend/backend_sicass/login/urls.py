@@ -25,6 +25,7 @@ router.register('usuarios', UsuariosGestionVista) #Retorna la gestion de roles y
 router.register('servicioSocial', ServicioSocialVista) #Retorna la gestion de roles y privilegios
 router.register('registroUps', SolicitudUpsVista) #Retorna la gestion de roles y privilegios
 router.register('tipoContenido', TipoContenidoVistas) #Retorna el tipo de contenido de roles y privilegios
+router.register('registroUpsEstudiante', SolicitudUpsFiltroVistas, basename='Estudiante') #Retorna lista de carreras por facultad
 
 urlpatterns = [
     path('', include(router.urls)),

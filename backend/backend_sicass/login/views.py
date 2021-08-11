@@ -165,3 +165,13 @@ class SolicitudUpsVista(viewsets.ModelViewSet):
 class TipoContenidoVistas(viewsets.ModelViewSet):
     queryset = ContentType.objects.all()
     serializer_class = TipoContenidoSerializer
+
+class SolicitudUpsFiltroVistas(viewsets.ModelViewSet):
+    serializer_class = SolicitudUpsSerializer
+
+    def get_queryset(self):
+        estudiante = self.request.query_params.get('estudiante')
+        queryset = SolicitudUps.objects.all().filter(estudiante_id=estudiante)
+        if estudiante is not None:
+            queryset = queryset.filter(estudiante=estudiante)
+        return queryset
