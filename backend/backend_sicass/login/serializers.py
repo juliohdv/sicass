@@ -90,9 +90,10 @@ class EntidadExternaSerializer(serializers.ModelSerializer):
 class UsuariosGestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id','last_login','is_superuser', 'username', 'first_name','last_name','email','is_staff','is_active','date_joined','tipo_usuario']
+        fields = ['id','last_login','is_superuser', 'username', 'password', 'first_name','last_name','email','is_staff','is_active','date_joined','tipo_usuario']
+        extra_kwargs = {'password': {'write_only':True, 'required':True}}
     def create(self, validated_data):
-        usuarios = User.objects.create(**validated_data)
+        usuarios = User.objects.create_user(**validated_data)
         return usuarios
 
 class ServicioSocialSerializer(serializers.ModelSerializer):
