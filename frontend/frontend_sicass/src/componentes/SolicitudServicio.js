@@ -19,6 +19,7 @@ class SolicitudServicio extends Component {
       tipoServicioSocialSeleccionado: "",
     };
     this.handleFacultad = this.handleFacultad.bind(this);
+    this.handleCarrera = this.handleCarrera.bind(this);
   }
   handleFacultad(event) {
     this.setState({ facultadSeleccionada: event.target.value });
@@ -32,7 +33,19 @@ class SolicitudServicio extends Component {
       })
       .catch((error) => {});
   }
-
+  handleCarrera(event){
+    this.setState({ facultadSeleccionada: event.target.value });
+    this.setState({ carreraSeleccionada: event.target.value });
+    this.setState({tipoServicioSocialSeleccionado:  event.target.value })
+    axios
+      .get("http://127.0.0.1:8000/login/tiposServicioSocialPorCarrera/",{
+        params: {carrera: event.target.value },
+      })
+      .then((response) => {
+        this.setState({ tipos_servicio_social: response.data });
+      })
+      .catch((error) => {});
+  }
   componentDidMount() {
     //Consulta lista de facultades
     axios
@@ -48,12 +61,6 @@ class SolicitudServicio extends Component {
             "Por el momento no hay conexión con la base de datos, intente en otro momento",
         });
       });
-    axios
-      .get("http://127.0.0.1:8000/login/tiposServicioSocial/")
-      .then((response) => {
-        this.setState({ tipos_servicio_social: response.data });
-      })
-      .catch((error) => {});
   }
    //Funcion para resetear la facultad seleccionada
    reiniciarFacultad(){
@@ -258,7 +265,7 @@ class SolicitudServicio extends Component {
                   onChange={this.handleFacultad}
                 >
                   <option value="" disabled={true} selected>
-                    Selecione...
+                    Seleccione...
                   </option>
                   {this.state.facultades.map((elemento) => (
                     <option
@@ -281,10 +288,10 @@ class SolicitudServicio extends Component {
                   id="carrera_id"
                   value={values.carrera_id}
                   required={true}
-                  onChange={handleChange}
+                  onChange={this.handleCarrera}
                 >
                   <option value="" disabled={true}>
-                    Selecione...
+                    Seleccione...
                   </option>
                   {this.state.carreras.map((elemento) => (
                     <option
@@ -310,7 +317,7 @@ class SolicitudServicio extends Component {
                   onChange={handleChange}
                 >
                   <option value="" disabled={true} selected={true}>
-                    Selecione...
+                    Seleccione...
                   </option>
                   {this.state.tipos_servicio_social.map((elemento) => (
                     <option
