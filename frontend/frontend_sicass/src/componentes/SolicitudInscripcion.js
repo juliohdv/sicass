@@ -23,11 +23,6 @@ function leerCookie(nombre) {
 //Constante con las columnas de la tabla
 const columns = [
   {
-    name: "codigo_solicitud_ups",
-    label: "Codigo",
-    key: "codigo_solicitud_ups",
-  },
-  {
     name: "estado_solicitud",
     label: "Estado",
     key: "estado_solicitud",
@@ -41,6 +36,13 @@ const columns = [
     name: "enlace",
     label: "Enlace",
     key: "enlace",
+    options: {
+      customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <a href={value} target="_blank" rel="noreferrer">Google Drive</a>
+          );
+      },
+    },
   },
 ];
 
@@ -111,7 +113,6 @@ class SolicitudInscripcion extends Component {
         },
       })
       .then((response) => {
-        console.log(response.data);
         this.setState({ solicitudes: response.data });
       })
       .catch((error) => {

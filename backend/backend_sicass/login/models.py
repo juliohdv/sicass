@@ -113,3 +113,11 @@ class SolicitudUps(models.Model):
 
     def __str__(self):
         return '%s' % (self.codigo_solicitud_ups)
+
+class SolicitudServicioSocial(models.Model):
+    codigo_solicitud_servicio = models.BigAutoField(primary_key=True, unique=True)
+    servicio_social = models.ForeignKey(ServicioSocial, on_delete=models.CASCADE)
+    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '%s' % (self.codigo_solicitud_servicio)

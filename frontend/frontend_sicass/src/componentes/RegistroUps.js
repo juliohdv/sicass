@@ -102,33 +102,8 @@ class RegistroUps extends Component {
       >
         {({ values, handleSubmit, handleChange }) => (
           <Form onSubmit={handleSubmit}>
-            <Form.Row>
-              <Form.Group as={Col} className="pl-5 pr-5">
-                <Form.Label>Enlace de la carpeta creada en Drive</Form.Label>
-                <OverlayTrigger
-                  overlay={
-                    <Tooltip>
-                      Pegue el enlace obtenido en los pasos anteriores
-                    </Tooltip>
-                  }
-                >
-                  <Form.Control
-                    type="text"
-                    id="enlace"
-                    autoComplete="off"
-                    pattern="(https:[/][/]drive[.]google[.]com[/]drive[/]folders[/])(.+)"
-                    placeholder="https://drive.google.com/drive/folders/..."
-                    required={true}
-                    value={values.enlace}
-                    onChange={handleChange}
-                  />
-                </OverlayTrigger>
-              </Form.Group>
-            </Form.Row>
-            {this.state.solicitudes.length === 0 ||
-            this.state.ultimoEstado !== "En Proceso" ? (
-              <Botones />
-            ) : (
+            {this.state.ultimoEstado === "En Proceso" ||
+            this.state.ultimoEstado === "Aprobada" ? (
               <Alert variant="success">
                 <Alert.Heading>Aviso</Alert.Heading>
                 <hr />
@@ -147,9 +122,42 @@ class RegistroUps extends Component {
                       solicitud, cuando haya solventado toda las observaciones
                       que se le realizaron.
                     </li>
+                    <li>
+                      Si su solicitud es "Aprobada", se habilitaran las opciones
+                      para que pueda solicitar un servicio social.
+                    </li>
                   </ul>
                 </p>
               </Alert>
+            ) : (
+              <>
+                <Form.Row>
+                  <Form.Group as={Col} className="pl-5 pr-5">
+                    <Form.Label>
+                      Enlace de la carpeta creada en Drive
+                    </Form.Label>
+                    <OverlayTrigger
+                      overlay={
+                        <Tooltip>
+                          Pegue el enlace obtenido en los pasos anteriores
+                        </Tooltip>
+                      }
+                    >
+                      <Form.Control
+                        type="text"
+                        id="enlace"
+                        autoComplete="off"
+                        pattern="(https:[/][/]drive[.]google[.]com[/]drive[/]folders[/])(.+)"
+                        placeholder="https://drive.google.com/drive/folders/..."
+                        required={true}
+                        value={values.enlace}
+                        onChange={handleChange}
+                      />
+                    </OverlayTrigger>
+                  </Form.Group>
+                </Form.Row>
+                <Botones />
+              </>
             )}
           </Form>
         )}
