@@ -32,10 +32,10 @@ class CarreraSerializer(serializers.ModelSerializer):
         fields = ['codigo_carrera','nombre_carrera', 'cantidad_materias','facultad']
 
 class EstudianteSerializer(serializers.ModelSerializer):
-    
+    carrera_detalle = CarreraSerializer(source = 'carrera',read_only=True)
     class Meta:
         model = Estudiante
-        fields = ['carnet','nombres_estudiante','apellidos_estudiante','correo_estudiante','sexo','direccion_estudiante','telefono_estudiante','carrera','user']
+        fields = "__all__"
     
     def create(self, validated_data):
         estudiante = Estudiante.objects.create(**validated_data)
@@ -90,9 +90,10 @@ class EntidadExternaSerializer(serializers.ModelSerializer):
 class UsuariosGestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id','last_login','is_superuser', 'username', 'first_name','last_name','email','is_staff','is_active','date_joined','tipo_usuario']
+        fields = ['id','last_login','is_superuser', 'username', 'password', 'first_name','last_name','email','is_staff','is_active','date_joined','tipo_usuario']
+        extra_kwargs = {'password': {'write_only':True, 'required':True}}
     def create(self, validated_data):
-        usuarios = User.objects.create(**validated_data)
+        usuarios = User.objects.create_user(**validated_data)
         return usuarios
 
 class ServicioSocialSerializer(serializers.ModelSerializer):
@@ -122,3 +123,11 @@ class TipoContenidoSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         tipoContenido = ContentType.objects.create(**validated_data)
         return tipoContenido
+
+class SolicitudServicioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SolicitudServicioSocial
+        fields = ['codigo_solicitud_servicio','servicio_social','estudiante']
+    def create(self, validate_data):
+        solicitudServicio = SolicitudServicioSocial.objects.create(**validate_data)
+        return solicitudServicio

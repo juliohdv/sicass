@@ -23,11 +23,6 @@ function leerCookie(nombre) {
 //Constante con las columnas de la tabla
 const columns = [
   {
-    name: "codigo_solicitud_ups",
-    label: "Codigo",
-    key: "codigo_solicitud_ups",
-  },
-  {
     name: "estado_solicitud",
     label: "Estado",
     key: "estado_solicitud",
@@ -41,6 +36,13 @@ const columns = [
     name: "enlace",
     label: "Enlace",
     key: "enlace",
+    options: {
+      customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <a href={value} target="_blank" rel="noreferrer">Google Drive</a>
+          );
+      },
+    },
   },
 ];
 
@@ -90,7 +92,7 @@ const options = {
 };
 
 //Constante con la url de la api (Backend)
-const url = "http://127.0.0.1:8000/login/registroUps/";
+const url = "http://127.0.0.1:8000/login/registroUpsEstudiante/";
 
 //Clase principal del componente
 class SolicitudInscripcion extends Component {
@@ -103,19 +105,15 @@ class SolicitudInscripcion extends Component {
   }
   //Metodo que hace la peticion de consulta a la BD mediante api
   componentDidMount() {
+    let nombre_usuario = leerCookie("usuario"); //Se obtiene el usuario logeado
     axios
-      .get(url)
+      .get(url, {
+        params: {
+          estudiante: nombre_usuario,
+        },
+      })
       .then((response) => {
-        let nombre_usuario = leerCookie("usuario"); //Se obtiene el usuario logeado
-        //Se recorre todas las solicitudes de la BD (No lo pude hacer por parametro)
-        for(var i=0; i<response.data.length;i++){
-          //Se almacenan en un estado las solicitudes del usuario logeado
-          if(nombre_usuario === response.data[i].estudiante){
-            this.state.solicitudEstudiante.push(response.data[i]);
-          }
-        }
-        //Se almacena en otro estado para que lo renderice al cargar la interfaz
-        this.setState({ solicitudes: this.state.solicitudEstudiante });
+        this.setState({ solicitudes: response.data });
       })
       .catch((error) => {
         Swal.fire({

@@ -90,38 +90,50 @@ class Usuarios extends Component {
   peticionPost = async () => {
     console.log(this.state.form.password);
     await axios
-      .post(url, {
+      /* .post("http://127.0.0.1:8000/login/crearUsuario/", {
         username: this.state.form.username,
-        password: this.state.form.password, //Hay que mandarlo cifrado
-        first_name: this.state.form.first_name,
-        last_name: this.state.form.last_name,
-        email: this.state.form.email,
-        is_superuser: this.state.form.is_superuser,
-        is_staff: this.state.form.is_staff,
-        is_active: this.state.form.is_active,
+        password: this.state.form.password,
         tipo_usuario: this.state.form.tipo_usuario,
       })
       .then((response) => {
-        this.modalInsertar();
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Se a guardado con exito",
-          showConfirmButton: false,
-          timer: 2500,
-        });
-        this.componentDidMount();
-      })
-      .catch((error) => {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Ocurrio un error en el registro del usuario",
-          showConfirmButton: false,
-          timer: 2500,
-        });
-      });
-  };
+        axios
+          .get("http://127.0.0.1:8000/login/ultimoUsuario/")
+          .then((response) => {
+            axios */
+              .post(url, {
+                username: this.state.form.username,
+                password: this.state.form.password,
+                tipo_usuario: this.state.form.tipo_usuario,
+                first_name: this.state.form.first_name,
+                last_name: this.state.form.last_name,
+                email: this.state.form.email,
+                is_superuser: this.state.form.is_superuser,
+                is_staff: this.state.form.is_staff,
+                is_active: this.state.form.is_active,
+              })
+              .then((response) => {
+                this.modalInsertar();
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "Se a guardado con exito",
+                  showConfirmButton: false,
+                  timer: 2500,
+                });
+                this.componentDidMount();
+              })
+              .catch((error) => {
+                Swal.fire({
+                  position: "center",
+                  icon: "error",
+                  title: "Ocurrio un error en el registro del usuario",
+                  showConfirmButton: false,
+                  timer: 2500,
+                });
+              });
+            };
+      /*});
+  }; */
 
   //Metodo en que realiza la peticion para actualizar los datos a la BD mediante la api
   peticionPut = () => {

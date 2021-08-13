@@ -165,3 +165,28 @@ class SolicitudUpsVista(viewsets.ModelViewSet):
 class TipoContenidoVistas(viewsets.ModelViewSet):
     queryset = ContentType.objects.all()
     serializer_class = TipoContenidoSerializer
+
+class SolicitudUpsFiltroVistas(viewsets.ModelViewSet):
+    serializer_class = SolicitudUpsSerializer
+
+    def get_queryset(self):
+        estudiante = self.request.query_params.get('estudiante')
+        queryset = SolicitudUps.objects.all().filter(estudiante_id=estudiante)
+        if estudiante is not None:
+            queryset = queryset.filter(estudiante_id=estudiante)
+        return queryset
+
+class ServicioSocialPorCarreraTipo(viewsets.ModelViewSet):
+    serializer_class = ServicioSocialSerializer
+    def get_queryset(self):
+        carnet = self.request.query_params.get('carnet')
+        estudiante = Estudiante.objects.filter(carnet=carnet)[0]
+        carrera = estudiante.__getattribute__('carrera')
+        tipos_servicios = TipoServicioSocial.objects.filter(carrera=carrera)[0]
+        queryset = ServicioSocial.objects.filter(tipo_servicio_social_id=tipos_servicios.__getattribute__('condigo_tipo_servicio_social'))
+        return queryset
+
+class SolicitudServicioVista(viewsets.ModelViewSet): #Esto se modificara para el update 
+    serializer_class = SolicitudServicioSerializer
+    queryset = SolicitudServicioSocial.objects.all()
+
