@@ -78,10 +78,20 @@ class Propuestas extends Component {
     this.state = {
       servicio: [],
       modalVerificacion: false,
+      ultimoEstado: "",
       form: {
         servicios_social: "",
         cantidad_estudiantes: 0,
+        observaciones: "Ninguna",
+        estado_solicitud: "En Proceso",
         estudiante: "",
+      },
+      formUpdate: {
+        cantidad_horas: 0,
+        descripcion: "",
+        entidad: "",
+        tipo_servicio_social: "",
+        cantidad_estudiantes: 0,
       },
     };
   }
@@ -93,7 +103,16 @@ class Propuestas extends Component {
       form: {
         servicio_social: servicio[0],
         cantidad_estudiantes: servicio[3],
+        observaciones: "Ninguna",
+        estado_solicitud: "En Proceso",
         estudiante: carnetEstudiante,
+      },
+      formUpdate: {
+        tipo_servicio_social: servicio[2],
+        descripcion: servicio[3],
+        cantidad_estudiantes: servicio[4] - 1,
+        cantidad_horas: servicio[5],
+        entidad: servicio[6],
       },
     });
   };
@@ -103,11 +122,18 @@ class Propuestas extends Component {
     await axios
       .post("http://127.0.0.1:8000/login/solicitudServicio/", {
         servicio_social: this.state.form.servicio_social,
+        observaciones: this.state.form.observaciones,
+        estado_solicitud: this.state.form.estado_solicitud,
         estudiante: this.state.form.estudiante,
       })
       .then((response) => {
         axios
-          .put("http://127.0.0.1:8000/login/servicioSocial/" + this.state.form.servicio_social + "/", {cantidad_estudiantes: this.state.form.cantidad_estudiantes-1})
+          .put(
+            "http://127.0.0.1:8000/login/servicioSocial/" +
+              this.state.form.servicio_social +
+              "/",
+            this.state.formUpdate
+          )
           .then((response) => {
             this.setState({ modalVerificacion: false });
             Swal.fire({
@@ -135,20 +161,31 @@ class Propuestas extends Component {
   componentDidMount() {
     let nombre_usuario = leerCookie("usuario"); //Se obtiene el usuario logeado
     axios
+      .get("http://127.0.0.1:8000/login/solicitudServicioEstudiante/", {
+        params: {
+          estudiante: nombre_usuario,
+        },
+      })
+      .then((response) => {
+        for (var i = 0; i < response.data.length; i++) {
+          this.setState({ ultimoEstado: response.data[i].estado_solicitud });
+        }
+      })
+      .catch((error) => {});
+    axios
       .get(url, {
         params: {
           carnet: nombre_usuario,
         },
       })
       .then((response) => {
-        console.log(response.data);
         const arreglo_inicial = response.data; //Guardamos el arreglo inicial para su reescritura
         const servicios = []; //Arreglo donde guardaremos los objetos reescritos
         for (var i = 0; i < arreglo_inicial.length; i++) {
-          //Recorremos el arreglo inicial
-          servicios[i] =
-            //Asignamos los campos del arrelgo inicial a los del nuevo objeto
-            {
+          //Asignamos los campos del arrelgo inicial a los del nuevo objeto
+          if (arreglo_inicial[i].cantidad_estudiantes > 0) {
+            //Recorremos el arreglo inicial
+            servicios[i] = {
               codigo_servicio_social: arreglo_inicial[i].codigo_servicio_social,
               cantidad_estudiantes: arreglo_inicial[i].cantidad_estudiantes,
               cantidad_horas: arreglo_inicial[i].cantidad_horas,
@@ -156,10 +193,12 @@ class Propuestas extends Component {
               descripcion: arreglo_inicial[i].descripcion,
               propuesta: arreglo_inicial[i].propuesta_detalle,
               solicitud: arreglo_inicial[i].solicitud_detalle,
+              codigo_tipo_servicio: arreglo_inicial[i].tipo_servicio_social,
               nombre_servicio:
                 arreglo_inicial[i].tipo_servicio_social_detalle
                   .nombre_tipo_servicio_social,
             };
+          }
         }
         this.setState({ servicio: servicios }); //Asignamos el nuevo arreglo reescrito al del estado
       })
@@ -179,11 +218,22 @@ class Propuestas extends Component {
         name: "codigo_servicio_social",
         label: "Código",
         key: "codigo_servicio_social",
+        options: {
+          display: false,
+        },
       },
       {
         name: "nombre_servicio",
         label: "Nombre servicio",
         key: "nombre_servicio",
+      },
+      {
+        name: "codigo_tipo_servicio",
+        label: "Codigo SS",
+        key: "codigo_tipo_servicio",
+        options: {
+          display: false,
+        },
       },
       {
         name: "descripcion",
@@ -210,29 +260,32 @@ class Propuestas extends Component {
         label: "Acciónes",
         options: {
           customBodyRender: (value, tableMeta, updateValue) => {
-            return (
-              /* Boton para redirigir hacia el proyecto que le corresponde a la propuesta */
-              <Tooltip title="Solicitar servicio social">
-                <Button
-                  size="sm"
-                  variant="outline-primary"
-                  onClick={() => {
-                    this.seleccionServicio(tableMeta.rowData);
-                    this.setState({ modalVerificacion: true });
-                  }}
-                >
-                  <PostAddIcon />
-                </Button>
-              </Tooltip>
-            );
+            if (
+              this.state.ultimoEstado === "Rechazado" ||
+              this.state.ultimoEstado === "Finalizado" ||
+              this.state.ultimoEstado === ""
+            ) {
+              return (
+                /* Boton para redirigir hacia el proyecto que le corresponde a la propuesta */
+                <Tooltip title="Solicitar servicio social">
+                  <Button
+                    size="sm"
+                    variant="outline-primary"
+                    onClick={() => {
+                      this.seleccionServicio(tableMeta.rowData);
+                      this.setState({ modalVerificacion: true });
+                    }}
+                  >
+                    <PostAddIcon />
+                  </Button>
+                </Tooltip>
+              );
+            }
           },
         },
       },
     ];
     return (
-      /* Obtener el id del usuario, asi obtener su carnet, enviar los datos 
-      a la tabla de solicitud servicio (hacer backend), disminuir la cantidad de cupos
-      disponibles, solo servicios disponibles y aprobados*/
       <Dashboard
         contenedor={
           <>

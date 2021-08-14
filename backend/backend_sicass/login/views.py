@@ -186,7 +186,16 @@ class ServicioSocialPorCarreraTipo(viewsets.ModelViewSet):
         queryset = ServicioSocial.objects.filter(tipo_servicio_social_id=tipos_servicios.__getattribute__('condigo_tipo_servicio_social'))
         return queryset
 
-class SolicitudServicioVista(viewsets.ModelViewSet): #Esto se modificara para el update 
+class SolicitudServicioVista(viewsets.ModelViewSet):
     serializer_class = SolicitudServicioSerializer
     queryset = SolicitudServicioSocial.objects.all()
 
+class SolicitudServicioFiltroVistas(viewsets.ModelViewSet):
+    serializer_class = SolicitudServicioSerializer
+
+    def get_queryset(self):
+        estudiante = self.request.query_params.get('estudiante')
+        queryset = SolicitudServicioSocial.objects.all().filter(estudiante_id=estudiante)
+        if estudiante is not None:
+            queryset = queryset.filter(estudiante_id=estudiante)
+        return queryset 
