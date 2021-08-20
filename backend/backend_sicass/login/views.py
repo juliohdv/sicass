@@ -199,3 +199,13 @@ class SolicitudServicioFiltroVistas(viewsets.ModelViewSet):
         if estudiante is not None:
             queryset = queryset.filter(estudiante_id=estudiante)
         return queryset 
+
+class PropuestaFiltroVista(viewsets.ModelViewSet):
+    serializer_class = PropuestaSerializer
+
+    def get_queryset(self):
+        propuesta = self.request.query_params.get('estado')
+        queryset = Propuesta.objects.all().filter(estado_propuesta=propuesta)
+        if propuesta is not None:
+            queryset = queryset.filter(estado_propuesta=propuesta)
+        return queryset

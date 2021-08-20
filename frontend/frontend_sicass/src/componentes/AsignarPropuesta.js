@@ -56,7 +56,7 @@ const options = {
 };
 
 //Constante con la url de la api (Backend)
-const url = "http://127.0.0.1:8000/login/propuestas/";
+const url = "http://127.0.0.1:8000/login/propuestaEstado/";
 //Clase principal del componente
 class AsignarPropuesta extends Component {
   constructor(props) {
@@ -67,13 +67,24 @@ class AsignarPropuesta extends Component {
         propuesta:"",
         entidad: "",
         tipo_servicio_social: "",
-        condigo_tipo_servicio_social:"",
+        //condigo_tipo_servicio_social:"",
         descripcion: "",
         cantidad_horas: "",
         cantidad_estudiantes: "",
-      }
-
+        nombre_tipo_servicio:"",
+      },
+     /*  formUpdate: {
+        codigo_propuesta: "",
+        fecha_inicio_propuesta: "",
+        fecha_fin_propuesta: "",
+        descripcion_propuesta: "",
+        estado_propuesta: "",
+        entidad_externa: "",
+        carrera: "",
+        tipo_servicio_social: "",
+      } */
     };
+
   }
 
   //Metodo que sirve para manejar el estado del modal
@@ -98,7 +109,8 @@ class AsignarPropuesta extends Component {
       form: {
         propuesta:propuestas[0],
         entidad: propuestas[1],
-        condigo_tipo_servicio_social: propuestas[2],
+        nombre_tipo_servicio: propuestas[2],
+        condigo_tipo_servicio_social: propuestas[5],
         descripcion: propuestas[4],
       },
     });
@@ -119,6 +131,12 @@ class AsignarPropuesta extends Component {
         
       })
       .then((response) => {
+        /* axios 
+        .put("http://127.0.0.1:8000/login/propuestas/"+this.state.form.propuesta+"/",
+        this.state.form
+        ).then((response)=>{
+        
+        }) */
         this.modalInsertar();
         Swal.fire({
           position: "center",
@@ -143,11 +161,16 @@ class AsignarPropuesta extends Component {
 
   componentDidMount() {
     axios
-      .get(url)
+      .get(url, {
+        params:{
+          estado: "Aprobado",
+        }
+      })
       .then((response) => {
         console.log(response.data);
         const arreglo_inicial = response.data; //Guardamos el arreglo inicial para su reescritura
         const servicios = new Array(); //Arreglo donde guardaremos los objetos reescritos
+        //const propuestas = new Array();
         for (var i = 0; i < arreglo_inicial.length; i++) {
           servicios[i] =
             //Asignamos los campos del arreglo inicial a los del nuevo objeto
@@ -158,7 +181,12 @@ class AsignarPropuesta extends Component {
               telefono_entidad: arreglo_inicial[i].entidad_externa_detalle.telefono_entidad,
               descripcion_propuesta: arreglo_inicial[i].descripcion_propuesta,
               //condigo_tipo_servicio_social: arreglo_inicial[i].condigo_tipo_servicio_social,
+              nombre_tipo_servicio: arreglo_inicial[i].tipo_servicio_social_detalle.nombre_tipo_servicio_social,
             };
+         /*  propestas[i] =
+          {
+
+          } */
         }
         this.setState({ servicio: servicios }); //Asignamos el nuevo arreglo reescrito al del estado
       })
@@ -179,6 +207,9 @@ const columns = [
       name: "codigo_propuesta",
       label: "Código",
       key: "codigo_propuesta",
+      options: {
+        display: false,
+      }
     },
     {
       name: "entidad_externa",
@@ -186,9 +217,9 @@ const columns = [
       key: "entidad_externa",
     },
     {
-      name: "tipo_servicio_social",
+      name: "nombre_tipo_servicio",
       label: "Tipo Servicio Social",
-      key: "tipo_servicio_social",
+      key: "nombre_tipo_servicio",
     },
     {
       name: "telefono_entidad",
@@ -199,6 +230,14 @@ const columns = [
       name: "descripcion_propuesta",
       label: "Descripción",
       key: "descripcion_propuesta",
+    },
+    {
+      name: "tipo_servicio_social",
+      label: "Tipo Servicio Social",
+      key: "tipo_servicio_social",
+      options: {
+        display: false,
+      }
     },
     {
       name: "acciones",
@@ -248,12 +287,13 @@ const columns = [
               </ModalHeader>
               <ModalBody>
                 <Form.Group>
-                  <Form.Label>Código</Form.Label>
+                  
                   <Form.Control
-                    type="text"
+                    type="hidden"
                     id="propuesta"
                     name="propuesta"
                     value={this.state.form.propuesta}
+
                     required
                     readOnly
                   />
@@ -273,13 +313,24 @@ const columns = [
                   <Form.Label>Tipo Servicio Social</Form.Label>
                   <Form.Control
                     type="text"
+                    id="nombre_tipo_servicio"
+                    name="nombre_tipo_servicio"
+                    required
+                    readOnly
+                    value={this.state.form.nombre_tipo_servicio}
+                  />
+                </Form.Group>
+                <Form.Group>
+                
+                  <Form.Control
+                    type="hidden"
                     id="condigo_tipo_servicio_social"
                     name="condigo_tipo_servicio_social"
                     required
                     readOnly
                     value={this.state.form.condigo_tipo_servicio_social}
                   />
-                </Form.Group>
+                  </Form.Group>
                 <Form.Group>
                   <Form.Label>Descripción</Form.Label>
                   <Form.Control
