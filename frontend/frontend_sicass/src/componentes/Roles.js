@@ -17,7 +17,7 @@ const options = {
   selectableRows: false,
   tableBodyHeight: "320px",
   rowsPerPage: 5,
-  rowsPerPageOptions: [5,10,20],
+  rowsPerPageOptions: [5, 10, 20],
   textLabels: {
     body: {
       noMatch: "No hay registros de privilegios",
@@ -63,13 +63,14 @@ class Roles extends Component {
     super(props);
     this.state = {
       permisos: [], //Estdo que contendra todo lo que digite el usuario
+      tipoContenido: [], //Estado que contendra todo los content_type
       modalInsertar: false, //Estado que controla el abrir o cerra el modal correspondiente
       modalEliminar: false,
       form: {
         //Estado que contiene los campos del formulario a ingresar
         id: "",
         name: "",
-        content_type_id: "",
+        content_type: "",
         codename: "",
         tipoModal: "",
       },
@@ -78,14 +79,53 @@ class Roles extends Component {
 
   //Metodo en que realiza la peticion para ingreso de datos a la BD mediante la api
   peticionPost = async () => {
-    //delete this.state.form.id;
-    await axios
-      .post(url, {
-        id: this.state.form.id,
-        name: this.state.form.name,
-        content_type_id: this.state.form.content_type_id,
-        codename: this.state.form.codename,
-      })
+    try {
+      if (
+        this.state.form.name.length > 0 &&
+        this.state.form.codename.length > 0 &&
+        this.state.form.content_type.length > 0
+      ) {
+        await axios
+          .post(url, {
+            name: this.state.form.name,
+            content_type: this.state.form.content_type,
+            codename: this.state.form.codename,
+          })
+          .then((response) => {
+            this.modalInsertar();
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Se a guardado con exito",
+              showConfirmButton: false,
+              timer: 2500,
+            });
+            this.componentDidMount();
+          })
+          .catch((error) => {
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Ocurrio un error en el registro del privilegio",
+              showConfirmButton: false,
+              timer: 2500,
+            });
+          });
+      }
+    } catch (error) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title:
+          "Debe ingresar los campos obligatirios: Nombre, Modelo y Privilegio",
+      });
+    }
+  };
+
+  //Metodo en que realiza la peticion para actualizar los datos a la BD mediante la api
+  peticionPut = () => {
+    axios
+      .put(url + this.state.form.id + "/", this.state.form)
       .then((response) => {
         this.modalInsertar();
         Swal.fire({
@@ -101,50 +141,37 @@ class Roles extends Component {
         Swal.fire({
           position: "center",
           icon: "error",
-          title: "Ocurrio un error en el registro del privilegio",
+          title: "Ocurrio un error en actualizar el privilegio",
           showConfirmButton: false,
           timer: 2500,
-        });  
+        });
       });
-  };
-
-  //Metodo en que realiza la peticion para actualizar los datos a la BD mediante la api
-  peticionPut = () => {
-    console.log(this.state.form.id);
-    axios.put(url + this.state.form.id, this.state.form)
-    .then((response) => {
-      this.modalInsertar();
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Se a guardado con exito",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-      this.componentDidMount();
-    })
-    .catch((error) => {
-
-    });
-    
   };
 
   //Metodo en que realiza la peticion para eliminar los datos a la BD mediante la api
   peticionDelete = () => {
-    axios.delete(url + this.state.form.id).then((response) => {
-      this.setState({ modalEliminar: false });
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Se a eliminado con exito",
-        showConfirmButton: false,
-        timer: 2500,
+    axios
+      .delete(url + this.state.form.id)
+      .then((response) => {
+        this.setState({ modalEliminar: false });
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Se a eliminado con exito",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+        this.componentDidMount();
+      })
+      .catch((error) => {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Ocurrio un error en eliminar el privilegio",
+          showConfirmButton: false,
+          timer: 2500,
+        });
       });
-      this.componentDidMount();
-    })
-    .catch((error) => {
-
-    });
   };
 
   //Metodo que funciona para saber que elemento a selecciconado de la tabla y mandarlo al modal
@@ -154,7 +181,7 @@ class Roles extends Component {
       form: {
         id: privilegio[0],
         name: privilegio[1],
-        content_type_id: privilegio[2],
+        content_type: privilegio[2],
         codename: privilegio[3],
       },
     });
@@ -182,6 +209,19 @@ class Roles extends Component {
       .get(url)
       .then((response) => {
         this.setState({ permisos: response.data });
+        axios
+          .get("http://127.0.0.1:8000/login/tipoContenido/")
+          .then((response) => {
+            this.setState({ tipoContenido: response.data });
+          })
+          .catch((error) => {
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title:
+                "Por el momento no hay conexión con la base de datos, intente en otro momento",
+            });
+          });
       })
       .catch((error) => {
         Swal.fire({
@@ -207,7 +247,7 @@ class Roles extends Component {
       },
       {
         name: "content_type",
-        label: "Código de tipo",
+        label: "Código de modelo",
       },
       {
         name: "codename",
@@ -220,7 +260,7 @@ class Roles extends Component {
           customBodyRender: (value, tableMeta, updateValue) => {
             return (
               <>
-              {/* Botones para editar y eliminar */}
+                {/* Botones para editar y eliminar */}
                 <Tooltip title="Editar">
                   <Button
                     size="sm"
@@ -281,7 +321,7 @@ class Roles extends Component {
                 />
               </div>
             </div>
-            
+
             {/* Modal para actualizar o crear */}
             <Modal isOpen={this.state.modalInsertar} centered>
               <ModalHeader style={{ display: "block" }}>
@@ -292,18 +332,6 @@ class Roles extends Component {
                 )}
               </ModalHeader>
               <ModalBody>
-                <Form.Group>
-                  <Form.Label>Código</Form.Label>
-                  <Form.Control
-                    type="text"
-                    id="id"
-                    name="id"
-                    value={form ? form.id : this.state.permisos.length + 1}
-                    required
-                    readOnly
-                    onChange={this.handleChange}
-                  />
-                </Form.Group>
                 <Form.Group>
                   <Form.Label>Nombre</Form.Label>
                   <Form.Control
@@ -317,16 +345,24 @@ class Roles extends Component {
                   />
                 </Form.Group>
                 <Form.Group>
-                  <Form.Label>Código de tipo</Form.Label>
+                  <Form.Label>Modelo</Form.Label>
                   <Form.Control
-                    type="text"
-                    id="content_type_id"
-                    name="content_type_id"
-                    placeholder="######"
-                    required
-                    value={form ? form.content_type_id : ""}
+                    as="select"
+                    id="content_type"
+                    name="content_type"
+                    required={true}
+                    value={form ? form.content_type : ""}
                     onChange={this.handleChange}
-                  />
+                  >
+                    <option value="" disabled={true}>
+                      Seleccione..
+                    </option>
+                    {this.state.tipoContenido.map((elemento) => (
+                      <option key={elemento.id} value={elemento.id}>
+                        {elemento.model}
+                      </option>
+                    ))}
+                  </Form.Control>
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Privilegio</Form.Label>
@@ -368,8 +404,8 @@ class Roles extends Component {
 
             {/* Modal para eliminar */}
             <Modal isOpen={this.state.modalEliminar} centered>
-            <ModalHeader style={{ display: "block" }}>
-                  <span>Eliminar privilegio</span>
+              <ModalHeader style={{ display: "block" }}>
+                <span>Eliminar privilegio</span>
               </ModalHeader>
               <ModalBody>
                 ¿Esta seguro de eliminar el privilegio seleccionado?
@@ -379,7 +415,7 @@ class Roles extends Component {
                   Si
                 </Button>
                 <Button
-                  variant="secundary"
+                  variant="secondary"
                   onClick={() => this.setState({ modalEliminar: false })}
                 >
                   No
