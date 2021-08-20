@@ -28,6 +28,7 @@ import EnvioRegistroUps from './componentes/EnvioRegistroUps';
 import SolicitudInscripcion from './componentes/SolicitudInscripcion';
 import ServicioSocial from './componentes/ServicioSocial';
 import SolicitudProyecto from './componentes/SolicitudProyecto';
+import AsignarPropuesta from './componentes/AsignarPropuesta';
 
 
 function Copyright() {
@@ -225,6 +226,9 @@ export default function App() {
               <Route path="/SolicitudProyecto">
                 <Proyecto />
               </Route>
+              <Route path="/AsignacionPropuesta">
+                <AsignacionPropuesta />
+              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -276,4 +280,7 @@ function Servicios(){
 }
 function Proyecto(){
   return <SolicitudProyecto />;
+}
+function AsignacionPropuesta(){
+  return <AsignarPropuesta />;
 }

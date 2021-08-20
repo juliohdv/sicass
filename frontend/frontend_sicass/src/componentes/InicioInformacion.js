@@ -63,10 +63,6 @@ class InicioInformacion extends Component {
         <Row className="pt-5">
           <Card>
             <Card.Header align="center">
-<<<<<<< HEAD
-              Sistema inform&aacute;tico para el control y aplicación del Servicio 
-              Social de los estudiantes de la Universidad de El Salvador (SICASS).
-=======
               Sistema informático para el control y aplicación del servicio
               social de los estudiantes de la Universidad de El Salvador
               (SICASS).
@@ -75,18 +71,11 @@ class InicioInformacion extends Component {
             <Card.Body>
               <Card.Title>Descripción</Card.Title>
               <Card.Text className="align-justify">
-<<<<<<< HEAD
-                Sistema inform&aacute;tico en la plataforma web, para la digitalización, automatización
-                y eficiencia en la realizacion del proceso de registro,
-                solicitud y control del servicio social que es realizado por los estudiantes 
-                de la Universidad de El Salvador, como pre-requisito para su titulación.
-=======
                 Sistema informático en la plataforma web, para la
                 digitalización, automatización y eficiencia en la realización
                 del proceso de registro, solicitud y control del servicio social
                 que es realizado por los estudiantes de la Universidad de El
                 Salvador, como prerrequisito para su titulación.
->>>>>>> origin/felix
               </Card.Text>
             </Card.Body>
           </Card>

@@ -80,6 +80,7 @@ class Propuesta(models.Model):
     def __str__(self):
         return '%s' % (self.codigo_propuesta)
 
+#Cambiar nombre de modelo a 'Proyecto'
 class ServicioSocial(models.Model):
     codigo_servicio_social = models.BigAutoField(primary_key=True, unique=True)
     cantidad_estudiantes = models.IntegerField()
@@ -92,3 +93,4 @@ class ServicioSocial(models.Model):
 
     def __str__(self):
         return '%s' % (self.codigo_servicio_social)
+
