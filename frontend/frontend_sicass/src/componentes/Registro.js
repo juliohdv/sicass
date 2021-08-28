@@ -89,8 +89,6 @@ class Registro extends Component {
                       telefono_estudiante: values.telefono_estudiante,
                       carrera: values.carrera_id,
                       user: response.data.map((elemento) => elemento.id).toString()
-                      //username: response.data.map((elemento) => elemento.username).toString(),
-                      //user_id: response.data.map((elemento) => elemento.id).toString()
                     })
                     .then((response) => {
                       Swal.fire({
