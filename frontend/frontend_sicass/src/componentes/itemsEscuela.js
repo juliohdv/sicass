@@ -16,19 +16,19 @@ export const itemsEscuela = (
       </ListItemIcon>
       <ListItemText primary="Inicio" />
     </ListItem>
-    <ListItem button component={Link} to="/">
+    <ListItem button component={Link} to="/AsignacionPropuesta">
       <ListItemIcon>
         <Beenhere />
       </ListItemIcon>
       <ListItemText primary="Propuestas Aceptadas" />
     </ListItem>
-    <ListItem button component={Link} to="/">
+    <ListItem button component={Link} to="/SolicitudUPS">
       <ListItemIcon>
         <Done />
       </ListItemIcon>
       <ListItemText primary="Solicitudes de Registro para UPS" />
     </ListItem>
-    <ListItem button component={Link} to="/">
+    <ListItem button component={Link} to="/SolicitudSS">
       <ListItemIcon>
         <EmojiPeople />
       </ListItemIcon>
