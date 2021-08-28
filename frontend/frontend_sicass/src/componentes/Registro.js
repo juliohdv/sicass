@@ -78,6 +78,7 @@ class Registro extends Component {
               telefono_estudiante: values.telefono_estudiante,
               carrera: values.carrera_id,
             })
+<<<<<<< HEAD
             .then((response) => {
               Swal.fire({
                 position: "center",
@@ -89,6 +90,46 @@ class Registro extends Component {
               //Limpia el formulario ingresado en pantalla
               this.reiniciarFacultad();
               resetForm({});
+=======
+            .then((response)=>{
+              axios
+                .get("http://127.0.0.1:8000/login/ultimoUsuario/")
+                .then((response) =>{
+                    axios
+                    .post("http://127.0.0.1:8000/login/estudiantes/", {
+                      carnet: values.carnet,
+                      nombres_estudiante: values.nombres_estudiante,
+                      apellidos_estudiante: values.apellidos_estudiante,
+                      correo_estudiante: values.correo_estudiante,
+                      sexo: values.sexo,
+                      direccion_estudiante: values.direccion_estudiante,
+                      telefono_estudiante: values.telefono_estudiante,
+                      carrera: values.carrera_id,
+                      user: response.data.map((elemento) => elemento.id).toString()
+                    })
+                    .then((response) => {
+                      Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Te has registrado con exito",
+                        showConfirmButton: false,
+                        timer: 2500,
+                      });
+                      //Limpia el formulario ingresado en pantalla
+                      this.reiniciarFacultad();
+                      resetForm({});
+                    })
+                    .catch((error) => {
+                      Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title:
+                          "Ocurrio un error en su registro: Estudiante ya registrado",
+                      });
+                  });
+                })
+                .catch((error)=>{});
+>>>>>>> origin/felix
             })
             .catch((error) => {
               Swal.fire({
