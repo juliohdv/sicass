@@ -95,12 +95,6 @@ export const mainListItems = (
     opcion2={"Estado solicitud"}
     link2={"/SolicitudProyecto"}
     />
-    <ListItem button component={Link} to="/AsignacionPropuesta">
-        <ListItemIcon>
-          <AssignmentIcon />
-        </ListItemIcon>
-          <ListItemText primary="Asignar Propuesta" />
-      </ListItem>
   </div>
 );
 function Desplegar(props) {

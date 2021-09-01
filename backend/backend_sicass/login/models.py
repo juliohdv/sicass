@@ -91,7 +91,6 @@ class Propuesta(models.Model):
     def __str__(self):
         return '%s' % (self.codigo_propuesta)
 
-#Cambiar nombre de modelo a 'Proyecto'
 class ServicioSocial(models.Model):
     codigo_servicio_social = models.BigAutoField(primary_key=True, unique=True)
     cantidad_estudiantes = models.IntegerField()
@@ -117,8 +116,6 @@ class SolicitudUps(models.Model):
 
 class SolicitudServicioSocial(models.Model):
     codigo_solicitud_servicio = models.BigAutoField(primary_key=True, unique=True)
-    observaciones = models.CharField(max_length=500)
-    estado_solicitud = TextField(max_length=50, default='En Proceso')
     servicio_social = models.ForeignKey(ServicioSocial, on_delete=models.CASCADE)
     estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
 

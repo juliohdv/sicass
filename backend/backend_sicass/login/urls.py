@@ -18,18 +18,16 @@ router.register('estudiantes', EstudiantesVistas, basename='Estudiante') #Crea u
 router.register('solicitudes', SolicitudesVista, basename='Solicitud') #Crea una solicitud nueva
 router.register('entidadExterna',  UltimaEntidadExternaVista, basename='EntidadExterna') #Crea una entidad externa
 router.register('ultimaEntidadExterna',  UltimaEntidadExternaVista, basename='EntidadExterna') #Retorna la ultima entidad externa guardada
-router.register('permisos', PermisosVistas) #Gestion de roles y privilegios
+router.register('permisos', PermisosVistas) #Retorna la gestion de roles y privilegios
 router.register('carreraPorId',CarreraPorId, basename='Carrera')  #Retorna una carrea filtrada por codigo de carrera
 router.register('propuestas', PropuestasVista, basename='Propuesta') #Crea una propuesta nueva
 router.register('usuarios', UsuariosGestionVista) #Gestion de usuarios
-router.register('servicioSocial', ServicioSocialVista) #Gestion de servicios sociales
-router.register('registroUps', SolicitudUpsVista) #Crear registro del estudiante UPS
+router.register('servicioSocial', ServicioSocialVista) #Retorna la gestion de roles y privilegios
+router.register('registroUps', SolicitudUpsVista) #Realiza el registro del estudiante
 router.register('tipoContenido', TipoContenidoVistas) #Retorna el tipo de contenido de roles y privilegios
-router.register('registroUpsEstudiante', SolicitudUpsFiltroVistas, basename='Estudiante') #Retorna la solicitud de registro por UPS
+router.register('registroUpsEstudiante', SolicitudUpsFiltroVistas, basename='Estudiante') #Retorna lista de carreras por facultad
 router.register('servicioSocialPorCarreraTipo', ServicioSocialPorCarreraTipo, basename="ServicioSocial") #Retorna el servicio por carrera
-router.register('solicitudServicio', SolicitudServicioVista) #
-router.register('solicitudServicioEstudiante', SolicitudServicioFiltroVistas, basename="Servicio") 
-router.register('propuestaEstado', PropuestaFiltroVista, basename="PropuestaEstado") 
+router.register('solicitudServicio', SolicitudServicioVista) #Para actualizar la cantidad de estudiantes
 
 urlpatterns = [
     path('', include(router.urls)),

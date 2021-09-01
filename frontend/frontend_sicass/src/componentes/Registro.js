@@ -78,19 +78,6 @@ class Registro extends Component {
               telefono_estudiante: values.telefono_estudiante,
               carrera: values.carrera_id,
             })
-<<<<<<< HEAD
-            .then((response) => {
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Te has registrado con exito",
-                showConfirmButton: false,
-                timer: 2500,
-              });
-              //Limpia el formulario ingresado en pantalla
-              this.reiniciarFacultad();
-              resetForm({});
-=======
             .then((response)=>{
               axios
                 .get("http://127.0.0.1:8000/login/ultimoUsuario/")
@@ -129,7 +116,6 @@ class Registro extends Component {
                   });
                 })
                 .catch((error)=>{});
->>>>>>> origin/felix
             })
             .catch((error) => {
               Swal.fire({

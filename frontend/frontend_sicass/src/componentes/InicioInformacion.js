@@ -53,7 +53,7 @@ class InicioInformacion extends Component {
                   </OverlayTrigger>
                 </div>
                 <div id="header_front">
-                  <h1>Secretar&iacute;a de Proyección Social</h1>
+                  <h1>Secretaria de proyección social</h1>
                   <h4>"De la mano con la comunidad"</h4>
                 </div>
               </div>
@@ -66,7 +66,6 @@ class InicioInformacion extends Component {
               Sistema informático para el control y aplicación del servicio
               social de los estudiantes de la Universidad de El Salvador
               (SICASS).
->>>>>>> origin/felix
             </Card.Header>
             <Card.Body>
               <Card.Title>Descripción</Card.Title>
