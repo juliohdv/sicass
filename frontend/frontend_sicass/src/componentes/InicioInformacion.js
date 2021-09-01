@@ -66,7 +66,6 @@ class InicioInformacion extends Component {
               Sistema informático para el control y aplicación del servicio
               social de los estudiantes de la Universidad de El Salvador
               (SICASS).
->>>>>>> origin/felix
             </Card.Header>
             <Card.Body>
               <Card.Title>Descripción</Card.Title>
