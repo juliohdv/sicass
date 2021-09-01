@@ -103,7 +103,7 @@ class RegistroUps extends Component {
         {({ values, handleSubmit, handleChange }) => (
           <Form onSubmit={handleSubmit}>
             {this.state.ultimoEstado === "En Proceso" ||
-            this.state.ultimoEstado === "Aprobado" ? (
+            this.state.ultimoEstado === "Aprobada" ? (
               <Alert variant="success">
                 <Alert.Heading>Aviso</Alert.Heading>
                 <hr />

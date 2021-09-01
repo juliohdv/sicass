@@ -1,34 +1,13 @@
 import React, { Component } from "react";
 import Dashboard from "./Dashboard";
 import MUIDataTable from "mui-datatables";
-import axios from "axios";
-import Swal from "sweetalert2";
-
-//Funcion para obtener el nombre del usuario
-function leerCookie(nombre) {
-  let key = nombre + "=";
-  let cookies = document.cookie.split(";");
-  for (let i = 0; i < cookies.length; i++) {
-    let cookie = cookies[i];
-    while (cookie.charAt(0) === " ") {
-      cookie = cookie.substring(1, cookie.length);
-    }
-    if (cookie.indexOf(key) === 0) {
-      return cookie.substring(key.length, cookie.length);
-    }
-  }
-  return null;
-}
 
 //Constante con las columnas de la tabla
 const columns = [
   {
-    name: "codigo_solicitud_servicio",
+    name: "codigo_solicitud",
     label: "Codigo",
-    key: "codigo_solicitud_servicio",
-    options: {
-      display: false,
-    }
+    key: "codigo_solicitud",
   },
   {
     name: "estado_solicitud",
@@ -39,21 +18,6 @@ const columns = [
     name: "observaciones",
     label: "Observaciones",
     key: "observaciones",
-  },
-  {
-    name: "entidad",
-    label: "Entidad",
-    key: "entidad",
-  },
-  {
-    name: "tipo_servicio_social",
-    label: "Tipo servicio",
-    key: "tipo_servicio_social",
-  },
-  {
-    name: "descripcion",
-    label: "Descripción",
-    key: "descripcion",
   },
 ];
 
@@ -102,41 +66,56 @@ const options = {
   },
 };
 
+const data = [
+  {
+    codigo_solicitud: "01",
+    estado_solicitud: "Reprobado",
+    observaciones:
+      "No cumple con los requisitos minimmos para realizar el servicio social",
+  },
+  {
+    codigo_solicitud: "02",
+    estado_solicitud: "Aprobada",
+    observaciones: "Ninguna",
+  },
+];
 //Constante con la url de la api (Backend)
-const url = "http://127.0.0.1:8000/login/solicitudServicioEstudiante/";
 
 //Clase principal del componente
 class SolicitudProyecto extends Component {
-  constructor(props) {
+  /* constructor(props) {
     super(props);
     this.state = {
       solicitudes: [],
     };
   }
-  //Metodo que hace la peticion de consulta a la BD mediante api
   componentDidMount() {
-    let nombre_usuario = leerCookie("usuario"); //Se obtiene el usuario logeado
     axios
-      .get(url, {
-        params: {
-          estudiante: nombre_usuario,
-        },
-      })
+      .get(url)
       .then((response) => {
-        const arreglo_inicial = response.data;
-        const solicitud = [];
+        const arreglo_inicial = response.data; //Guardamos el arreglo inicial para su reescritura
+        const solicitud = []; //Arreglo donde guardaremos los objetos reescritos
         for (var i = 0; i < arreglo_inicial.length; i++) {
-          solicitud[i] = 
-          {
-            codigo_solicitud_servicio: arreglo_inicial[i].codigo_solicitud_servicio,
-            estado_solicitud: arreglo_inicial[i].estado_solicitud,
-            observaciones: arreglo_inicial[i].observaciones,
-            entidad: arreglo_inicial[i].servicio_social_detalle.entidad,
-            tipo_servicio_social: arreglo_inicial[i].servicio_social_detalle.tipo_servicio_social_detalle.nombre_tipo_servicio_social,
-            descripcion: arreglo_inicial[i].servicio_social_detalle.descripcion,
-          };
+          //Recorremos el arreglo inicial
+          solicitud[i] =
+            //Asignamos los campos del arrelgo inicial a los del nuevo objeto
+            {
+              codigo_solicitud: arreglo_inicial[i].codigo_solicitud,
+              entidad_externa:
+                arreglo_inicial[i].entidad_externa_detalle.nombre_entidad,
+              tipo_entidad:
+                arreglo_inicial[i].entidad_externa_detalle
+                  .clasificacion_entidad,
+              carrera: arreglo_inicial[i].carrera_detalle.nombre_carrera,
+              tipo_servicio_social:
+                arreglo_inicial[i].tipo_servicio_social_detalle
+                  .nombre_tipo_servicio_social,
+              fecha_inicio_solicitud: arreglo_inicial[i].fecha_inicio_solicitud,
+              fecha_fin_solicitud: arreglo_inicial[i].fecha_fin_solicitud,
+              estado_solicitud: arreglo_inicial[i].estado_solicitud,
+            };
         }
-        this.setState({ solicitudes: solicitud });
+        this.setState({ solicitudes: solicitud }); //Asignamos el nuevo arreglo reescrito al del estado
       })
       .catch((error) => {
         Swal.fire({
@@ -146,7 +125,7 @@ class SolicitudProyecto extends Component {
             "Por el momento no hay conexión con la base de datos, intente en otro momento",
         });
       });
-  }
+  } */
   render() {
     return (
       /* Filtrar por usuario iniciado, los estdos de solicitud respectivos */
@@ -155,8 +134,8 @@ class SolicitudProyecto extends Component {
           <div className="pt-5">
             {/* Se invoca la tabla, con los datos correspondientes */}
             <MUIDataTable
-              title={"Estado solicitud de proyecto"}
-              data={this.state.solicitudes}
+              title={"Estado solicitud de servicio social"}
+              data={data}
               columns={columns}
               options={options}
             />
