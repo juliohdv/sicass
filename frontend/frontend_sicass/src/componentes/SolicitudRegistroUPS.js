@@ -22,38 +22,37 @@ function leerCookie(nombre) {
 
 //Constante con las columnas de la tabla
 const columns = [
-  {
-    name: "codigo_solicitud_servicio",
-    label: "Codigo",
-    key: "codigo_solicitud_servicio",
-    options: {
-      display: false,
-    }
-  },
-  {
-    name: "estado_solicitud",
-    label: "Estado",
-    key: "estado_solicitud",
-  },
+    {
+        name: "codigo_solicitud_ups",
+        label: "Código",
+        key: "codigo_solicitud_ups",
+      }, 
   {
     name: "observaciones",
     label: "Observaciones",
     key: "observaciones",
   },
   {
-    name: "entidad",
-    label: "Entidad",
-    key: "entidad",
+    name: "enlace",
+    label: "Enlace",
+    key: "enlace",
+    options: {
+      customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <a href={value} target="_blank" rel="noreferrer">Google Drive</a>
+          );
+      },
+    },
   },
   {
-    name: "tipo_servicio_social",
-    label: "Tipo servicio",
-    key: "tipo_servicio_social",
+    name: "estudiante",
+    label: "Estudiante",
+    key: "estudiante",
   },
   {
-    name: "descripcion",
-    label: "Descripción",
-    key: "descripcion",
+    name: "estado_solicitud",
+    label: "Estado",
+    key: "estado_solicitud",
   },
 ];
 
@@ -103,14 +102,15 @@ const options = {
 };
 
 //Constante con la url de la api (Backend)
-const url = "http://127.0.0.1:8000/login/solicitudServicioEstudiante/";
+const url = "http://127.0.0.1:8000/login/registroUps/";
 
 //Clase principal del componente
-class SolicitudProyecto extends Component {
+class SolicitudInscripcionUPS extends Component {
   constructor(props) {
     super(props);
     this.state = {
       solicitudes: [],
+      solicitudUPS: [],
     };
   }
   //Metodo que hace la peticion de consulta a la BD mediante api
@@ -123,20 +123,7 @@ class SolicitudProyecto extends Component {
         },
       })
       .then((response) => {
-        const arreglo_inicial = response.data;
-        const solicitud = [];
-        for (var i = 0; i < arreglo_inicial.length; i++) {
-          solicitud[i] = 
-          {
-            codigo_solicitud_servicio: arreglo_inicial[i].codigo_solicitud_servicio,
-            estado_solicitud: arreglo_inicial[i].estado_solicitud,
-            observaciones: arreglo_inicial[i].observaciones,
-            entidad: arreglo_inicial[i].servicio_social_detalle.entidad,
-            tipo_servicio_social: arreglo_inicial[i].servicio_social_detalle.tipo_servicio_social_detalle.nombre_tipo_servicio_social,
-            descripcion: arreglo_inicial[i].servicio_social_detalle.descripcion,
-          };
-        }
-        this.setState({ solicitudes: solicitud });
+        this.setState({ solicitudes: response.data });
       })
       .catch((error) => {
         Swal.fire({
@@ -149,13 +136,13 @@ class SolicitudProyecto extends Component {
   }
   render() {
     return (
-      /* Filtrar por usuario iniciado, los estdos de solicitud respectivos */
+      /* Filtrar por el usuario, los respectivos estado de solicitud */
       <Dashboard
         contenedor={
           <div className="pt-5">
             {/* Se invoca la tabla, con los datos correspondientes */}
             <MUIDataTable
-              title={"Estado solicitud de proyecto"}
+              title={"Registro a la Unidad de Proyección Social"}
               data={this.state.solicitudes}
               columns={columns}
               options={options}
@@ -167,4 +154,4 @@ class SolicitudProyecto extends Component {
   }
 }
 
-export default SolicitudProyecto;
+export default SolicitudInscripcionUPS;
