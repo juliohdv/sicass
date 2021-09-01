@@ -63,6 +63,44 @@ export const mainListItems = (
     opcion2={"Consultar propuesta"}
     link2={"/ConsultarPropuesta"}
     />
+    {/* <ListItem button component={Link} to="/RegistroUps">
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Registro UPS" />
+    </ListItem>
+    <ListItem button component={Link} to="/SolicitudInscripcion">
+        <ListItemIcon>
+          <AnnouncementIcon />
+        </ListItemIcon>
+        <ListItemText primary="Estado inscripción" />
+    </ListItem>
+    <ListItem button component={Link} to="/ServicioSocial">
+        <ListItemIcon>
+          <AnnouncementIcon />
+        </ListItemIcon>
+        <ListItemText primary="Consultar servicios" />
+    </ListItem> */}
+    <Desplegar 
+    opcionGeneral={"Gestionar registro"} 
+    opcion1={"Registro UPS"}
+    link1={"/RegistroUps"}
+    opcion2={"Estado inscripción"}
+    link2={"/SolicitudInscripcion"}
+    />
+    <Desplegar 
+    opcionGeneral={"Gestionar servicio social"} 
+    opcion1={"Registrar solicitud"}
+    link1={"/ServicioSocial"}
+    opcion2={"Estado solicitud"}
+    link2={"/SolicitudProyecto"}
+    />
+    <ListItem button component={Link} to="/AsignacionPropuesta">
+        <ListItemIcon>
+          <AssignmentIcon />
+        </ListItemIcon>
+          <ListItemText primary="Asignar Propuesta" />
+      </ListItem>
   </div>
 );
 function Desplegar(props) {

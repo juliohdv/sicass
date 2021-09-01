@@ -44,65 +44,76 @@ class Registro extends Component {
         });
       });
   }
-  //Funcion que limpiar todo los campos del formulario
-  limpiarFormulario() {
-    document.getElementById("carnet").value = "";
-    document.getElementById("correo_estudiante").value = "";
-    document.getElementById("nombres_estudiante").value = "";
-    document.getElementById("apellidos_estudiante").value = "";
-    document.getElementById("direccion_estudiante").value = "";
-    document.getElementById("telefono_estudiante").value = "";
-    document.getElementById("sexo").selectedIndex = "0";
+  //Funcion para resetear la facultad seleccionada
+  reiniciarFacultad(){
     document.getElementById("facultad").selectedIndex = "0";
-    document.getElementById("carrera_id").selectedIndex = "0";
   }
   render() {
     //Retorna todo la interfas respectiva para la solicitud de la propuesta
     return (
       /* Componente que facilita el control de los campos del fomrulario */
       <Formik
-      initialValues={{
-        carnet:"", 
-        nombres_estudiante:"",
-        apellidos_estudiante:"",
-        correo_estudiante:"",
-        sexo:"",
-        direccion_estudiante:"",
-        telefono_estudiante:"",
-        carrera_id:""
-      }}
-      onSubmit={async values=>{
-        await new Promise(resolve => setTimeout(resolve,500))
-        //alert(JSON.stringify(values,null,2))
-        axios
-          .post("https://juliohdv.pythonanywhere.com/login/estudiantes/",{
-            carnet:values.carnet,
-            nombres_estudiante:values.nombres_estudiante,
-            apellidos_estudiante:values.apellidos_estudiante,
-            correo_estudiante:values.correo_estudiante,
-            sexo:values.sexo,
-            direccion_estudiante:values.direccion_estudiante,
-            telefono_estudiante:values.telefono_estudiante,
-            carrera:values.carrera_id
-          })
-          .then((response)=>{
-            Swal.fire({
-              position: 'center',
-              icon: 'success',
-              title: 'Te has registrado con exito',
-              showConfirmButton: false,
-              timer: 2500
-            });
-            this.limpiarFormulario();
-          }).catch((error)=>{
-            console.log(error)
-            Swal.fire({
-              position: 'center',
-              icon: 'error',
-              title: 'No se pudo realizar su registro',
-              showConfirmButton: false,
-              timer: 2500
-            });
+        initialValues={{
+          user:"",
+          carnet: "",
+          password: "",
+          nombres_estudiante: "",
+          apellidos_estudiante: "",
+          correo_estudiante: "",
+          sexo: "",
+          direccion_estudiante: "",
+          telefono_estudiante: "",
+          carrera_id: "",
+        }}
+        onSubmit={async (values, {resetForm}) => {
+          await new Promise((resolve) => setTimeout(resolve, 500));
+          /* Librearia que facilita la comunicación con el backend */
+          axios
+            .post("http://127.0.0.1:8000/login/crearUsuario/", {
+              username: values.carnet,
+              password: values.password,
+              tipo_usuario: 1
+            })
+            .then((response)=>{
+              axios
+                .get("http://127.0.0.1:8000/login/ultimoUsuario/")
+                .then((response) =>{
+                    axios
+                    .post("http://127.0.0.1:8000/login/estudiantes/", {
+                      carnet: values.carnet,
+                      nombres_estudiante: values.nombres_estudiante,
+                      apellidos_estudiante: values.apellidos_estudiante,
+                      correo_estudiante: values.correo_estudiante,
+                      sexo: values.sexo,
+                      direccion_estudiante: values.direccion_estudiante,
+                      telefono_estudiante: values.telefono_estudiante,
+                      carrera: values.carrera_id,
+                      user: response.data.map((elemento) => elemento.id).toString()
+                    })
+                    .then((response) => {
+                      Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Te has registrado con exito",
+                        showConfirmButton: false,
+                        timer: 2500,
+                      });
+                      //Limpia el formulario ingresado en pantalla
+                      this.reiniciarFacultad();
+                      resetForm({});
+                    })
+                    .catch((error) => {
+                      Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title:
+                          "Ocurrio un error en su registro: Estudiante ya registrado",
+                      });
+                  });
+                })
+                .catch((error)=>{});
+            })
+            .catch((error)=>{});
         }}
       >
         {({ values, handleSubmit, handleChange }) => (
@@ -145,8 +156,8 @@ class Registro extends Component {
                     placeholder="**********"
                     id="password"
                     autoComplete="off"
-                    required={false}
-                    value={values.carnet}
+                    required={true}
+                    value={values.password}
                     onChange={handleChange}
                   />
                 </OverlayTrigger>

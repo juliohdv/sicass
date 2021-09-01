@@ -1,9 +1,19 @@
+from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
 from django.db.models.expressions import Case
 from django.db.models.fields import CharField, DateField, TextField
 from django.db.models.fields.related import ForeignKey
+from django.contrib.auth.models import User, AbstractUser
 
 # Create your models here.
+class User(AbstractUser):
+    USER_TYPE_CHOICES = (
+        (1, 'estudiante'),
+        (2, 'encargadoFacultad'),
+        (3, 'encargadoEscuela'),
+        (4,'admin'),
+    )
+    tipo_usuario = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES)
 class EntidadExterna(models.Model):
     codigo_entidad = models.BigAutoField(primary_key=True)
     nombre_entidad = models.CharField(max_length=150)
@@ -52,6 +62,7 @@ class Estudiante(models.Model):
     direccion_estudiante = models.CharField(max_length=250)
     telefono_estudiante = models.IntegerField()
     carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     def __str__(self):
         return '%s %s' % (self.nombres_estudiante, self.apellidos_estudiante)
 
@@ -79,3 +90,37 @@ class Propuesta(models.Model):
     tipo_servicio_social = models.ForeignKey(TipoServicioSocial, on_delete=models.CASCADE)
     def __str__(self):
         return '%s' % (self.codigo_propuesta)
+
+#Cambiar nombre de modelo a 'Proyecto'
+class ServicioSocial(models.Model):
+    codigo_servicio_social = models.BigAutoField(primary_key=True, unique=True)
+    cantidad_estudiantes = models.IntegerField()
+    cantidad_horas = models.IntegerField()
+    descripcion = models.CharField(max_length=250)
+    entidad = models.CharField(max_length=150)
+    tipo_servicio_social = models.ForeignKey(TipoServicioSocial, on_delete=models.CASCADE)
+    propuesta = models.ForeignKey(Propuesta, on_delete=models.CASCADE, blank=True, null=True)
+    solicitud = models.ForeignKey(Solicitud, on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return '%s' % (self.codigo_servicio_social)
+
+class SolicitudUps(models.Model):
+    codigo_solicitud_ups = models.BigAutoField(primary_key=True, unique=True)
+    enlace = models.CharField(max_length=500)
+    observaciones = models.CharField(max_length=500)
+    estado_solicitud = TextField(max_length=50, default='En Proceso')
+    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '%s' % (self.codigo_solicitud_ups)
+
+class SolicitudServicioSocial(models.Model):
+    codigo_solicitud_servicio = models.BigAutoField(primary_key=True, unique=True)
+    observaciones = models.CharField(max_length=500)
+    estado_solicitud = TextField(max_length=50, default='En Proceso')
+    servicio_social = models.ForeignKey(ServicioSocial, on_delete=models.CASCADE)
+    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '%s' % (self.codigo_solicitud_servicio)

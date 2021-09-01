@@ -41,7 +41,7 @@ class InicioInformacion extends Component {
                   </a>
                 </div>
                 <div id="header_front">
-                  <h1>Secretaria de proyección social</h1>
+                  <h1>Secretar&iacute;a de Proyección Social</h1>
                   <h4>"De la mano con la comunidad"</h4>
                 </div>
               </div>

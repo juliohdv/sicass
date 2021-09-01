@@ -67,60 +67,71 @@ class SolicitudServicio extends Component {
       })
       .catch((error) => {});
   }
-  limpiarFormulario() {
-    document.getElementById("nombre_entidad").value = "";
-    document.getElementById("direccion_entidad").value = "";
-    document.getElementById("correo_entidad").value = "";
-    document.getElementById("telefono_entidad").value = "";
-    document.getElementById("clasificacion_entidad").selectedIndex = "0";
+   //Funcion para resetear la facultad seleccionada
+   reiniciarFacultad(){
     document.getElementById("facultad").selectedIndex = "0";
-    document.getElementById("carrera_id").selectedIndex = "0";
-    document.getElementById("tipo_servicio_social_id").selectedIndex = "0";
+  }
+  //Funcion para obtener la fecha actual
+  fechaActual() {
+    var fecha = new Date();
+    var mes = fecha.getMonth() + 1;
+    var dia = fecha.getDate();
+    var anio = fecha.getFullYear();
+    if (dia < 10) dia = "0" + dia;
+    if (mes < 10) mes = "0" + mes;
+    return anio + "-" + mes + "-" + dia;
   }
   render() {
     return (
-      <Formik initialValues={{
-        nombre_entidad:"",
-        direccion_entidad:"",
-        correo_entidad:"",
-        telefono_entidad:"",
-        clasificacion_entidad:"",
-        fecha_fin_solicitud:"",
-        estado_solicitud:"En Proceso",
-        entidad_externa_id:"",
-        carrera_id:'',
-        tipo_servicio_social_id:'',
-
-      }}
-      onSubmit={async values =>{
-        await new Promise(resolve => setTimeout(resolve,500))
-        axios
-          .post("https://juliohdv.pythonanywhere.com/login/entidadExterna/",{
-            nombre_entidad:values.nombre_entidad,
-            direccion_entidad:values.direccion_entidad,
-            correo_entidad:values.correo_entidad,
-            telefono_entidad:values.telefono_entidad,
-            clasificacion_entidad:values.clasificacion_entidad
-          })
-          .then((response)=>{
-            axios
-              .get("https://juliohdv.pythonanywhere.com/login/ultimaEntidadExterna/")
-              .then((response)=>{
+      <Formik
+        initialValues={{
+          nombre_entidad: "",
+          direccion_entidad: "",
+          correo_entidad: "",
+          telefono_entidad: "",
+          clasificacion_entidad: "",
+          fecha_fin_solicitud: "",
+          estado_solicitud: "En Proceso",
+          entidad_externa_id: "",
+          carrera_id: "",
+          tipo_servicio_social_id: "",
+        }}
+        onSubmit={async (values, {resetForm}) => {
+          await new Promise((resolve) => setTimeout(resolve, 500));
+          axios
+            .post("http://127.0.0.1:8000/login/entidadExterna/", {
+              nombre_entidad: values.nombre_entidad,
+              direccion_entidad: values.direccion_entidad,
+              correo_entidad: values.correo_entidad,
+              telefono_entidad: values.telefono_entidad,
+              clasificacion_entidad: values.clasificacion_entidad,
+            })
+            .then((response) => {
+              axios
+                .get("http://127.0.0.1:8000/login/ultimaEntidadExterna/")
+                .then((response) => {
                   axios
-                  .post("https://juliohdv.pythonanywhere.com/login/solicitudes/",{
-                    fecha_fin_solicitud:values.fecha_fin_solicitud,
-                    estado_solicitud:values.estado_solicitud,
-                    entidad_externa:response.data.map(elemento=>(elemento.codigo_entidad)).toString(),
-                    carrera:values.carrera_id,
-                    tipo_servicio_social:values.tipo_servicio_social_id
-                 })
-                  .then((response)=>{
-                    Swal.fire({
-                      position: 'center',
-                      icon: 'success',
-                      title: 'Tu solicitud de servicio social ha sido registrada con éxito.',
-                      showConfirmButton: false,
-                      timer: 2500
+                    .post("http://127.0.0.1:8000/login/solicitudes/", {
+                      fecha_fin_solicitud: values.fecha_fin_solicitud,
+                      estado_solicitud: values.estado_solicitud,
+                      entidad_externa: response.data
+                        .map((elemento) => elemento.codigo_entidad)
+                        .toString(),
+                      carrera: values.carrera_id,
+                      tipo_servicio_social: values.tipo_servicio_social_id,
+                    })
+                    .then((response) => {
+                      Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title:
+                          "Tu solicitud de servicio social ha sido registrada con éxito.",
+                        showConfirmButton: false,
+                        timer: 2500,
+                      });
+                      //Limpia el formulario ingresado en pantalla
+                      this.reiniciarFacultad();
+                      resetForm({});
                     })
                     .catch((error) => {
                       Swal.fire({
@@ -335,6 +346,7 @@ class SolicitudServicio extends Component {
                   required={true}
                   value={values.fecha_fin_solicitud}
                   onChange={handleChange}
+                  min={this.fechaActual()}
                 ></Form.Control>
               </Form.Group>
               <Col sm="1"></Col>

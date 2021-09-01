@@ -2,19 +2,19 @@ from django.db.models import fields
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from .models import *
-from rest_framework.authtoken.models import Token
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'password']
+        fields = ['id', 'username', 'password', 'tipo_usuario']
         extra_kwargs = {'password': {'write_only':True, 'required':True}} #Con esto hacemos que la contraseña no sea visible en las peticiones y que sea requerida en las creaciones
 
     def create(self, validated_data):
         usuario = User.objects.create_user(**validated_data)
-        Token.objects.create(user=usuario) #Asignamos un token al usuario creado
         return usuario
+    
 
 class TipoServicioSocialSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,9 +32,10 @@ class CarreraSerializer(serializers.ModelSerializer):
         fields = ['codigo_carrera','nombre_carrera', 'cantidad_materias','facultad']
 
 class EstudianteSerializer(serializers.ModelSerializer):
+    carrera_detalle = CarreraSerializer(source = 'carrera',read_only=True)
     class Meta:
         model = Estudiante
-        fields = ['carnet','nombres_estudiante','apellidos_estudiante','correo_estudiante','sexo','direccion_estudiante','telefono_estudiante','carrera']
+        fields = "__all__"
     
     def create(self, validated_data):
         estudiante = Estudiante.objects.create(**validated_data)
@@ -89,7 +90,45 @@ class EntidadExternaSerializer(serializers.ModelSerializer):
 class UsuariosGestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id','last_login','is_superuser', 'username', 'first_name','last_name','email','is_staff','is_active','date_joined']
+        fields = ['id','last_login','is_superuser', 'username', 'password', 'first_name','last_name','email','is_staff','is_active','date_joined','tipo_usuario']
+        extra_kwargs = {'password': {'write_only':True, 'required':False}}
     def create(self, validated_data):
-        usuarios = User.objects.create(**validated_data)
+        usuarios = User.objects.create_user(**validated_data)
         return usuarios
+
+class ServicioSocialSerializer(serializers.ModelSerializer):
+    entidad_externa_detalle =  EntidadExternaSerializer(source = 'entidad_externa', read_only=True)
+    tipo_servicio_social_detalle = TipoServicioSocialSerializer(source = 'tipo_servicio_social', read_only=True)
+    solicitud_detalle = SolicitudSerializer(source = 'solicitud', read_only=True)
+    propuesta_detalle = PropuestaSerializer(source = 'propuesta', read_only=True)
+    class Meta:
+        model = ServicioSocial
+        fields = "__all__"
+    def create(self, validated_data):
+        servicioSocial = ServicioSocial.objects.create(**validated_data)
+        return servicioSocial
+
+class SolicitudUpsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SolicitudUps
+        fields = ['codigo_solicitud_ups','enlace','observaciones','estado_solicitud','estudiante']
+    def create(self, validate_data):
+        solicitudUps = SolicitudUps.objects.create(**validate_data)
+        return solicitudUps
+
+class TipoContenidoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContentType
+        fields = "__all__"
+    def create(self, validated_data):
+        tipoContenido = ContentType.objects.create(**validated_data)
+        return tipoContenido
+
+class SolicitudServicioSerializer(serializers.ModelSerializer):
+    servicio_social_detalle = ServicioSocialSerializer(source='servicio_social', read_only=True)
+    class Meta:
+        model = SolicitudServicioSocial
+        fields = "__all__"
+    def create(self, validate_data):
+        solicitudServicio = SolicitudServicioSocial.objects.create(**validate_data)
+        return solicitudServicio

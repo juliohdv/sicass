@@ -1,4 +1,4 @@
-import React, { Component} from "react";
+import React, { Component } from "react";
 import Dashboard from "./Dashboard";
 import axios from "axios";
 import { Button, Form } from "react-bootstrap";
@@ -8,6 +8,8 @@ import MUIDataTable from "mui-datatables";
 import { Tooltip } from "@material-ui/core";
 import Delete from "@material-ui/icons/Delete";
 import Edit from "@material-ui/icons/Edit";
+import Done from "@material-ui/icons/Done";
+import Close from "@material-ui/icons/Close";
 
 //Constante con las opciones de la tabla
 const options = {
@@ -16,7 +18,7 @@ const options = {
   responsive: "simple",
   selectableRows: false,
   rowsPerPage: 5,
-  rowsPerPageOptions: [5,10,20],
+  rowsPerPageOptions: [5, 10, 20],
   tableBodyHeight: "320px",
   textLabels: {
     body: {
@@ -69,15 +71,16 @@ class Usuarios extends Component {
         //Estado que contiene los campos del formulario a ingresar
         id: "",
         last_login: "",
-        is_superuser: "",
+        is_superuser: false,
         username: "",
         password: "",
         first_name: "",
         last_name: "",
         email: "",
-        is_staff: "",
-        is_active: "",
+        is_staff: false,
+        is_active: false,
         date_joined: "",
+        tipo_usuario: "",
         tipoModal: "",
       },
     };
@@ -85,18 +88,58 @@ class Usuarios extends Component {
 
   //Metodo en que realiza la peticion para ingreso de datos a la BD mediante la api
   peticionPost = async () => {
-    delete this.state.form.id;
-    await axios
-      .post(url, {
-        username: this.state.form.username,
-        password: this.state.form.password,
-        is_superuser: this.state.form.is_superuser,
-        first_name: this.form.first_name,
-        last_name: this.state.form.last_name,
-        email: this.state.form.email,
-        is_staff: this.state.form.is_staff,
-        is_active: this.state.form.is_active,
-      })
+    try {
+      if (
+        this.state.form.username.length > 0 &&
+        this.state.form.password.length > 0 &&
+        this.state.form.tipo_usuario.length > 0
+      ) {
+        await axios
+          .post(url, {
+            username: this.state.form.username,
+            password: this.state.form.password,
+            tipo_usuario: this.state.form.tipo_usuario,
+            first_name: this.state.form.first_name,
+            last_name: this.state.form.last_name,
+            email: this.state.form.email,
+            is_superuser: this.state.form.is_superuser,
+            is_staff: this.state.form.is_staff,
+            is_active: this.state.form.is_active,
+          })
+          .then((response) => {
+            this.modalInsertar();
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Se a guardado con exito",
+              showConfirmButton: false,
+              timer: 2500,
+            });
+            this.componentDidMount();
+          })
+          .catch((error) => {
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Ocurrio un error en el registro del usuario",
+              showConfirmButton: false,
+              timer: 2500,
+            });
+          });
+      }
+    } catch (error) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Debe ingresar los campos obligatirios: Usuario, Contraseña y Tipo de usuario",
+      });
+    }
+  };
+
+  //Metodo en que realiza la peticion para actualizar los datos a la BD mediante la api
+  peticionPut = () => {
+    axios
+      .put(url + this.state.form.id + "/", this.state.form)
       .then((response) => {
         this.modalInsertar();
         Swal.fire({
@@ -112,59 +155,37 @@ class Usuarios extends Component {
         Swal.fire({
           position: "center",
           icon: "error",
-          title: "Ocurrio un error en el registro del usuario",
+          title: "Ocurrio un error en actualizar el usuario",
           showConfirmButton: false,
           timer: 2500,
         });
       });
   };
 
-  //Metodo en que realiza la peticion para actualizar los datos a la BD mediante la api
-  peticionPut = () => {
-    axios.put(url + this.state.form.id, this.state.form).then((response) => {
-      this.modalInsertar();
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Se a guardado con exito",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-      this.componentDidMount();
-    })
-    .catch((error) =>{
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Ocurrio un error en actualizar el usuario",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-    });
-  };
-
   //Metodo en que realiza la peticion para eliminar los datos a la BD mediante la api
   peticionDelete = () => {
-    axios.delete(url + this.state.form.id).then((response) => {
-      this.setState({ modalEliminar: false });
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Se a eliminado con exito",
-        showConfirmButton: false,
-        timer: 2500,
+    axios
+      .delete(url + this.state.form.id)
+      .then((response) => {
+        this.setState({ modalEliminar: false });
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Se a eliminado con exito",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+        this.componentDidMount();
+      })
+      .catch((error) => {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Ocurrio un error en el eliminar el usuario",
+          showConfirmButton: false,
+          timer: 2500,
+        });
       });
-      this.componentDidMount();
-    })
-    .catch((error) =>{
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Ocurrio un error en el eliminar el usuario",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-    });
   };
 
   //Metodo que funciona para saber que elemento a selecciconado de la tabla y mandarlo al modal
@@ -176,10 +197,11 @@ class Usuarios extends Component {
         username: usuario[1],
         first_name: usuario[2],
         last_name: usuario[3],
-        is_superuser: usuario[5],
-        email: usuario[6],
+        email: usuario[4],
+        is_superuser: usuario[6],
         is_staff: usuario[7],
         is_active: usuario[8],
+        tipo_usuario: usuario[9],
       },
     });
   };
@@ -196,6 +218,17 @@ class Usuarios extends Component {
       form: {
         ...this.state.form,
         [e.target.name]: e.target.value,
+      },
+    });
+  };
+
+  //Metodo que cambia el estado de true o false en el checkbox
+  handleChangeCheck = async (e) => {
+    e.persist();
+    await this.setState({
+      form: {
+        ...this.state.form,
+        [e.target.name]: e.target.checked,
       },
     });
   };
@@ -224,8 +257,8 @@ class Usuarios extends Component {
         name: "id",
         label: "Código",
         option: {
-          display: 'excluded',
-        }
+          display: "excluded",
+        },
       },
       {
         name: "username",
@@ -240,24 +273,76 @@ class Usuarios extends Component {
         label: "Apellidos",
       },
       {
+        name: "email",
+        label: "Email",
+      },
+      {
         name: "last_login",
         label: "Ultimo logeo",
       },
       {
         name: "is_superuser",
         label: "Super usuario",
-      },
-      {
-        name: "email",
-        label: "Email",
+        options: {
+          customBodyRender: (value, tableMeta, updateValue) => {
+            if (value === true)
+              return (
+                <Tooltip title="OK">
+                  <Done color="primary" />
+                </Tooltip>
+              );
+            else
+              return (
+                <Tooltip title="Failing">
+                  <Close color="error" />
+                </Tooltip>
+              );
+          },
+        },
       },
       {
         name: "is_staff",
         label: "Staff",
+        options: {
+          customBodyRender: (value, tableMeta, updateValue) => {
+            if (value === true)
+              return (
+                <Tooltip title="OK">
+                  <Done color="primary" />
+                </Tooltip>
+              );
+            else
+              return (
+                <Tooltip title="Failing">
+                  <Close color="error" />
+                </Tooltip>
+              );
+          },
+        },
       },
       {
         name: "is_active",
         label: "Activo",
+        options: {
+          customBodyRender: (value, tableMeta, updateValue) => {
+            if (value === true)
+              return (
+                <Tooltip title="OK">
+                  <Done color="primary" />
+                </Tooltip>
+              );
+            else
+              return (
+                <Tooltip title="Failing">
+                  <Close color="error" />
+                </Tooltip>
+              );
+          },
+        },
+      },
+      {
+        name: "tipo_usuario",
+        label: "Tipo de Usuario",
       },
       {
         name: "date_joined",
@@ -270,7 +355,7 @@ class Usuarios extends Component {
           customBodyRender: (value, tableMeta, updateValue) => {
             return (
               <>
-              {/* Botones para las opciones de editar y eliminar */}
+                {/* Botones para las opciones de editar y eliminar */}
                 <Tooltip title="Editar">
                   <Button
                     size="sm"
@@ -309,20 +394,22 @@ class Usuarios extends Component {
           <div className="pt-4">
             <div>
               {/* Boton crear */}
-              {<Button
-                variant="success"
-                onClick={() => {
-                  this.setState({ form: null, tipoModal: "insertar" });
-                  this.modalInsertar();
-                }}
-              >
-                Crear
-            </Button>}
+              {
+                <Button
+                  variant="success"
+                  onClick={() => {
+                    this.setState({ form: null, tipoModal: "insertar" });
+                    this.modalInsertar();
+                  }}
+                >
+                  Crear
+                </Button>
+              }
             </div>
             <div>
               <div className="pt-3">
                 {/* Invocacion de la tabla, con sus opciones correspondientes */}
-              <MUIDataTable
+                <MUIDataTable
                   title={"Usuarios"}
                   data={this.state.usuarios}
                   columns={columns}
@@ -348,39 +435,37 @@ class Usuarios extends Component {
                     id="username"
                     name="username"
                     autocomplete="off"
-                    value={
-                      form ? form.username: ""
-                    }
-                    required
+                    value={form ? form.username : ""}
+                    required={true}
                     onChange={this.handleChange}
                   />
                 </Form.Group>
                 {this.state.tipoModal === "insertar" ? (
-                <Form.Group>
-                  <Form.Label>Contraseña</Form.Label>
-                  <Form.Control
-                    type="password"
-                    id="password"
-                    name="password"
-                    autocomplete="off"
-                    value={form ? form.password: ""}
-                    required
-                    onChange={this.handleChange}
-                  />
-                </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Contraseña</Form.Label>
+                    <Form.Control
+                      type="password"
+                      id="password"
+                      name="password"
+                      autocomplete="off"
+                      value={form ? form.password : ""}
+                      required={true}
+                      onChange={this.handleChange}
+                    />
+                  </Form.Group>
                 ) : (
                   <Form.Group>
-                  <Form.Label>Id</Form.Label>
-                  <Form.Control
-                    type="text"
-                    id="id"
-                    name="id"
-                    readOnly
-                    value={form ? form.id: this.state.usuarios.length + 1}
-                    required
-                    onChange={this.handleChange}
-                  />
-                </Form.Group>
+                    <Form.Label>Id</Form.Label>
+                    <Form.Control
+                      type="text"
+                      id="id"
+                      name="id"
+                      readOnly
+                      value={form ? form.id : this.state.usuarios.length + 1}
+                      required
+                      onChange={this.handleChange}
+                    />
+                  </Form.Group>
                 )}
                 <Form.Group>
                   <Form.Label>Email</Form.Label>
@@ -390,7 +475,7 @@ class Usuarios extends Component {
                     name="email"
                     placeholder="example@name.com"
                     pattern="([A-z]+)@([A-z]+)[.]([A-z.]+)"
-                    value={form ? form.email: ""}
+                    value={form ? form.email : ""}
                     onChange={this.handleChange}
                   />
                 </Form.Group>
@@ -402,7 +487,7 @@ class Usuarios extends Component {
                     name="first_name"
                     placeholder="Juan Antonio"
                     autocomplete="off"
-                    value={form ? form.first_name: ""}
+                    value={form ? form.first_name : ""}
                     onChange={this.handleChange}
                   />
                 </Form.Group>
@@ -414,41 +499,87 @@ class Usuarios extends Component {
                     id="last_name"
                     name="last_name"
                     autocomplete="off"
-                    value={form ? form.last_name: ""}
+                    value={form ? form.last_name : ""}
                     onChange={this.handleChange}
                   />
                 </Form.Group>
+                <Form.Row>
+                  <Form.Group>
+                    <Form.Check
+                      id="is_superuser"
+                      name="is_superuser"
+                      value={form ? form.is_superuser : false}
+                      checked={form ? form.is_superuser : false}
+                      label="Super usuario"
+                      onChange={this.handleChangeCheck}
+                      inline
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Check
+                      id="is_staff"
+                      name="is_staff"
+                      value={form ? form.is_staff : false}
+                      checked={form ? form.is_staff : false}
+                      label="Staff"
+                      onChange={this.handleChangeCheck}
+                      inline
+                    />
+                  </Form.Group>
+                  {this.state.tipoModal === "insertar" ? (
+                    <Form.Group>
+                      <Form.Check
+                        id="is_active"
+                        name="is_active"
+                        value={form ? form.is_active : false}
+                        checked={form ? form.is_active : true}
+                        disabled={true}
+                        label="Activo"
+                        onChange={this.handleChangeCheck}
+                        inline
+                      />
+                    </Form.Group>
+                  ) : (
+                    <Form.Group>
+                      <Form.Check
+                        id="is_active"
+                        name="is_active"
+                        value={form ? form.is_active : false}
+                        checked={form ? form.is_active : false}
+                        label="Activo"
+                        onChange={this.handleChangeCheck}
+                        inline
+                      />
+                    </Form.Group>
+                  )}
+                </Form.Row>
                 <Form.Group>
-                  <Form.Label>Super usuario</Form.Label>
+                  <Form.Label>Tipo de Usuario</Form.Label>
                   <Form.Control
-                    type="checkbox"
-                    id="is_superuser"
-                    name="is_superuser"
-                    value={form ? form.is_superuser: ""}
+                    as="select"
+                    id="tipo_usuario"
+                    name="tipo_usuario"
+                    required={true}
+                    value={form ? form.tipo_usuario : ""}
                     onChange={this.handleChange}
-                  />
+                  >
+                    <option value="" disabled={true}>
+                      Seleccione..
+                    </option>
+                    <option key="1" value={1}>
+                      Estudiante
+                    </option>
+                    <option key="2" value={2}>
+                      Encargado de facultad
+                    </option>
+                    <option key="3" value={3}>
+                      Encargardo de escuela
+                    </option>
+                    <option key="4" value={4}>
+                      Administrador
+                    </option>
+                  </Form.Control>
                 </Form.Group>
-                <Form.Group>
-                  <Form.Label>Staff</Form.Label>
-                  <Form.Control
-                    type="checkbox"
-                    id="is_staff"
-                    name="is_staff"
-                    value={form ? form.is_staff: ""}
-                    onChange={this.handleChange}
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Activo</Form.Label>
-                  <Form.Control
-                    type="checkbox"
-                    id="is_active"
-                    name="is_active"
-                    value={form ? form.is_active : ""}
-                    onChange={this.handleChange}
-                  />
-                </Form.Group>
-
                 <ModalFooter>
                   {this.state.tipoModal === "insertar" ? (
                     <Button
@@ -477,8 +608,8 @@ class Usuarios extends Component {
 
             {/* Modal para eliminar */}
             <Modal isOpen={this.state.modalEliminar} centered>
-            <ModalHeader style={{ display: "block" }}>
-                  <span>Eliminar usuario</span>
+              <ModalHeader style={{ display: "block" }}>
+                <span>Eliminar usuario</span>
               </ModalHeader>
               <ModalBody>
                 ¿Esta seguro de eliminar el usuario seleccionado?
@@ -488,7 +619,7 @@ class Usuarios extends Component {
                   Si
                 </Button>
                 <Button
-                  variant="secundary"
+                  variant="secondary"
                   onClick={() => this.setState({ modalEliminar: false })}
                 >
                   No

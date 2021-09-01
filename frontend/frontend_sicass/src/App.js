@@ -1,31 +1,59 @@
-import React from 'react';
-import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom'
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Container from '@material-ui/core/Container';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems } from './componentes/listItems';
-import LogoSicass from './componentes/LogoSicass';
-import EnvioRegistro from './componentes/EnvioRegistro';
-import EnvioPropuesta from './componentes/EnvioPropuesta';
-import EnvioSolicitud from './componentes/EnvioSolicitud';
-import Roles from './componentes/Roles';
-import Solicitudes from './componentes/Solicitudes';
-import Login from './componentes/login';
-import Propuestas from './componentes/Propuestas';
-import Usuarios from './componentes/Usuarios';
-import InicioInformacion from './componentes/InicioInformacion';
+import React from "react";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Drawer from "@material-ui/core/Drawer";
+import Box from "@material-ui/core/Box";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import List from "@material-ui/core/List";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import Container from "@material-ui/core/Container";
+import MenuIcon from "@material-ui/icons/Menu";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import { Button } from "@material-ui/core";
+import { itemsVisitante } from "./componentes/itemsVisitante";
+import { itemsEstudiante } from "./componentes/itemsEstudiante";
+import { itemsFacultad } from "./componentes/itemsFacultad";
+import { itemsEscuela } from "./componentes/itemsEscuela";
+import { itemsAdmin } from "./componentes/itemsAdmin";
+import LogoSicass from "./componentes/LogoSicass";
+import EnvioRegistro from "./componentes/EnvioRegistro";
+import EnvioPropuesta from "./componentes/EnvioPropuesta";
+import EnvioSolicitud from "./componentes/EnvioSolicitud";
+import Roles from "./componentes/Roles";
+import Solicitudes from "./componentes/Solicitudes";
+import Login from "./componentes/login";
+import Logout from "./componentes/logout";
+import Propuestas from "./componentes/Propuestas";
+import Usuarios from "./componentes/Usuarios";
+import InicioInformacion from "./componentes/InicioInformacion";
+import EnvioRegistroUps from "./componentes/EnvioRegistroUps";
+import SolicitudInscripcion from "./componentes/SolicitudInscripcion";
+import ServicioSocial from "./componentes/ServicioSocial";
+import SolicitudProyecto from "./componentes/SolicitudProyecto";
+import { LockOpen } from "@material-ui/icons";
+import { Backdrop, Fade, Modal } from "@material-ui/core";
+import AsignarPropuesta from "./componentes/AsignarPropuesta";
+import SolicitudRegistroUPS from "./componentes/SolicitudRegistroUPS";
+import SolicitudRegistroSS from "./componentes/SolicitudRegistroSS";
 
-
+function leerCookie(nombre){
+  let key = nombre + "=";
+  let cookies = document.cookie.split(";")
+  for(let i=0; i<cookies.length; i++){
+    let cookie = cookies[i]
+    while(cookie.charAt(0) === ' '){
+      cookie = cookie.substring(1,cookie.length)
+    }
+    if(cookie.indexOf(key) === 0){
+      return cookie.substring(key.length, cookie.length)
+    }
+  }
+  return null;
+}
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -38,9 +66,9 @@ function Copyright() {
     </Typography>
   );
 }
-
-const drawerWidth = 290;
-
+let tipo_usuario = " ";
+let nombre_usuario = " ";
+const drawerWidth = 335; //Ancho del menú desplegable
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -118,18 +146,47 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  paperLogin: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
 }));
-
 export default function App() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const [openLogin, setOpenLogin] = React.useState(false);
+  const [openLogout, setOpenLogout] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const handleOpenLogin = () => {
+    setOpenLogin(true);
+  };
+  const handleCloseLogin = () => {
+    setOpenLogin(false);
+    tipo_usuario = leerCookie("tipo_usuario");
+    nombre_usuario = leerCookie("usuario");
 
+  };
+  const handleOpenLogout = () => {
+    setOpenLogout(true);
+  }
+  const handleCloseLogout = () => {
+    setOpenLogout(false);
+    tipo_usuario = " "
+    nombre_usuario = " "
+    
+  }
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -160,6 +217,78 @@ export default function App() {
           >
             SICASS
           </Typography>
+          
+          {(() => {
+            if(tipo_usuario !== " "){
+              return(
+               <Typography
+                variant ="overline"
+                color="inherit"
+                align="center"
+                display="block">
+                Bienvenid@: {nombre_usuario}{"  "} 
+                    <Button 
+                    variant="contained" 
+                    color="default" 
+                    startIcon={<LockOpen />}
+                    onClick={handleOpenLogout}>
+                      Cerrar Sesión
+                    </Button>
+                </Typography>
+              );
+
+            }else{
+              return <Button
+                variant="contained"
+                color="default"
+                startIcon={<LockOpen />}
+                onClick={handleOpenLogin}>
+                Iniciar Sesión
+              </Button>
+            }
+        })()}
+          
+          
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className={classes.modal}
+            open={openLogin}
+            onClose={handleCloseLogin}
+
+            closeAfterTransition={true}
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Fade in={openLogin}>
+              <div className={classes.paperLogin}>
+                <h2 id="transition-modal-title">Inicio de Sesión:</h2>
+                <Login />
+              </div>
+            </Fade>
+          </Modal>
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className={classes.modal}
+            open={openLogout}
+            onClose={handleCloseLogout}
+
+            closeAfterTransition={true}
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Fade in={openLogout}>
+              <div className={classes.paperLogin}>
+                <h2 id="transition-modal-title">Cerrar Sesión:</h2>
+                <Logout />
+              </div>
+            </Fade>
+          </Modal>
         </Toolbar>
       </AppBar>
       <Router>
@@ -175,16 +304,25 @@ export default function App() {
               <ChevronLeftIcon />
             </IconButton>
           </div>
-          <List>{mainListItems}</List>
+          {(() => {
+          switch(tipo_usuario) {
+            case "1": return <List>{itemsEstudiante}</List>;
+            case "2": return <List>{itemsFacultad}</List>;
+            case "3": return <List>{itemsEscuela}</List>;
+            case "4": return <List>{itemsAdmin}</List>;
+            default: return <List>{itemsVisitante}</List>
+          }
+        })()}
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Container>
             <Switch>
-              {    
-              <Route exact path="/">
-                <Inicio />
-              </Route>}
+              {
+                <Route exact path="/">
+                  <Inicio />
+                </Route>
+              }
               <Route path="/RegistroEstudiante">
                 <RegistroEstudiante />
               </Route>
@@ -201,13 +339,34 @@ export default function App() {
                 <ConsultarSolicitud />
               </Route>
               <Route path="/Login">
-                <IniciarSesion/>
+                <IniciarSesion />
               </Route>
               <Route path="/GestionarUsuarios">
-                <GestionUsuarios/>
+                <GestionUsuarios />
               </Route>
               <Route path="/ConsultarPropuesta">
-                <ConsultarPropuesta/>
+                <ConsultarPropuesta />
+              </Route>
+              <Route path="/RegistroUps">
+                <RegistrarseUps />
+              </Route>
+              <Route path="/SolicitudInscripcion">
+                <ConsultarInscripcion />
+              </Route>
+              <Route path="/ServicioSocial">
+                <Servicios />
+              </Route>
+              <Route path="/SolicitudProyecto">
+                <Proyecto />
+              </Route>
+              <Route path="/AsignacionPropuesta">
+                <AsignacionPropuesta />
+              </Route>
+              <Route path="/SolicitudUPS">
+                <SolicitudUPS />
+              </Route>
+              <Route path="/SolicitudSS">
+                <SolicitudSS />
               </Route>
             </Switch>
           </Container>
@@ -244,8 +403,27 @@ function GestionUsuarios() {
 function Inicio() {
   return <InicioInformacion></InicioInformacion>;
 }
-function IniciarSesion(){
-  return(
-    <Login></Login>
-  );
+function IniciarSesion() {
+  return <Login />;
+}
+function RegistrarseUps() {
+  return <EnvioRegistroUps />;
+}
+function ConsultarInscripcion() {
+  return <SolicitudInscripcion />;
+}
+function Servicios() {
+  return <ServicioSocial />;
+}
+function Proyecto() {
+  return <SolicitudProyecto />;
+}
+function AsignacionPropuesta(){
+  return <AsignarPropuesta/>;
+}
+function SolicitudUPS(){
+  return <SolicitudRegistroUPS/>;
+}
+function SolicitudSS(){
+  return <SolicitudRegistroSS/>;
 }
