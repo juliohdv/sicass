@@ -20,7 +20,7 @@ class Registro extends Component {
   handleChange(event) {
     this.setState({ facultadSeleccionada: event.target.value });
     axios
-      .get("http://127.0.0.1:8000/login/carreraPo rFacultad/", {
+      .get("https://juliohdv.pythonanywhere.com/login/carreraPorFacultad/", {
         params: { facultad: event.target.value },
       })
       .then((response) => {
@@ -31,7 +31,7 @@ class Registro extends Component {
   //Funcion que carga todas las facultades, al ingresar a la pantalla
   componentDidMount() {
     axios
-      .get("http://127.0.0.1:8000/login/facultades/")
+      .get("https://juliohdv.pythonanywhere.com/login/facultades/")
       .then((response) => {
         this.setState({ facultades: response.data });
       })
@@ -54,6 +54,7 @@ class Registro extends Component {
       /* Componente que facilita el control de los campos del fomrulario */
       <Formik
         initialValues={{
+          user:"",
           carnet: "",
           password: "",
           nombres_estudiante: "",
@@ -68,15 +69,10 @@ class Registro extends Component {
           await new Promise((resolve) => setTimeout(resolve, 500));
           /* Librearia que facilita la comunicación con el backend */
           axios
-            .post("http://127.0.0.1:8000/login/estudiantes/", {
-              carnet: values.carnet,
-              nombres_estudiante: values.nombres_estudiante,
-              apellidos_estudiante: values.apellidos_estudiante,
-              correo_estudiante: values.correo_estudiante,
-              sexo: values.sexo,
-              direccion_estudiante: values.direccion_estudiante,
-              telefono_estudiante: values.telefono_estudiante,
-              carrera: values.carrera_id,
+            .post("http://127.0.0.1:8000/login/crearUsuario/", {
+              username: values.carnet,
+              password: values.password,
+              tipo_usuario: 1
             })
             .then((response)=>{
               axios
@@ -117,14 +113,7 @@ class Registro extends Component {
                 })
                 .catch((error)=>{});
             })
-            .catch((error) => {
-              Swal.fire({
-                position: "center",
-                icon: "error",
-                title:
-                  "Ocurrio un error en su registro: Estudiante ya registrado",
-              });
-            });
+            .catch((error)=>{});
         }}
       >
         {({ values, handleSubmit, handleChange }) => (
@@ -167,8 +156,8 @@ class Registro extends Component {
                     placeholder="**********"
                     id="password"
                     autoComplete="off"
-                    required={false}
-                    value={values.carnet}
+                    required={true}
+                    value={values.password}
                     onChange={handleChange}
                   />
                 </OverlayTrigger>

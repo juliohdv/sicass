@@ -64,7 +64,7 @@ class Solicitudes extends Component {
   }
   componentDidMount() {
     axios
-      .get(url)
+      .get("https://juliohdv.pythonanywhere.com/login/solicitudes/")
       .then((response) => {
         const arreglo_inicial = response.data; //Guardamos el arreglo inicial para su reescritura
         const solicitud = []; //Arreglo donde guardaremos los objetos reescritos

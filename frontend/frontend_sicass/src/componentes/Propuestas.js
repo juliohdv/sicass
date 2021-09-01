@@ -64,7 +64,7 @@ class Propuestas extends Component {
   }
   componentDidMount() {
     axios
-      .get(url)
+      .get("https://127.0.0.1:8000/login/propuestas/")
       .then((response) => {
         const arreglo_inicial = response.data; //Guardamos el arreglo inicial para su reescritura
         const solicitud = []; //Arreglo donde guardaremos los objetos reescritos
