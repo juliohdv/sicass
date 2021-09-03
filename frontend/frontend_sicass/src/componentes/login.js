@@ -106,6 +106,7 @@ class Login extends Component {
             console.log(data)
             this.setState({isAuthenticated:false})
             this.getCSRF();
+            
         })
         .catch((err)=>{
             console.log(err)

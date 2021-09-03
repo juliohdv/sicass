@@ -98,6 +98,9 @@ DATABASES = {
         'NAME': 'sicass',
         'USER': 'root',
         'PASSWORD': 'admin',
+        'OPTIONS':{
+            'charset': 'utf8mb4'
+        }
     }
 }
 

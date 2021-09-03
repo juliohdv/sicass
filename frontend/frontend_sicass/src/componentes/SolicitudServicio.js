@@ -25,7 +25,7 @@ class SolicitudServicio extends Component {
     this.setState({ facultadSeleccionada: event.target.value });
     this.setState({ carreraSeleccionada: event.target.value });
     axios
-      .get('https://juliohdv.pythonanywhere.com/login/carreraPorFacultad/', {params:{facultad: event.target.value}})
+      .get('http://127.0.0.1:8000/login/carreraPorFacultad/', {params:{facultad: event.target.value}})
       .then((response) =>{
         console.log(response);
         this.setState({carreras:response.data})
@@ -51,7 +51,7 @@ class SolicitudServicio extends Component {
   componentDidMount() {
     //Consulta lista de facultades
     axios
-      .get('https://juliohdv.pythonanywhere.com/login/facultades/')
+      .get('http://127.0.0.1:8000/login/facultades/')
       .then((response) =>{
         this.setState({facultades:response.data})
       })
@@ -61,7 +61,7 @@ class SolicitudServicio extends Component {
     
       
     axios
-      .get('https://juliohdv.pythonanywhere.com/login/tiposServicioSocial/')
+      .get('http://127.0.0.1:8000/login/tiposServicioSocial/')
       .then((response) => {
         this.setState({ facultades: response.data });
       })

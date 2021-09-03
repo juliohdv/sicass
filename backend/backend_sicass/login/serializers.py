@@ -29,7 +29,7 @@ class FacultadSerializer(serializers.ModelSerializer):
 class CarreraSerializer(serializers.ModelSerializer):
     class Meta:
         model = Carrera
-        fields = ['codigo_carrera','nombre_carrera', 'cantidad_materias','facultad']
+        fields = ['codigo_carrera','id_carrera','modalidad_carrera','plan_carrera','nombre_carrera', 'cantidad_materias','facultad']
 
 class EstudianteSerializer(serializers.ModelSerializer):
     carrera_detalle = CarreraSerializer(source = 'carrera',read_only=True)

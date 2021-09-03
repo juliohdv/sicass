@@ -31,12 +31,12 @@ def login_view(request):
     username = data.get('username')
     password = data.get('password')
     if username is None or password is None:
-        return JsonResponse({'detail': 'Please provide username and password.'}, status=400)
+        return JsonResponse({'detail': 'Por favor, ingrese un usuario y contraseña.'}, status=400)
     user = authenticate(username=username, password=password)
     if user is None:
-        return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
+        return JsonResponse({'detail': 'Credenciales no válidas, intente de nuevo.'}, status=400)
     login(request, user)
-    return JsonResponse({'detail': 'Successfully logged in.', 'username': username, 'tipo_usuario': user.__getattribute__('tipo_usuario')})
+    return JsonResponse({'detail': 'Te has logueado como: ', 'username': username, 'tipo_usuario': user.__getattribute__('tipo_usuario')})
     
 
 
@@ -44,7 +44,7 @@ def logout_view(request):
     #if not request.user.is_authenticated:
     #    return JsonResponse({'detail': 'You\'re not logged in.'}, status=400)
     logout(request)
-    return JsonResponse({'detail': 'Successfully logged out.'})
+    return JsonResponse({'detail': 'Hasta Luego!'})
 
 
 
@@ -168,7 +168,6 @@ class TipoContenidoVistas(viewsets.ModelViewSet):
 
 class SolicitudUpsFiltroVistas(viewsets.ModelViewSet):
     serializer_class = SolicitudUpsSerializer
-
     def get_queryset(self):
         estudiante = self.request.query_params.get('estudiante')
         queryset = SolicitudUps.objects.all().filter(estudiante_id=estudiante)

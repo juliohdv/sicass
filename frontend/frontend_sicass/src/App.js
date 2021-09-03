@@ -1,10 +1,11 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import React, { useEffect,} from "react";
+import { BrowserRouter as Router, Route, Redirect, Switch, Link } from "react-router-dom";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles,  withStyles} from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
+import {Form}  from  'react-bootstrap';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
@@ -13,7 +14,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Container from "@material-ui/core/Container";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import { Button } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { itemsVisitante } from "./componentes/itemsVisitante";
 import { itemsEstudiante } from "./componentes/itemsEstudiante";
 import { itemsFacultad } from "./componentes/itemsFacultad";
@@ -26,7 +27,6 @@ import EnvioSolicitud from "./componentes/EnvioSolicitud";
 import Roles from "./componentes/Roles";
 import Solicitudes from "./componentes/Solicitudes";
 import Login from "./componentes/login";
-import Logout from "./componentes/logout";
 import Propuestas from "./componentes/Propuestas";
 import Usuarios from "./componentes/Usuarios";
 import InicioInformacion from "./componentes/InicioInformacion";
@@ -34,10 +34,14 @@ import EnvioRegistroUps from "./componentes/EnvioRegistroUps";
 import SolicitudInscripcion from "./componentes/SolicitudInscripcion";
 import ServicioSocial from "./componentes/ServicioSocial";
 import SolicitudProyecto from "./componentes/SolicitudProyecto";
+import SolicitudesEstudiantes from "./componentes/SolicitudesEstudiantes";
 import { LockOpen } from "@material-ui/icons";
-import { Backdrop, Fade, Modal } from "@material-ui/core";
+import { Formik } from "formik";
+import axios from "axios";
+import Swal from "sweetalert2";
 
-function leerCookie(nombre){
+//LOGIN
+/*function leerCookie(nombre){
   let key = nombre + "=";
   let cookies = document.cookie.split(";")
   for(let i=0; i<cookies.length; i++){
@@ -50,7 +54,10 @@ function leerCookie(nombre){
     }
   }
   return null;
-}
+}*/
+    
+//FIN LOGIN
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -63,8 +70,6 @@ function Copyright() {
     </Typography>
   );
 }
-let tipo_usuario = " ";
-let nombre_usuario = " ";
 const drawerWidth = 335; //Ancho del menú desplegable
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -158,32 +163,89 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
-  const [openLogin, setOpenLogin] = React.useState(false);
-  const [openLogout, setOpenLogout] = React.useState(false);
+  const [csrfToken, setCsrfToken] = React.useState("")
+  const [session, setSession] = React.useState(false)
+  const [autenticado, setAutenticado] = React.useState(false)
+  const [credenciales, setCredenciales] = React.useState({usuario:'', password:''})
+  const [tipoUsuario, setTipoUsuario] = React.useState()
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+  function isResponseOK(response){
+    if(response.status >=200 && response.status >= 299){
+      return response.json()
+    }else{
+      throw Error(response.statusText)
+    }
+  }
+  function createCookie(key, valor){
+    const cookie = escape(key) + "=" + escape(valor) + ";secure;"
+    document.cookie = cookie; 
+  }
+  const handleCSRF = () => {
+    fetch("http://127.0.0.1:8000/login/csrf/",{
+      credentials: "include",
+    })
+    .then((res)=>{
+      let csrfToken = res.headers.get("X-CSRFToken")
+      setCsrfToken(csrfToken)
+      console.log("csrfToken: "+csrfToken)
+    })
+  }
+  const handleSession = () =>{
+    fetch("http://127.0.0.1:8000/login/session/",{
+      credentials: "include",
+    })
+    .then((res) => res.json())
+    .then((data) =>{
+      console.log(data)
+      if(data.isAuthenticated){
+        setSession(true)
+        setAutenticado(true)
+      }else{
+        setSession(false)
+        setAutenticado(false)
+        handleCSRF()
+      }
+    }).catch((err) =>{
+      console.log(err)
+    })
+  }
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const handleOpenLogin = () => {
-    setOpenLogin(true);
-  };
-  const handleCloseLogin = () => {
-    setOpenLogin(false);
-    tipo_usuario = leerCookie("tipo_usuario");
-    nombre_usuario = leerCookie("usuario");
-
-  };
-  const handleOpenLogout = () => {
-    setOpenLogout(true);
-  }
-  const handleCloseLogout = () => {
-    setOpenLogout(false);
-    tipo_usuario = " "
-    nombre_usuario = " "
-    
-  }
+ 
+  useEffect(() => { //Equivalente a componentDidMount() solicitamos las session
+    handleSession()
+  }, [])
+  const TextFieldLogin = withStyles({
+    root: {
+      caretColor: 'white',
+      '& label': {
+        color: 'white',
+      },
+      '& label.Mui-focused': {
+        color: 'white',
+      },
+      '& label.Mui-hover': {
+        color: 'white',
+      },
+      '& .MuiInput-underline:after': {
+        borderBottomColor: 'white',
+      },
+      '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+          borderColor: 'white',
+        },
+        '&:hover fieldset': {
+          borderColor: 'white',
+        },
+        '&.Mui-focused fieldset': {
+          borderColor: 'white',
+        },
+      },
+    },
+  })(TextField);
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -216,76 +278,137 @@ export default function App() {
           </Typography>
           
           {(() => {
-            if(tipo_usuario !== " "){
+            if(autenticado){ //Si esta autenticado , dibuja el form logout
               return(
-               <Typography
+                <Formik
+                initialValues={{
+                  usuario:"",
+                  password:"",
+                }}
+                onSubmit={async(values) =>{ //AQUI SE HACE EL LOGOUT
+                  fetch("http://127.0.0.1:8000/login/logout/",{
+                    credentials: 'include',
+                  })
+                  .then(data =>{
+                    setAutenticado(false)
+                    setCredenciales({usuario:"",password:""})
+                    setTipoUsuario("")
+                    Swal.fire({
+                      position: "center",
+                      icon: "info",
+                      title: "¡Hasta Luego!",
+                      showConfirmButton: false,
+                      timer: 2500,
+                      willClose: () =>{
+                        window.location.href = "/"
+                      }
+                    });
+                  }).catch(error => {
+                    console.log(error)
+                    setAutenticado(false)
+                    setCredenciales({usuario:"",password:""})
+                    setTipoUsuario("")
+                  })
+                }}
+              >
+                {({handleSubmit,}) =>(
+                  <Form className={classes.root} onSubmit={handleSubmit}>
+                  <Typography
                 variant ="overline"
                 color="inherit"
                 align="center"
                 display="block">
-                Bienvenid@: {nombre_usuario}{"  "} 
+                Bienvenid@: {credenciales.usuario}{"  "} 
                     <Button 
                     variant="contained" 
                     color="default" 
                     startIcon={<LockOpen />}
-                    onClick={handleOpenLogout}>
+                    type="submit"
+                    >
                       Cerrar Sesión
                     </Button>
                 </Typography>
+              </Form>
+                )}
+              </Formik>
+               
               );
 
             }else{
-              return <Button
-                variant="contained"
-                color="default"
-                startIcon={<LockOpen />}
-                onClick={handleOpenLogin}>
-                Iniciar Sesión
-              </Button>
-            }
+              return( 
+              <Formik
+                initialValues={{
+                  usuario:"",
+                  password:"",
+                }}
+                onSubmit={async(values) =>{ //AQUI SE HACE EL LOGIN
+                  await new Promise((resolve) => setTimeout(resolve,500))
+                  axios
+                    .post("http://127.0.0.1:8000/login/login/",{
+                      username: values.usuario, password: values.password
+                    },{
+                      headers:{'Content-Type':'application/json', 'X-CSRFToken': csrfToken}
+                    })
+                  .then(response =>{
+                    setAutenticado(true)
+                    setCredenciales({usuario:values.usuario,password:values.password})
+                    setTipoUsuario(response.data.tipo_usuario)
+                    createCookie("usuario",response.data.username)
+                    createCookie("tipo_usuario", response.data.tipo_usuario)
+                    Swal.fire({
+                      position: "center",
+                      icon: "success",
+                      title: response.data.detail + " " + response.data.username,
+                      showConfirmButton: false,
+                      timer: 2500,
+                    });
+                  }).catch(error => {
+                    
+                    setAutenticado(false)
+                    setCredenciales({usuario:"",password:""})
+                    setTipoUsuario("")
+                    Swal.fire({
+                      position: "center",
+                      icon: "error",
+                      title: error.response.data.detail,
+                      showConfirmButton: false,
+                      timer: 2500,
+                    });
+                  })
+                }}
+              >
+                {({values, handleSubmit, handleChange }) =>(
+                  <Form className={classes.root} onSubmit={handleSubmit}>
+                  <TextFieldLogin  
+                  name="usuario"
+                  label="Usuario"  
+                  variant="outlined"  
+                  size="small" 
+                  value={values.usuario}
+                  onChange={handleChange}/>
+                  <TextFieldLogin 
+                  id="password" 
+                  name="password"
+                  type ="password" 
+                  label="Password" 
+                  variant="outlined" 
+                  size="small" 
+                  value={values.password}
+                  onChange={handleChange}/>
+                  <Button 
+                  variant="primary" 
+                  type="submit" 
+                  variant="contained" 
+                  color="default" 
+                  size="small" 
+                  >
+                    Iniciar Sesión
+                  </Button>
+              </Form>
+                )}
+              </Formik>
+            )}
         })()}
-          
-          
-          <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            className={classes.modal}
-            open={openLogin}
-            onClose={handleCloseLogin}
-
-            closeAfterTransition={true}
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-          >
-            <Fade in={openLogin}>
-              <div className={classes.paperLogin}>
-                <h2 id="transition-modal-title">Inicio de Sesión:</h2>
-                <Login />
-              </div>
-            </Fade>
-          </Modal>
-          <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            className={classes.modal}
-            open={openLogout}
-            onClose={handleCloseLogout}
-
-            closeAfterTransition={true}
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-          >
-            <Fade in={openLogout}>
-              <div className={classes.paperLogin}>
-                <h2 id="transition-modal-title">Cerrar Sesión:</h2>
-                <Logout />
-              </div>
-            </Fade>
-          </Modal>
         </Toolbar>
       </AppBar>
       <Router>
@@ -302,11 +425,11 @@ export default function App() {
             </IconButton>
           </div>
           {(() => {
-          switch(tipo_usuario) {
-            case "1": return <List>{itemsEstudiante}</List>;
-            case "2": return <List>{itemsFacultad}</List>;
-            case "3": return <List>{itemsEscuela}</List>;
-            case "4": return <List>{itemsAdmin}</List>;
+          switch(tipoUsuario) {
+            case 1: return <List>{itemsEstudiante}</List>;
+            case 2: return <List>{itemsFacultad}</List>;
+            case 3: return <List>{itemsEscuela}</List>;
+            case 4: return <List>{itemsAdmin}</List>;
             default: return <List>{itemsVisitante}</List>
           }
         })()}
@@ -330,7 +453,7 @@ export default function App() {
                 <RegistrarSolicitud />
               </Route>
               <Route path="/GestionarPrivilegios">
-                <GestionarRoles />
+                { !autenticado ? <Redirect to="/" /> : <GestionarRoles />}
               </Route>
               <Route path="/ConsultarSolicitud">
                 <ConsultarSolicitud />
@@ -339,7 +462,7 @@ export default function App() {
                 <IniciarSesion />
               </Route>
               <Route path="/GestionarUsuarios">
-                <GestionUsuarios />
+                {!autenticado ? <Redirect to="/" /> : <GestionUsuarios />}
               </Route>
               <Route path="/ConsultarPropuesta">
                 <ConsultarPropuesta />
@@ -356,6 +479,9 @@ export default function App() {
               <Route path="/SolicitudProyecto">
                 <Proyecto />
               </Route>
+              <Route path="/ConsultarSolicitudesEstudiantes">
+                {!autenticado ? <Redirect to="/" /> : <ConsultarSolicitudesEstudiantes />}
+              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -366,7 +492,6 @@ export default function App() {
     </div>
   );
 }
-
 function RegistroEstudiante() {
   return <EnvioRegistro></EnvioRegistro>;
 }
@@ -405,5 +530,8 @@ function Servicios() {
 }
 function Proyecto() {
   return <SolicitudProyecto />;
+}
+function ConsultarSolicitudesEstudiantes() {
+  return <SolicitudesEstudiantes />;
 }
 

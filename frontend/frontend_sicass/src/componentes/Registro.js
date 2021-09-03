@@ -20,7 +20,8 @@ class Registro extends Component {
   handleChange(event) {
     this.setState({ facultadSeleccionada: event.target.value });
     axios
-      .get("https://juliohdv.pythonanywhere.com/login/carreraPorFacultad/", {
+      .get("http://127.0.0.1:8000/login/carreraPorFacultad/", {
+
         params: { facultad: event.target.value },
       })
       .then((response) => {
@@ -31,7 +32,7 @@ class Registro extends Component {
   //Funcion que carga todas las facultades, al ingresar a la pantalla
   componentDidMount() {
     axios
-      .get("https://juliohdv.pythonanywhere.com/login/facultades/")
+      .get("http://127.0.0.1:8000/login/facultades/")
       .then((response) => {
         this.setState({ facultades: response.data });
       })
@@ -346,7 +347,7 @@ class Registro extends Component {
                       key={elemento.codigo_carrera}
                       value={elemento.codigo_carrera}
                     >
-                      {elemento.nombre_carrera}
+                      {elemento.id_carrera + " " + elemento.nombre_carrera +" - "+ elemento.plan_carrera + " (Modalidad: " + elemento.modalidad_carrera + ")"}
                     </option>
                   ))}
                 </Form.Control>

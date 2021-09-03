@@ -28,6 +28,8 @@ router.register('tipoContenido', TipoContenidoVistas) #Retorna el tipo de conten
 router.register('registroUpsEstudiante', SolicitudUpsFiltroVistas, basename='Estudiante') #Retorna lista de carreras por facultad
 router.register('servicioSocialPorCarreraTipo', ServicioSocialPorCarreraTipo, basename="ServicioSocial") #Retorna el servicio por carrera
 router.register('solicitudServicio', SolicitudServicioVista) #Para actualizar la cantidad de estudiantes
+router.register('solicitudUpsVista', SolicitudUpsVista) #Retorna las solicitudes de registro a la ups de estudiantes
+
 
 urlpatterns = [
     path('', include(router.urls)),

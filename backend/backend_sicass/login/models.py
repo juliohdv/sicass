@@ -13,7 +13,7 @@ class User(AbstractUser):
         (3, 'encargadoEscuela'),
         (4,'admin'),
     )
-    tipo_usuario = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES)
+    tipo_usuario = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=4)
 class EntidadExterna(models.Model):
     codigo_entidad = models.BigAutoField(primary_key=True)
     nombre_entidad = models.CharField(max_length=150)
@@ -40,8 +40,13 @@ class Estado(models.Model):
 
 class Carrera(models.Model):
     codigo_carrera = models.CharField(max_length=25, primary_key=True, unique=True)
-    nombre_carrera = models.CharField(max_length=100)
+    id_carrera = models.CharField(max_length=24)
+    plan_carrera = models.CharField(max_length=20)
+    nombre_carrera = models.CharField(max_length=200)
     cantidad_materias = models.IntegerField()
+    modalidad_carrera = models.CharField(max_length=5)
+    grado_carrera = models.CharField(max_length=25)
+    tipo_carrera = models.CharField(max_length=50)
     facultad = ForeignKey(Facultad, on_delete=models.CASCADE)
     def __str__(self):
 

@@ -22,7 +22,7 @@ export const itemsEscuela = (
       </ListItemIcon>
       <ListItemText primary="Propuestas Aceptadas" />
     </ListItem>
-    <ListItem button component={Link} to="/">
+    <ListItem button component={Link} to="/ConsultarSolicitudesEstudiantes">
       <ListItemIcon>
         <Done />
       </ListItemIcon>
