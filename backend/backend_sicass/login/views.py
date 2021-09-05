@@ -189,3 +189,7 @@ class SolicitudServicioVista(viewsets.ModelViewSet): #Esto se modificara para el
     serializer_class = SolicitudServicioSerializer
     queryset = SolicitudServicioSocial.objects.all()
 
+
+class DocentesVista(viewsets.ModelViewSet):
+    serializer_class = DocenteSerializer
+    queryset = Docente.objects.all()
