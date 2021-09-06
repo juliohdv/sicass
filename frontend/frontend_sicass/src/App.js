@@ -37,8 +37,6 @@ import SolicitudProyecto from "./componentes/SolicitudProyecto";
 import { LockOpen } from "@material-ui/icons";
 import { Backdrop, Fade, Modal } from "@material-ui/core";
 import AsignarPropuesta from "./componentes/AsignarPropuesta";
-import SolicitudRegistroUPS from "./componentes/SolicitudRegistroUPS";
-import SolicitudRegistroSS from "./componentes/SolicitudRegistroSS";
 
 function leerCookie(nombre){
   let key = nombre + "=";
@@ -362,12 +360,6 @@ export default function App() {
               <Route path="/AsignacionPropuesta">
                 <AsignacionPropuesta />
               </Route>
-              <Route path="/SolicitudUPS">
-                <SolicitudUPS />
-              </Route>
-              <Route path="/SolicitudSS">
-                <SolicitudSS />
-              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -420,10 +412,4 @@ function Proyecto() {
 }
 function AsignacionPropuesta(){
   return <AsignarPropuesta/>;
-}
-function SolicitudUPS(){
-  return <SolicitudRegistroUPS/>;
-}
-function SolicitudSS(){
-  return <SolicitudRegistroSS/>;
 }

@@ -120,7 +120,7 @@ class AsignarPropuesta extends Component {
    peticionPost = async () => {
     //delete this.state.form.id;
     await axios
-      .post("http://127.0.0.1:8000/login/registroUps/", {
+      .post("http://127.0.0.1:8000/login/servicioSocial/", {
         propuesta: this.state.form.propuesta,
         entidad: this.state.form.entidad,
         tipo_servicio_social: this.state.form.condigo_tipo_servicio_social,
@@ -131,7 +131,13 @@ class AsignarPropuesta extends Component {
         
       })
       .then((response) => {
-                this.modalInsertar();
+        /* axios 
+        .put("http://127.0.0.1:8000/login/propuestas/"+this.state.form.propuesta+"/",
+        this.state.form
+        ).then((response)=>{
+        
+        }) */
+        this.modalInsertar();
         Swal.fire({
           position: "center",
           icon: "success",
@@ -177,7 +183,10 @@ class AsignarPropuesta extends Component {
               //condigo_tipo_servicio_social: arreglo_inicial[i].condigo_tipo_servicio_social,
               nombre_tipo_servicio: arreglo_inicial[i].tipo_servicio_social_detalle.nombre_tipo_servicio_social,
             };
-         
+         /*  propestas[i] =
+          {
+
+          } */
         }
         this.setState({ servicio: servicios }); //Asignamos el nuevo arreglo reescrito al del estado
       })
