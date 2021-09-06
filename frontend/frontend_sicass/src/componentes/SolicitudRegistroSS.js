@@ -3,6 +3,11 @@ import Dashboard from "./Dashboard";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { Tooltip } from "@material-ui/core";
+import Visibility from "@material-ui/icons/Visibility";
+import { Button, Form } from "react-bootstrap";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+
 
 //Funcion para obtener el nombre del usuario
 function leerCookie(nombre) {
@@ -20,34 +25,6 @@ function leerCookie(nombre) {
   return null;
 }
 
-//Constante con las columnas de la tabla
-const columns = [
-    {
-        name: "codigo_solicitud_servicio",
-        label: "Código",
-        key: "codigo_solicitud_servicio",
-      }, 
-      {
-        name: "servicio_social",
-        label: "Servicio Social",
-        key: "servicio_social",
-      },
-  {
-    name: "observaciones",
-    label: "Observaciones",
-    key: "observaciones",
-  },
-  {
-    name: "estudiante",
-    label: "Estudiante",
-    key: "estudiante",
-  },
-  {
-    name: "estado_solicitud",
-    label: "Estado",
-    key: "estado_solicitud",
-  },
-];
 
 //Constante con las opciones de la tabla
 const options = {
@@ -95,51 +72,263 @@ const options = {
 };
 
 //Constante con la url de la api (Backend)
-const url = "http://127.0.0.1:8000/login/registroUps/";
+const url = "http://127.0.0.1:8000/login/solicitudServicio/";
 
 //Clase principal del componente
-class SolicitudInscripcionSS extends Component {
+class SolicitudRegistroSS extends Component {
   constructor(props) {
     super(props);
     this.state = {
       solicitudes: [],
-      solicitudUPS: [],
+      solicitudSS: [],
+      form: {
+        estudiante: "",
+        estado_solicitud: "",
+        observaciones: "",
+        cantidad_horas: "",
+        entidad: "",
+        nombre_tipo_servicio_social: "",
+        codigo_solicitud_servicio: "",
+        tipo_servicio_social: "",
+      },
+      modalConfirmar: false,
     };
+
   }
+
+  //Metodo en que realiza la peticion para actualizar los datos a la BD mediante la api
+  peticionPut = () => {
+    console.log(this.state.form);
+    axios
+      .put(url + this.state.form.codigo_solicitud_servicio + "/", this.state.form)
+      .then((response) => {
+        this.setState({ modalConfirmar: false });
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Se ha guardado con éxito",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+        this.componentDidMount();
+      })
+      .catch((error) => {
+        console.log(error);
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Ocurrió un error en actualizar",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      });
+  };
+
+  //Metodo que va guardado el estado_solicitud de lo que digita el usuario en el formulario
+  handleChange = async (e) => {
+    e.persist();
+    await this.setState({
+      form: {
+        ...this.state.form,
+        [e.target.name]: e.target.value,
+      },
+    });
+  };
+  //Metodo que funciona para saber que elemento a selecciconado de la tabla y mandarlo al modal
+  seleccionSolicitud = (solicitudes) => {
+    this.setState({
+      form: {
+        codigo_solicitud_servicio: solicitudes[0],
+        estudiante: solicitudes[1],
+        estado_solicitud: solicitudes[2],
+        observaciones: solicitudes[3],
+        cantidad_horas: solicitudes[4],
+        entidad: solicitudes[5],
+        nombre_tipo_servicio_social: solicitudes[6],
+        condigo_tipo_servicio_social: solicitudes[7],
+      },
+    });
+  };
+
   //Metodo que hace la peticion de consulta a la BD mediante api
   componentDidMount() {
     let nombre_usuario = leerCookie("usuario"); //Se obtiene el usuario logeado
+    console.log(nombre_usuario);
     axios
-      .get(url, {
-        params: {
-          estudiante: nombre_usuario,
-        },
-      })
+      .get(url)
       .then((response) => {
         this.setState({ solicitudes: response.data });
+        /* console.log(response.data);
+        const arreglo_inicial = response.data; //Guardamos el arreglo inicial para su reescritura
+        const solicitudes = new Array(); //Arreglo donde guardaremos los objetos reescritos
+
+        for (var i = 0; i < arreglo_inicial.length; i++) {
+          solicitudes[i] =
+          //Asignamos los campos del arreglo inicial a los del nuevo objeto
+          {
+            estudiante: arreglo_inicial[i].estudiante,
+            estado_solicitud: arreglo_inicial[i].estado_solicitud,
+            observaciones: arreglo_inicial[i].observaciones,
+            cantidad_horas: arreglo_inicial[i].servicio_social_detalle.cantidad_horas,
+            entidad: arreglo_inicial[i].servicio_social_detalle.entidad,
+            nombre_tipo_servicio_social: arreglo_inicial[i].tipo_servicio_social_detalle.nombre_tipo_servicio_social,
+            tipo_servicio_social: arreglo_inicial[i].tipo_servicio_social_detalle.condigo_tipo_servicio_social,
+          };
+
+        }
+        this.setState({ solicitudSS: solicitudes }); //Asignamos el nuevo arreglo reescrito al del estado */
       })
       .catch((error) => {
         Swal.fire({
           position: "center",
           icon: "error",
           title:
-            "Por el momento no hay conexión con la base de datos, intente en otro momento",
+            "Por el momento no hay conexión con la Base de Datos, intente en otro momento",
         });
       });
   }
   render() {
+
+    const { form } = this.state;
+
+    //Constante con las columnas de la tabla
+    const columns = [
+      {
+        name: "codigo_solicitud_servicio",
+        label: "Código",
+        key: "codigo_solicitud_servicio",
+        options: {
+          display: false,
+        }
+      },
+      {
+        name: "estudiante",
+        label: "Estudiante",
+        key: "estudiante",
+      },
+      {
+        name: "estado_solicitud",
+        label: "Estado",
+        key: "estado_solicitud",
+      },
+      {
+        name: "observaciones",
+        label: "Observaciones",
+        key: "observaciones",
+
+      },
+      {
+        name: "cantidad_horas",
+        label: "Cantidad de Horas",
+        key: "cantidad_horas",
+
+      },
+      {
+        name: "entidad",
+        label: "Entidad",
+        key: "entidad",
+
+      },
+      {
+        name: "nombre_tipo_servicio_social",
+        label: "Servicio Social",
+        key: "nombre_tipo_servicio_social",
+
+      },
+      {
+        name: "tipo_servicio_social",
+        label: "Tipo Servicio Social",
+        key: "tipo_servicio_social",
+        options: {
+          display: false,
+        }
+      },
+      {
+        name: "acciones",
+        label: "Acciones",
+        options: {
+          customBodyRender: (value, tableMeta, updateValue) => {
+
+            return (
+              /* Boton para redirigir hacia el proyecto que le corresponde a la propuesta */
+              <Tooltip title="Ver proyecto">
+                <Button
+                  size="sm"
+                  variant="outline-info"
+                  onClick={() => {
+                    this.seleccionSolicitud(tableMeta.rowData);
+                    this.setState({ modalConfirmar: true });
+                  }}
+                >
+                  <Visibility />
+                </Button>
+              </Tooltip>
+            );
+            //}
+          },
+        },
+      },
+    ];
     return (
-      /* Filtrar por el usuario, los respectivos estado de solicitud */
+      /* Filtrar por el usuario, los respectivos estado_solicitud de solicitud */
       <Dashboard
         contenedor={
           <div className="pt-5">
             {/* Se invoca la tabla, con los datos correspondientes */}
             <MUIDataTable
-              title={"Registro de estudiantes a Servicio Social"}
+              title={"Registro a Servicio Social"}
               data={this.state.solicitudes}
               columns={columns}
               options={options}
             />
+
+            {/* Modal para confirmar */}
+            <Modal isOpen={this.state.modalConfirmar} centered>
+              <ModalHeader style={{ display: "block" }}>
+                <span>Revisión Solicitud</span>
+              </ModalHeader>
+              <ModalBody>
+                <Form.Group>
+                  <Form.Label>
+                    Observaciones
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    id="observaciones"
+                    name="observaciones"
+                    required={true}
+                    autoComplete="off"
+                    value={form ? form.observaciones : ""}
+                    onChange={this.handleChange}
+                  >
+                  </Form.Control>
+                </Form.Group>
+              </ModalBody>
+              <ModalFooter>
+                <Button variant="primary" onClick={() => {
+                  //this.setState({estado_solicitud:"Aprobado"});
+                  this.state.form.estado_solicitud = "Aprobado"
+
+                  this.peticionPut();
+                }} >
+                  Aprobar
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    this.state.form.estado_solicitud = "Rechazado"
+                    this.peticionPut();
+                  }}>
+                  Rechazar
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => this.setState({ modalConfirmar: false })}
+                >
+                  Cancelar
+                </Button>
+              </ModalFooter>
+            </Modal>
           </div>
         }
       />
@@ -147,4 +336,4 @@ class SolicitudInscripcionSS extends Component {
   }
 }
 
-export default SolicitudInscripcionSS;
+export default SolicitudRegistroSS;
