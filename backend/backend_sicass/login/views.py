@@ -82,7 +82,7 @@ class TipoServicioSocialPorCarreraVistas(viewsets.ModelViewSet):
         carrera = self.request.query_params.get('carrera')
         queryset = TipoServicioSocial.objects.all().filter(carrera_id=carrera)
         if carrera is not None:
-            queryset = queryset.filter(carrera=carrera)
+            queryset = queryset.filter(carrera_id=carrera)
         return queryset
 
 
@@ -178,14 +178,22 @@ class SolicitudUpsFiltroVistas(viewsets.ModelViewSet):
 class ServicioSocialPorCarreraTipo(viewsets.ModelViewSet):
     serializer_class = ServicioSocialSerializer
     def get_queryset(self):
-        carnet = self.request.query_params.get('carnet')
-        estudiante = Estudiante.objects.filter(carnet=carnet)[0]
-        carrera = estudiante.__getattribute__('carrera')
-        tipos_servicios = TipoServicioSocial.objects.filter(carrera=carrera)[0]
-        queryset = ServicioSocial.objects.filter(tipo_servicio_social_id=tipos_servicios.__getattribute__('condigo_tipo_servicio_social'))
+        carnet = self.request.query_params.get('carnet') #Obtiene el parametro enviado
+        estudiante = Estudiante.objects.get(carnet=carnet) #Obtiene el estudiante 
+        carrera = estudiante.__getattribute__('carrera') #Obtiene la carrera del estudiante
+        queryset = ServicioSocial.objects.filter(tipo_servicio_social__carrera=carrera) #Obtiene los SS por carrera
         return queryset
 
-class SolicitudServicioVista(viewsets.ModelViewSet): #Esto se modificara para el update 
+class SolicitudServicioVista(viewsets.ModelViewSet):
     serializer_class = SolicitudServicioSerializer
     queryset = SolicitudServicioSocial.objects.all()
 
+class SolicitudServicioFiltroVistas(viewsets.ModelViewSet):
+    serializer_class = SolicitudServicioSerializer
+
+    def get_queryset(self):
+        estudiante = self.request.query_params.get('estudiante')
+        queryset = SolicitudServicioSocial.objects.all().filter(estudiante_id=estudiante)
+        if estudiante is not None:
+            queryset = queryset.filter(estudiante_id=estudiante)
+        return queryset 

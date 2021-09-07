@@ -468,16 +468,16 @@ export default function App() {
                 <ConsultarPropuesta />
               </Route>
               <Route path="/RegistroUps">
-                <RegistrarseUps />
+              {!autenticado ? <Redirect to="/" /> : <RegistrarseUps /> }
               </Route>
               <Route path="/SolicitudInscripcion">
-                <ConsultarInscripcion />
+              {!autenticado ? <Redirect to="/" /> : <ConsultarInscripcion /> }
               </Route>
               <Route path="/ServicioSocial">
-                <Servicios />
+              {!autenticado ? <Redirect to="/" /> : <Servicios /> }
               </Route>
               <Route path="/SolicitudProyecto">
-                <Proyecto />
+              {!autenticado ? <Redirect to="/" /> : <Proyecto /> }
               </Route>
               <Route path="/ConsultarSolicitudesEstudiantes">
                 {!autenticado ? <Redirect to="/" /> : <ConsultarSolicitudesEstudiantes />}

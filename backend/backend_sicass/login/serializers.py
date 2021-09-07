@@ -91,7 +91,7 @@ class UsuariosGestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id','last_login','is_superuser', 'username', 'password', 'first_name','last_name','email','is_staff','is_active','date_joined','tipo_usuario']
-        extra_kwargs = {'password': {'write_only':True, 'required':True}}
+        extra_kwargs = {'password': {'write_only':True, 'required':False}} #Como el administrador editaria los demas datos, no necesita password
     def create(self, validated_data):
         usuarios = User.objects.create_user(**validated_data)
         return usuarios
@@ -125,9 +125,10 @@ class TipoContenidoSerializer(serializers.ModelSerializer):
         return tipoContenido
 
 class SolicitudServicioSerializer(serializers.ModelSerializer):
+    servicio_social_detalle = ServicioSocialSerializer(source='servicio_social', read_only=True)
     class Meta:
         model = SolicitudServicioSocial
-        fields = ['codigo_solicitud_servicio','servicio_social','estudiante']
+        fields = "__all__"
     def create(self, validate_data):
         solicitudServicio = SolicitudServicioSocial.objects.create(**validate_data)
         return solicitudServicio

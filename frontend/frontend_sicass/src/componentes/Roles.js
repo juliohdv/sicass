@@ -79,32 +79,47 @@ class Roles extends Component {
 
   //Metodo en que realiza la peticion para ingreso de datos a la BD mediante la api
   peticionPost = async () => {
-    await axios
-      .post(url, {
-        name: this.state.form.name,
-        content_type: this.state.form.content_type,
-        codename: this.state.form.codename,
-      })
-      .then((response) => {
-        this.modalInsertar();
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Se a guardado con exito",
-          showConfirmButton: false,
-          timer: 2500,
-        });
-        this.componentDidMount();
-      })
-      .catch((error) => {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Ocurrio un error en el registro del privilegio",
-          showConfirmButton: false,
-          timer: 2500,
-        });
+    try {
+      if (
+        this.state.form.name.length > 0 &&
+        this.state.form.codename.length > 0 &&
+        this.state.form.content_type.length > 0
+      ) {
+        await axios
+          .post(url, {
+            name: this.state.form.name,
+            content_type: this.state.form.content_type,
+            codename: this.state.form.codename,
+          })
+          .then((response) => {
+            this.modalInsertar();
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Se a guardado con exito",
+              showConfirmButton: false,
+              timer: 2500,
+            });
+            this.componentDidMount();
+          })
+          .catch((error) => {
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Ocurrio un error en el registro del privilegio",
+              showConfirmButton: false,
+              timer: 2500,
+            });
+          });
+      }
+    } catch (error) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title:
+          "Debe ingresar los campos obligatirios: Nombre, Modelo y Privilegio",
       });
+    }
   };
 
   //Metodo en que realiza la peticion para actualizar los datos a la BD mediante la api
@@ -122,7 +137,15 @@ class Roles extends Component {
         });
         this.componentDidMount();
       })
-      .catch((error) => {});
+      .catch((error) => {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Ocurrio un error en actualizar el privilegio",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      });
   };
 
   //Metodo en que realiza la peticion para eliminar los datos a la BD mediante la api
@@ -140,7 +163,15 @@ class Roles extends Component {
         });
         this.componentDidMount();
       })
-      .catch((error) => {});
+      .catch((error) => {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Ocurrio un error en actualizar el privilegio",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+      });
   };
 
   //Metodo que funciona para saber que elemento a selecciconado de la tabla y mandarlo al modal
@@ -209,6 +240,9 @@ class Roles extends Component {
       {
         name: "id",
         label: "Código",
+        options: {
+          display: false,
+        }
       },
       {
         name: "name",
@@ -384,7 +418,7 @@ class Roles extends Component {
                   Si
                 </Button>
                 <Button
-                  variant="secundary"
+                  variant="secondary"
                   onClick={() => this.setState({ modalEliminar: false })}
                 >
                   No
