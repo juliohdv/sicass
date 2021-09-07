@@ -188,6 +188,11 @@ class SolicitudServicioVista(viewsets.ModelViewSet):
     serializer_class = SolicitudServicioSerializer
     queryset = SolicitudServicioSocial.objects.all()
 
+
+class DocentesVista(viewsets.ModelViewSet):
+    serializer_class = DocenteSerializer
+    queryset = Docente.objects.all()
+
 class SolicitudServicioFiltroVistas(viewsets.ModelViewSet):
     serializer_class = SolicitudServicioSerializer
 
@@ -196,4 +201,4 @@ class SolicitudServicioFiltroVistas(viewsets.ModelViewSet):
         queryset = SolicitudServicioSocial.objects.all().filter(estudiante_id=estudiante)
         if estudiante is not None:
             queryset = queryset.filter(estudiante_id=estudiante)
-        return queryset 
+        return queryset

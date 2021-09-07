@@ -35,6 +35,7 @@ import SolicitudInscripcion from "./componentes/SolicitudInscripcion";
 import ServicioSocial from "./componentes/ServicioSocial";
 import SolicitudProyecto from "./componentes/SolicitudProyecto";
 import SolicitudesEstudiantes from "./componentes/SolicitudesEstudiantes";
+import Docentes  from "./componentes/docente/Docente";
 import { LockOpen } from "@material-ui/icons";
 import { Formik } from "formik";
 import axios from "axios";
@@ -221,6 +222,9 @@ export default function App() {
   const TextFieldLogin = withStyles({
     root: {
       caretColor: 'white',
+      '& .MuiInputBase-input':{
+        color: 'white',
+      },
       '& label': {
         color: 'white',
       },
@@ -386,6 +390,7 @@ export default function App() {
                   size="small" 
                   value={values.usuario}
                   onChange={handleChange}/>
+                  
                   <TextFieldLogin 
                   id="password" 
                   name="password"
@@ -400,6 +405,7 @@ export default function App() {
                   type="submit" 
                   variant="contained" 
                   color="default" 
+                  startIcon={<LockOpen />}
                   size="small" 
                   >
                     Iniciar Sesión
@@ -482,6 +488,9 @@ export default function App() {
               <Route path="/ConsultarSolicitudesEstudiantes">
                 {!autenticado ? <Redirect to="/" /> : <ConsultarSolicitudesEstudiantes />}
               </Route>
+              <Route path="/Docentes">
+                {!autenticado ? <Redirect to="/" /> : <Docentes />}
+              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -533,5 +542,8 @@ function Proyecto() {
 }
 function ConsultarSolicitudesEstudiantes() {
   return <SolicitudesEstudiantes />;
+}
+function Docente(){
+  return <Docente/>
 }
 

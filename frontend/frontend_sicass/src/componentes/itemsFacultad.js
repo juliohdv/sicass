@@ -26,7 +26,7 @@ export const itemsFacultad = (
       </ListItemIcon>
       <ListItemText primary="Inicio" />
     </ListItem>
-    <ListItem button component={Link} to="/">
+    <ListItem button component={Link} to="/Docentes">
       <ListItemIcon>
         <Group />
       </ListItemIcon>
@@ -36,7 +36,7 @@ export const itemsFacultad = (
       <ListItemIcon>
         <GroupAdd />
       </ListItemIcon>
-      <ListItemText primary="Registrar Docente" />
+      <ListItemText primary="Asignar Encargado a Escuela" />
     </ListItem>
     <ListItem button component={Link} to="/">
       <ListItemIcon>

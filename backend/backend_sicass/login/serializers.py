@@ -132,3 +132,9 @@ class SolicitudServicioSerializer(serializers.ModelSerializer):
     def create(self, validate_data):
         solicitudServicio = SolicitudServicioSocial.objects.create(**validate_data)
         return solicitudServicio
+
+class DocenteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Docente
+        fields = "__all__" 
+        

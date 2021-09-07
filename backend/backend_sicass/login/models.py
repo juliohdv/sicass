@@ -11,7 +11,7 @@ class User(AbstractUser):
         (1, 'estudiante'),
         (2, 'encargadoFacultad'),
         (3, 'encargadoEscuela'),
-        (4,'admin'),
+        (4, 'admin'),
     )
     tipo_usuario = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=4)
 class EntidadExterna(models.Model):
@@ -128,3 +128,39 @@ class SolicitudServicioSocial(models.Model):
 
     def __str__(self):
         return '%s' % (self.codigo_solicitud_servicio)
+
+class Escuela(models.Model):
+    codigo_escuela = models.BigAutoField(primary_key=True, unique=True)
+    nombre_escuela = models.CharField(max_length=50)
+    facultad = models.ForeignKey(Facultad, on_delete=models.CASCADE)
+    def __str__(self):
+        return '%s' % (self.codigo_escuela)
+
+class Docente(models.Model):
+    codigo_docente = models.BigAutoField(primary_key=True, unique=True)
+    nombres_docente = models.CharField(max_length=50)
+    apellidos_docente = models.CharField(max_length=50)
+    correo = models.EmailField()
+    sexo = models.CharField(max_length=15)
+    direccion_docente = models.CharField(max_length=250)
+    telefono_docente = models.IntegerField()
+    def __str__(self):
+        return '%s' % (self.codigo_docente)
+
+class EncargadoEscuela(models.Model):
+    codigo_encargado = models.BigAutoField(primary_key=True, unique=True)
+    estado = models.BooleanField()
+    docente_encargado = models.ForeignKey(Docente, on_delete=models.CASCADE)
+    escuela = models.ForeignKey(Escuela, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return '%s' % (self.codigo_encargado)
+
+class EncargadoFacultad(models.Model):
+    codigo_encargado = models.BigAutoField(primary_key=True, unique=True)
+    estado = models.BooleanField()
+    docente_encargado = models.ForeignKey(Docente, on_delete=models.CASCADE)
+    facultad = models.ForeignKey(Facultad, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return '%s' % (self.codigo_encargado)
