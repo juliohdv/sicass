@@ -64,7 +64,7 @@ class Solicitudes extends Component {
   }
   componentDidMount() {
     axios
-      .get("http://127.0.0.1:8000/login/solicitudes/")
+      .get(url)
       .then((response) => {
         const arreglo_inicial = response.data; //Guardamos el arreglo inicial para su reescritura
         const solicitud = []; //Arreglo donde guardaremos los objetos reescritos
@@ -106,6 +106,9 @@ class Solicitudes extends Component {
         name: "codigo_solicitud",
         label: "Codigo",
         key: "codigo_solicitud",
+        options: {
+          display: false,
+        }
       },
       {
         name: "entidad_externa",

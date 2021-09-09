@@ -1,14 +1,27 @@
 import React, { Component } from "react";
-import Dashboard from "./Dashboard";
+import Dashboard from "../Dashboard";
 import MUIDataTable from "mui-datatables";
+import axios from "axios";
+import Swal from "sweetalert2";
+
+//Funcion para obtener el nombre del usuario
+function leerCookie(nombre) {
+  let key = nombre + "=";
+  let cookies = document.cookie.split(";");
+  for (let i = 0; i < cookies.length; i++) {
+    let cookie = cookies[i];
+    while (cookie.charAt(0) === " ") {
+      cookie = cookie.substring(1, cookie.length);
+    }
+    if (cookie.indexOf(key) === 0) {
+      return cookie.substring(key.length, cookie.length);
+    }
+  }
+  return null;
+}
 
 //Constante con las columnas de la tabla
 const columns = [
-  {
-    name: "codigo_solicitud",
-    label: "Codigo",
-    key: "codigo_solicitud",
-  },
   {
     name: "estado_solicitud",
     label: "Estado",
@@ -18,6 +31,18 @@ const columns = [
     name: "observaciones",
     label: "Observaciones",
     key: "observaciones",
+  },
+  {
+    name: "enlace",
+    label: "Enlace",
+    key: "enlace",
+    options: {
+      customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <a href={value} target="_blank" rel="noreferrer">Google Drive</a>
+          );
+      },
+    },
   },
 ];
 
@@ -66,56 +91,29 @@ const options = {
   },
 };
 
-const data = [
-  {
-    codigo_solicitud: "01",
-    estado_solicitud: "Reprobado",
-    observaciones:
-      "No cumple con los requisitos minimmos para realizar el servicio social",
-  },
-  {
-    codigo_solicitud: "02",
-    estado_solicitud: "Aprobada",
-    observaciones: "Ninguna",
-  },
-];
 //Constante con la url de la api (Backend)
+const url = "http://127.0.0.1:8000/login/registroUpsEstudiante/";
 
 //Clase principal del componente
-class SolicitudProyecto extends Component {
-  /* constructor(props) {
+class SolicitudInscripcion extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       solicitudes: [],
+      solicitudEstudiante: [],
     };
   }
+  //Metodo que hace la peticion de consulta a la BD mediante api
   componentDidMount() {
+    let nombre_usuario = leerCookie("usuario"); //Se obtiene el usuario logeado
     axios
-      .get(url)
+      .get(url, {
+        params: {
+          estudiante: nombre_usuario,
+        },
+      })
       .then((response) => {
-        const arreglo_inicial = response.data; //Guardamos el arreglo inicial para su reescritura
-        const solicitud = []; //Arreglo donde guardaremos los objetos reescritos
-        for (var i = 0; i < arreglo_inicial.length; i++) {
-          //Recorremos el arreglo inicial
-          solicitud[i] =
-            //Asignamos los campos del arrelgo inicial a los del nuevo objeto
-            {
-              codigo_solicitud: arreglo_inicial[i].codigo_solicitud,
-              entidad_externa:
-                arreglo_inicial[i].entidad_externa_detalle.nombre_entidad,
-              tipo_entidad:
-                arreglo_inicial[i].entidad_externa_detalle
-                  .clasificacion_entidad,
-              carrera: arreglo_inicial[i].carrera_detalle.nombre_carrera,
-              tipo_servicio_social:
-                arreglo_inicial[i].tipo_servicio_social_detalle
-                  .nombre_tipo_servicio_social,
-              fecha_inicio_solicitud: arreglo_inicial[i].fecha_inicio_solicitud,
-              fecha_fin_solicitud: arreglo_inicial[i].fecha_fin_solicitud,
-              estado_solicitud: arreglo_inicial[i].estado_solicitud,
-            };
-        }
-        this.setState({ solicitudes: solicitud }); //Asignamos el nuevo arreglo reescrito al del estado
+        this.setState({ solicitudes: response.data });
       })
       .catch((error) => {
         Swal.fire({
@@ -125,17 +123,17 @@ class SolicitudProyecto extends Component {
             "Por el momento no hay conexión con la base de datos, intente en otro momento",
         });
       });
-  } */
+  }
   render() {
     return (
-      /* Filtrar por usuario iniciado, los estdos de solicitud respectivos */
+      /* Filtrar por el usuario, los respectivos estado de solicitud */
       <Dashboard
         contenedor={
           <div className="pt-5">
             {/* Se invoca la tabla, con los datos correspondientes */}
             <MUIDataTable
-              title={"Estado solicitud de servicio social"}
-              data={data}
+              title={"Estado solicitud de inscripción"}
+              data={this.state.solicitudes}
               columns={columns}
               options={options}
             />
@@ -146,4 +144,4 @@ class SolicitudProyecto extends Component {
   }
 }
 
-export default SolicitudProyecto;
+export default SolicitudInscripcion;

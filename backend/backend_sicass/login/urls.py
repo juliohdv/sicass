@@ -22,14 +22,18 @@ router.register('permisos', PermisosVistas) #Retorna la gestion de roles y privi
 router.register('carreraPorId',CarreraPorId, basename='Carrera')  #Retorna una carrea filtrada por codigo de carrera
 router.register('propuestas', PropuestasVista, basename='Propuesta') #Crea una propuesta nueva
 router.register('usuarios', UsuariosGestionVista) #Gestion de usuarios
-router.register('servicioSocial', ServicioSocialVista) #Retorna la gestion de roles y privilegios
-router.register('registroUps', SolicitudUpsVista) #Realiza el registro del estudiante
+router.register('servicioSocial', ServicioSocialVista) #Gestion de servicios sociales
+router.register('registroUps', SolicitudUpsVista) #Crear registro del estudiante UPS
 router.register('tipoContenido', TipoContenidoVistas) #Retorna el tipo de contenido de roles y privilegios
-router.register('registroUpsEstudiante', SolicitudUpsFiltroVistas, basename='Estudiante') #Retorna lista de carreras por facultad
+router.register('registroUpsEstudiante', SolicitudUpsFiltroVistas, basename='Estudiante') #Retorna la solicitud de registro por UPS
 router.register('servicioSocialPorCarreraTipo', ServicioSocialPorCarreraTipo, basename="ServicioSocial") #Retorna el servicio por carrera
 router.register('solicitudServicio', SolicitudServicioVista) #Para actualizar la cantidad de estudiantes
 router.register('solicitudUpsVista', SolicitudUpsVista) #Retorna las solicitudes de registro a la ups de estudiantes
 router.register('docentes', DocentesVista, basename='Docentes')
+router.register('solicitudServicioEstudiante', SolicitudServicioFiltroVistas, basename="Servicio") #Regresa las solicitudes de SS de los estudiantes
+router.register('ultimaSolicitudServicio', UltimaSolicitudServicioVista, basename="UltimaSolicitud") #Regresa las ultima solicitud de SS de un estudiante
+router.register('actividades', RegistroActividadVista, basename="Actividades") #Retorna las actividades realizadas
+router.register('actividadesEstudiante', ActividadServicioVistas, basename="ActividadesEstudiante") #Retorna las actividades de un estudiante
 
 
 urlpatterns = [

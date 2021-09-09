@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Dashboard from "./Dashboard";
-import Card from "./Card";
+import Dashboard from "../Dashboard";
+import Card from "../Card";
 import RegistroUps from "./RegistroUps";
 import { Image } from "react-bootstrap";
 
