@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Dashboard from "./Dashboard";
+import Dashboard from "../Dashboard";
 import axios from "axios";
 import Swal from "sweetalert2";
 import MUIDataTable from "mui-datatables";

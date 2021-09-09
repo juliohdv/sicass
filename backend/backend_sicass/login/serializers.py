@@ -138,3 +138,8 @@ class DocenteSerializer(serializers.ModelSerializer):
         model = Docente
         fields = "__all__" 
         
+class ActividadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RegistroActividad
+        fields = "__all__"         
+        

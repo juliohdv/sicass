@@ -24,22 +24,23 @@ import LogoSicass from "./componentes/LogoSicass";
 import EnvioRegistro from "./componentes/EnvioRegistro";
 import EnvioPropuesta from "./componentes/EnvioPropuesta";
 import EnvioSolicitud from "./componentes/EnvioSolicitud";
-import Roles from "./componentes/Roles";
+import Roles from "./componentes/administrador/Roles";
 import Solicitudes from "./componentes/Solicitudes";
 import Login from "./componentes/login";
 import Propuestas from "./componentes/Propuestas";
-import Usuarios from "./componentes/Usuarios";
+import Usuarios from "./componentes/administrador/Usuarios";
 import InicioInformacion from "./componentes/InicioInformacion";
-import EnvioRegistroUps from "./componentes/EnvioRegistroUps";
-import SolicitudInscripcion from "./componentes/SolicitudInscripcion";
-import ServicioSocial from "./componentes/ServicioSocial";
-import SolicitudProyecto from "./componentes/SolicitudProyecto";
+import EnvioRegistroUps from "./componentes/estudiante/EnvioRegistroUps";
+import SolicitudInscripcion from "./componentes/estudiante/SolicitudInscripcion";
+import ServicioSocial from "./componentes/estudiante/ServicioSocial";
+import SolicitudProyecto from "./componentes/estudiante/SolicitudProyecto";
 import SolicitudesEstudiantes from "./componentes/SolicitudesEstudiantes";
 import Docentes  from "./componentes/docente/Docente";
 import { LockOpen } from "@material-ui/icons";
 import { Formik } from "formik";
 import axios from "axios";
 import Swal from "sweetalert2";
+import RegistrarActividad from "./componentes/estudiante/RegistrarActividad";
 
 //LOGIN
 /*function leerCookie(nombre){
@@ -374,7 +375,7 @@ export default function App() {
                     Swal.fire({
                       position: "center",
                       icon: "error",
-                      title: error.response.data.detail,
+                      title: "No hay conexion con la base de datos, intente en otro momento",
                       showConfirmButton: false,
                       timer: 2500,
                     });
@@ -491,6 +492,9 @@ export default function App() {
               <Route path="/Docentes">
                 {!autenticado ? <Redirect to="/" /> : <Docentes />}
               </Route>
+              <Route path="/Actividades">
+                {!autenticado ? <Redirect to="/" /> : <Actividades />}
+              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -545,5 +549,8 @@ function ConsultarSolicitudesEstudiantes() {
 }
 function Docente(){
   return <Docente/>
+}
+function Actividades(){
+  return <RegistrarActividad/>
 }
 

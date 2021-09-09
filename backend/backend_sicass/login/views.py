@@ -1,3 +1,4 @@
+from django.db.models import query
 from .models import TipoServicioSocial
 from rest_framework import viewsets
 from django.contrib.auth.models import User
@@ -201,4 +202,26 @@ class SolicitudServicioFiltroVistas(viewsets.ModelViewSet):
         queryset = SolicitudServicioSocial.objects.all().filter(estudiante_id=estudiante)
         if estudiante is not None:
             queryset = queryset.filter(estudiante_id=estudiante)
+        return queryset
+
+class UltimaSolicitudServicioVista(viewsets.ModelViewSet):
+    serializer_class = SolicitudServicioSerializer
+
+    def get_queryset(self):
+        estudiante = self.request.query_params.get('estudiante')
+        queryset = SolicitudServicioSocial.objects.all().filter(estudiante_id=estudiante).order_by("codigo_solicitud_servicio")[1:]
+        return queryset #Falta filtrar bien aun, que solo traiga la ultima solicitud por estudiante
+    
+class RegistroActividadVista(viewsets.ModelViewSet):
+    serializer_class = ActividadSerializer
+    queryset = RegistroActividad.objects.all()
+
+class ActividadServicioVistas(viewsets.ModelViewSet):
+    serializer_class = ActividadSerializer
+
+    def get_queryset(self):
+        servicio = self.request.query_params.get('servicio')
+        queryset = RegistroActividad.objects.all().filter(solicitud_servicio_id=servicio)
+        if servicio is not None:
+            queryset = queryset.filter(solicitud_servicio_id=servicio)
         return queryset

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Form, Col, Tooltip, OverlayTrigger, Alert } from "react-bootstrap";
-import Botones from "./BotonesRegistro";
+import Botones from "../BotonesRegistro";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Formik } from "formik";
