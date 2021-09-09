@@ -8,9 +8,21 @@ import MUIDataTable from "mui-datatables";
 import { Tooltip } from "@material-ui/core";
 import Delete from "@material-ui/icons/Delete";
 import Edit from "@material-ui/icons/Edit";
-import Done from "@material-ui/icons/Done";
-import Close from "@material-ui/icons/Close";
 
+function leerCookie(nombre) {
+  let key = nombre + "=";
+  let cookies = document.cookie.split(";");
+  for (let i = 0; i < cookies.length; i++) {
+    let cookie = cookies[i];
+    while (cookie.charAt(0) === " ") {
+      cookie = cookie.substring(1, cookie.length);
+    }
+    if (cookie.indexOf(key) === 0) {
+      return cookie.substring(key.length, cookie.length);
+    }
+  }
+  return null;
+}
 //Constante con las opciones de la tabla
 const options = {
   download: "false",
@@ -65,6 +77,7 @@ class Docentes extends Component {
     super(props);
     this.state = {
       docentes: [], //Estado que contendra todo lo que digite el usuario
+      escuelas: [],
       modalInsertar: false, //Estado que controla el abrir o cerra el modal correspondiente
       modalEliminar: false,
       form: {
@@ -76,7 +89,9 @@ class Docentes extends Component {
         sexo: "",
         direccion_docente: "",
         telefono_docente: "",
-
+        escuela:"",
+        escuela_detalle:"",
+        facultad_id:"826"
       },
     };
   }
@@ -93,6 +108,7 @@ class Docentes extends Component {
                 sexo: this.state.form.sexo,
                 direccion_docente: this.state.form.direccion_docente,
                 telefono_docente: this.state.form.telefono_docente,
+                escuela: this.state.form.escuela
               })
               .then((response) => {
                 this.modalInsertar();
@@ -180,8 +196,11 @@ class Docentes extends Component {
           apellidos_docente: docente[2],
         correo: docente[3],
         sexo: docente[4],
-        direccion_docente: docente[6],
-        telefono_docente: docente[7]
+        direccion_docente: docente[5],
+        telefono_docente: docente[6],
+        escuela: docente[7],
+        escuela_detalle: docente[8],
+        facultad_id: docente[9]
       },
     });
   };
@@ -215,10 +234,32 @@ class Docentes extends Component {
 
   //Metodo que hace la peticion de consulta a la BD mediante api
   componentDidMount() {
+    let nombre_usuario = leerCookie("usuario")
     axios
-      .get(url)
+      .get('http://127.0.0.1:8000/login/docentesPorEncargadoFacultad/',{
+        params: {
+          user: nombre_usuario,
+        },
+      })
       .then((response) => {
-        this.setState({ docentes: response.data });
+        const arreglo_inicial = response.data
+        const docente = []
+        for(var i=0; i<arreglo_inicial.length;i++){
+          docente[i]={
+            codigo_docente: arreglo_inicial[i].codigo_docente,
+            nombres_docente: arreglo_inicial[i].nombres_docente,
+            apellidos_docente: arreglo_inicial[i].apellidos_docente,
+            correo: arreglo_inicial[i].correo,
+            sexo: arreglo_inicial[i].sexo,
+            direccion_docente: arreglo_inicial[i].direccion_docente,
+            telefono_docente: arreglo_inicial[i].telefono_docente,
+            escuela: arreglo_inicial[i].escuela,
+            escuela_detalle: arreglo_inicial[i].escuela_detalle.nombre_escuela,
+            facultad_id: arreglo_inicial[i].escuela_detalle.carrera_detalle.facultad,    
+          }
+        }
+        this.setState({ docentes: docente });
+
       })
       .catch((error) => {
         Swal.fire({
@@ -234,35 +275,56 @@ class Docentes extends Component {
     //Constante que contiene los datos estaticos de la tabla
     const columns = [
       {
-        name: "codigo_docente",
+        name: "codigo_docente", //0
         label: "Código",
-        option: {
+        options: {
           display: "excluded",
         },
       },
       {
-        name: "nombres_docente",
+        name: "nombres_docente",  //1
         label: "Nombres",
       },
       {
-        name: "apellidos_docente",
+        name: "apellidos_docente", //2
         label: "Apellidos",
       },
       {
-        name: "correo",
+        name: "correo", //3
         label: "Email",
       },
       {
-        name: "sexo",
+        name: "sexo", //4
         label: "Sexo",
+        options: {
+          display: "excluded",
+        },
       },
       {
-        name: "direccion_docente",
+        name: "direccion_docente",  //5
         label: "Dirección",
       },
       {
-        name: "telefono_docente",
+        name: "telefono_docente",  //6
         label: "Teléfono",
+      },
+      {
+        name: "escuela_detalle",  //7
+        label: "Escuela",
+      },
+      {
+        name: "escuela",  //8
+        label: "EscuelaID",
+        options: {
+          display: "excluded",
+        },
+      },
+      {
+        name: "facultad_id",  //9
+        label: "FacultadID",
+        options: {
+          display: "excluded",
+        },
       },
       {
         name: "acciones",
@@ -278,6 +340,13 @@ class Docentes extends Component {
                     variant="outline-primary"
                     onClick={() => {
                       this.seleccionDocente(tableMeta.rowData);
+                      axios 
+                        .get('http://127.0.0.1:8000/login/escuelasPorFacultad/',{
+                          params:{facultad: this.state.form.facultad_id}
+                        })
+                        .then((response) =>{
+                           this.setState({escuelas: response.data})
+                        })
                       this.modalInsertar();
                     }}
                   >
@@ -436,6 +505,26 @@ class Docentes extends Component {
                     value={form ? form.telefono_docente : ""}
                     onChange={this.handleChange}
                   />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Escuela</Form.Label>
+                  <Form.Control
+                    as="select"
+                    id="escuela"
+                    name="escuela"
+                    required={true}
+                    value={form ? form.escuela : ""}
+                    onChange={this.handleChange}
+                  >
+                    <option value="" disabled={true}>
+                      Seleccione..
+                    </option>
+                    {this.state.escuelas.map((elemento) =>(
+                      <option key={elemento.codigo_escuela} value={elemento.codigo_escuela}>
+                        {elemento.nombre_escuela}
+                      </option>
+                    ))}
+                  </Form.Control>
                 </Form.Group>
                 <ModalFooter>
                   {this.state.tipoModal === "insertar" ? (

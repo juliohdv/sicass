@@ -36,6 +36,7 @@ import ServicioSocial from "./componentes/ServicioSocial";
 import SolicitudProyecto from "./componentes/SolicitudProyecto";
 import SolicitudesEstudiantes from "./componentes/SolicitudesEstudiantes";
 import Docentes  from "./componentes/docente/Docente";
+import AsignarEE from "./componentes/docente/AsignarEE";
 import { LockOpen } from "@material-ui/icons";
 import { Formik } from "formik";
 import axios from "axios";
@@ -489,7 +490,10 @@ export default function App() {
                 {!autenticado ? <Redirect to="/" /> : <ConsultarSolicitudesEstudiantes />}
               </Route>
               <Route path="/Docentes">
-                {!autenticado ? <Redirect to="/" /> : <Docentes />}
+                {!autenticado ? <Redirect to="/" /> : <Docente />}
+              </Route>
+              <Route path="/AsignarEE">
+                {!autenticado ? <Redirect to="/"/> : <AsignarEncargadoEscuela/>}
               </Route>
             </Switch>
           </Container>
@@ -544,6 +548,9 @@ function ConsultarSolicitudesEstudiantes() {
   return <SolicitudesEstudiantes />;
 }
 function Docente(){
-  return <Docente/>
+  return <Docentes/>;
+}
+function AsignarEncargadoEscuela(){
+  return <AsignarEE/>
 }
 
