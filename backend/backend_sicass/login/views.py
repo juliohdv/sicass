@@ -204,13 +204,13 @@ class SolicitudServicioFiltroVistas(viewsets.ModelViewSet):
             queryset = queryset.filter(estudiante_id=estudiante)
         return queryset
 
-class UltimaSolicitudServicioVista(viewsets.ModelViewSet):
+""" class UltimaSolicitudServicioVista(viewsets.ModelViewSet):
     serializer_class = SolicitudServicioSerializer
 
     def get_queryset(self):
         estudiante = self.request.query_params.get('estudiante')
         queryset = SolicitudServicioSocial.objects.all().filter(estudiante_id=estudiante).order_by("codigo_solicitud_servicio")[1:]
-        return queryset #Falta filtrar bien aun, que solo traiga la ultima solicitud por estudiante
+        return queryset #Falta filtrar bien aun, que solo traiga la ultima solicitud por estudiante """
     
 class RegistroActividadVista(viewsets.ModelViewSet):
     serializer_class = ActividadSerializer
