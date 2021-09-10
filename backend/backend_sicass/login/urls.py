@@ -31,7 +31,7 @@ router.register('solicitudServicio', SolicitudServicioVista) #Para actualizar la
 router.register('solicitudUpsVista', SolicitudUpsVista) #Retorna las solicitudes de registro a la ups de estudiantes
 router.register('docentes', DocentesVista, basename='Docentes')
 router.register('solicitudServicioEstudiante', SolicitudServicioFiltroVistas, basename="Servicio") #Regresa las solicitudes de SS de los estudiantes
-router.register('ultimaSolicitudServicio', UltimaSolicitudServicioVista, basename="UltimaSolicitud") #Regresa las ultima solicitud de SS de un estudiante
+""" router.register('ultimaSolicitudServicio', UltimaSolicitudServicioVista, basename="UltimaSolicitud")  """#Regresa las ultima solicitud de SS de un estudiante
 router.register('actividades', RegistroActividadVista, basename="Actividades") #Retorna las actividades realizadas
 router.register('actividadesEstudiante', ActividadServicioVistas, basename="ActividadesEstudiante") #Retorna las actividades de un estudiante
 
