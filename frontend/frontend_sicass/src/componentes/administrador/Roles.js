@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Dashboard from "./Dashboard";
+import Dashboard from "../Dashboard";
 import axios from "axios";
 import { Button, Form } from "react-bootstrap";
 import Swal from "sweetalert2";
@@ -167,7 +167,7 @@ class Roles extends Component {
         Swal.fire({
           position: "center",
           icon: "error",
-          title: "Ocurrio un error en eliminar el privilegio",
+          title: "Ocurrio un error en actualizar el privilegio",
           showConfirmButton: false,
           timer: 2500,
         });
@@ -240,6 +240,9 @@ class Roles extends Component {
       {
         name: "id",
         label: "Código",
+        options: {
+          display: false,
+        }
       },
       {
         name: "name",

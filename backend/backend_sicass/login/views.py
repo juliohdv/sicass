@@ -1,3 +1,4 @@
+from django.db.models import query
 from .models import TipoServicioSocial
 from rest_framework import viewsets
 from django.contrib.auth.models import User
@@ -31,12 +32,12 @@ def login_view(request):
     username = data.get('username')
     password = data.get('password')
     if username is None or password is None:
-        return JsonResponse({'detail': 'Please provide username and password.'}, status=400)
+        return JsonResponse({'detail': 'Por favor, ingrese un usuario y contraseña.'}, status=400)
     user = authenticate(username=username, password=password)
     if user is None:
-        return JsonResponse({'detail': 'Invalid credentials.'}, status=400)
+        return JsonResponse({'detail': 'Credenciales no válidas, intente de nuevo.'}, status=400)
     login(request, user)
-    return JsonResponse({'detail': 'Successfully logged in.', 'username': username, 'tipo_usuario': user.__getattribute__('tipo_usuario')})
+    return JsonResponse({'detail': 'Te has logueado como: ', 'username': username, 'tipo_usuario': user.__getattribute__('tipo_usuario')})
     
 
 
@@ -44,7 +45,7 @@ def logout_view(request):
     #if not request.user.is_authenticated:
     #    return JsonResponse({'detail': 'You\'re not logged in.'}, status=400)
     logout(request)
-    return JsonResponse({'detail': 'Successfully logged out.'})
+    return JsonResponse({'detail': 'Hasta Luego!'})
 
 
 
@@ -82,7 +83,7 @@ class TipoServicioSocialPorCarreraVistas(viewsets.ModelViewSet):
         carrera = self.request.query_params.get('carrera')
         queryset = TipoServicioSocial.objects.all().filter(carrera_id=carrera)
         if carrera is not None:
-            queryset = queryset.filter(carrera=carrera)
+            queryset = queryset.filter(carrera_id=carrera)
         return queryset
 
 
@@ -168,7 +169,6 @@ class TipoContenidoVistas(viewsets.ModelViewSet):
 
 class SolicitudUpsFiltroVistas(viewsets.ModelViewSet):
     serializer_class = SolicitudUpsSerializer
-
     def get_queryset(self):
         estudiante = self.request.query_params.get('estudiante')
         queryset = SolicitudUps.objects.all().filter(estudiante_id=estudiante)
@@ -179,16 +179,20 @@ class SolicitudUpsFiltroVistas(viewsets.ModelViewSet):
 class ServicioSocialPorCarreraTipo(viewsets.ModelViewSet):
     serializer_class = ServicioSocialSerializer
     def get_queryset(self):
-        carnet = self.request.query_params.get('carnet')
-        estudiante = Estudiante.objects.filter(carnet=carnet)[0]
-        carrera = estudiante.__getattribute__('carrera')
-        tipos_servicios = TipoServicioSocial.objects.filter(carrera=carrera)[0]
-        queryset = ServicioSocial.objects.filter(tipo_servicio_social_id=tipos_servicios.__getattribute__('condigo_tipo_servicio_social'))
+        carnet = self.request.query_params.get('carnet') #Obtiene el parametro enviado
+        estudiante = Estudiante.objects.get(carnet=carnet) #Obtiene el estudiante 
+        carrera = estudiante.__getattribute__('carrera') #Obtiene la carrera del estudiante
+        queryset = ServicioSocial.objects.filter(tipo_servicio_social__carrera=carrera) #Obtiene los SS por carrera
         return queryset
 
 class SolicitudServicioVista(viewsets.ModelViewSet):
     serializer_class = SolicitudServicioSerializer
     queryset = SolicitudServicioSocial.objects.all()
+
+
+class DocentesVista(viewsets.ModelViewSet):
+    serializer_class = DocenteSerializer
+    queryset = Docente.objects.all()
 
 class SolicitudServicioFiltroVistas(viewsets.ModelViewSet):
     serializer_class = SolicitudServicioSerializer
@@ -198,14 +202,26 @@ class SolicitudServicioFiltroVistas(viewsets.ModelViewSet):
         queryset = SolicitudServicioSocial.objects.all().filter(estudiante_id=estudiante)
         if estudiante is not None:
             queryset = queryset.filter(estudiante_id=estudiante)
-        return queryset 
+        return queryset
 
-class PropuestaFiltroVista(viewsets.ModelViewSet):
-    serializer_class = PropuestaSerializer
+class UltimaSolicitudServicioVista(viewsets.ModelViewSet):
+    serializer_class = SolicitudServicioSerializer
 
     def get_queryset(self):
-        propuesta = self.request.query_params.get('estado')
-        queryset = Propuesta.objects.all().filter(estado_propuesta=propuesta)
-        if propuesta is not None:
-            queryset = queryset.filter(estado_propuesta=propuesta)
+        estudiante = self.request.query_params.get('estudiante')
+        queryset = SolicitudServicioSocial.objects.all().filter(estudiante_id=estudiante).order_by("codigo_solicitud_servicio")[1:]
+        return queryset #Falta filtrar bien aun, que solo traiga la ultima solicitud por estudiante
+    
+class RegistroActividadVista(viewsets.ModelViewSet):
+    serializer_class = ActividadSerializer
+    queryset = RegistroActividad.objects.all()
+
+class ActividadServicioVistas(viewsets.ModelViewSet):
+    serializer_class = ActividadSerializer
+
+    def get_queryset(self):
+        servicio = self.request.query_params.get('servicio')
+        queryset = RegistroActividad.objects.all().filter(solicitud_servicio_id=servicio)
+        if servicio is not None:
+            queryset = queryset.filter(solicitud_servicio_id=servicio)
         return queryset

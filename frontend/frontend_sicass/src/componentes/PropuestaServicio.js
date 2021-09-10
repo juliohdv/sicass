@@ -105,6 +105,9 @@ class PropuestaServicio extends Component {
                 .then((response) => {
                   axios
                     .post("http://127.0.0.1:8000/login/propuestas/", {
+                      fecha_fin_propuesta: values.fecha_fin_propuesta,
+                      estado_propuesta: values.estado_propuesta,
+                      descripcion_propuesta: values.descripcion_propuesta,
                       entidad_externa: response.data
                         .map((elemento) => elemento.codigo_entidad)
                         .toString(),

@@ -97,7 +97,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'sicass',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'admin',
+        'OPTIONS':{
+            'charset': 'utf8mb4'
+        }
     }
 }
 

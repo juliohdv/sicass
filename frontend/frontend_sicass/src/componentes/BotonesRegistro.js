@@ -11,8 +11,8 @@ export default function botones() {
             Registrar
           </Button>
         </div>
-        <div className="col ">
-          <a className="btn btn-secondary" href="/">Cancelar</a>
+        <div className="col pl-5">
+          <a className="btn btn-secondary" href="https://juliohdv.github.io/sicass_app/">Cancelar</a>
         </div>
       </div>
     </div>

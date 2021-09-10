@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Dashboard from "./Dashboard";
+import Dashboard from "../Dashboard";
 import axios from "axios";
 import { Button, Form } from "react-bootstrap";
 import Swal from "sweetalert2";
@@ -95,6 +95,7 @@ class Usuarios extends Component {
         this.state.form.tipo_usuario.length > 0
       ) {
         await axios
+
           .post(url, {
             username: this.state.form.username,
             password: this.state.form.password,
@@ -131,7 +132,8 @@ class Usuarios extends Component {
       Swal.fire({
         position: "center",
         icon: "error",
-        title: "Debe ingresar los campos obligatirios: Usuario, Contraseña y Tipo de usuario",
+        title:
+          "Debe ingresar los campos obligatirios: Usuario, Contraseña y Tipo de usuario",
       });
     }
   };
@@ -256,8 +258,8 @@ class Usuarios extends Component {
       {
         name: "id",
         label: "Código",
-        option: {
-          display: "excluded",
+        options: {
+          display: false,
         },
       },
       {

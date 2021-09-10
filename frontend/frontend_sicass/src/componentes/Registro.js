@@ -346,7 +346,7 @@ class Registro extends Component {
                       key={elemento.codigo_carrera}
                       value={elemento.codigo_carrera}
                     >
-                      {elemento.nombre_carrera}
+                      {elemento.id_carrera + " " + elemento.nombre_carrera +" - "+ elemento.plan_carrera + " (Modalidad: " + elemento.modalidad_carrera + ")"}
                     </option>
                   ))}
                 </Form.Control>
