@@ -158,25 +158,7 @@ class SolicitudRegistroSS extends Component {
       .get(url)
       .then((response) => {
         this.setState({ solicitudes: response.data });
-        /* console.log(response.data);
-        const arreglo_inicial = response.data; //Guardamos el arreglo inicial para su reescritura
-        const solicitudes = new Array(); //Arreglo donde guardaremos los objetos reescritos
-
-        for (var i = 0; i < arreglo_inicial.length; i++) {
-          solicitudes[i] =
-          //Asignamos los campos del arreglo inicial a los del nuevo objeto
-          {
-            estudiante: arreglo_inicial[i].estudiante,
-            estado_solicitud: arreglo_inicial[i].estado_solicitud,
-            observaciones: arreglo_inicial[i].observaciones,
-            cantidad_horas: arreglo_inicial[i].servicio_social_detalle.cantidad_horas,
-            entidad: arreglo_inicial[i].servicio_social_detalle.entidad,
-            nombre_tipo_servicio_social: arreglo_inicial[i].tipo_servicio_social_detalle.nombre_tipo_servicio_social,
-            tipo_servicio_social: arreglo_inicial[i].tipo_servicio_social_detalle.condigo_tipo_servicio_social,
-          };
-
-        }
-        this.setState({ solicitudSS: solicitudes }); //Asignamos el nuevo arreglo reescrito al del estado */
+        
       })
       .catch((error) => {
         Swal.fire({
@@ -306,7 +288,6 @@ class SolicitudRegistroSS extends Component {
               </ModalBody>
               <ModalFooter>
                 <Button variant="primary" onClick={() => {
-                  //this.setState({estado_solicitud:"Aprobado"});
                   this.state.form.estado_solicitud = "Aprobado"
 
                   this.peticionPut();
