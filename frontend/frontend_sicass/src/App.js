@@ -41,6 +41,8 @@ import { Formik } from "formik";
 import axios from "axios";
 import Swal from "sweetalert2";
 import RegistrarActividad from "./componentes/estudiante/RegistrarActividad";
+import SolicitarSS from "./componentes/SolicitudRegistroSS";
+import SolicitudUPS from "./componentes/SolicitudRegistroUPS";
 
 //LOGIN
 /*function leerCookie(nombre){
@@ -495,6 +497,12 @@ export default function App() {
               <Route path="/Actividades">
                 {!autenticado ? <Redirect to="/" /> : <Actividades />}
               </Route>
+              <Route path="/SolicitudRegistroSS">
+                <SolicitudRegistroSS />
+              </Route>
+              <Route path="/SolicitudRegistroUPS">
+                <SolicitudRegistroUPS />
+              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -552,5 +560,11 @@ function Docente(){
 }
 function Actividades(){
   return <RegistrarActividad/>
+}
+function SolicitudRegistroSS(){
+  return <SolicitarSS/>;
+}
+function SolicitudRegistroUPS(){
+  return <SolicitudUPS/>;
 }
 

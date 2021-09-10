@@ -21,7 +21,6 @@ class Registro extends Component {
     this.setState({ facultadSeleccionada: event.target.value });
     axios
       .get("http://127.0.0.1:8000/login/carreraPorFacultad/", {
-
         params: { facultad: event.target.value },
       })
       .then((response) => {
