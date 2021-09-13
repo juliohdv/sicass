@@ -1,3 +1,4 @@
+from django.db.models import query
 from .models import TipoServicioSocial
 from rest_framework import views, viewsets
 from django.contrib.auth.models import User
@@ -89,7 +90,7 @@ class TipoServicioSocialPorCarreraVistas(viewsets.ModelViewSet):
         carrera = self.request.query_params.get('carrera')
         queryset = TipoServicioSocial.objects.all().filter(carrera_id=carrera)
         if carrera is not None:
-            queryset = queryset.filter(carrera=carrera)
+            queryset = queryset.filter(carrera_id=carrera)
         return queryset
 
 
@@ -185,14 +186,13 @@ class SolicitudUpsFiltroVistas(viewsets.ModelViewSet):
 class ServicioSocialPorCarreraTipo(viewsets.ModelViewSet):
     serializer_class = ServicioSocialSerializer
     def get_queryset(self):
-        carnet = self.request.query_params.get('carnet')
-        estudiante = Estudiante.objects.filter(carnet=carnet)[0]
-        carrera = estudiante.__getattribute__('carrera')
-        tipos_servicios = TipoServicioSocial.objects.filter(carrera=carrera)[0]
-        queryset = ServicioSocial.objects.filter(tipo_servicio_social_id=tipos_servicios.__getattribute__('condigo_tipo_servicio_social'))
+        carnet = self.request.query_params.get('carnet') #Obtiene el parametro enviado
+        estudiante = Estudiante.objects.get(carnet=carnet) #Obtiene el estudiante 
+        carrera = estudiante.__getattribute__('carrera') #Obtiene la carrera del estudiante
+        queryset = ServicioSocial.objects.filter(tipo_servicio_social__carrera=carrera) #Obtiene los SS por carrera
         return queryset
 
-class SolicitudServicioVista(viewsets.ModelViewSet): #Esto se modificara para el update 
+class SolicitudServicioVista(viewsets.ModelViewSet):
     serializer_class = SolicitudServicioSerializer
     queryset = SolicitudServicioSocial.objects.all()
 
@@ -239,4 +239,35 @@ class EscuelasPorFacultad(viewsets.ModelViewSet):
         id_facultad = self.request.query_params.get('facultad')
         facultad = Facultad.objects.get(codigo_facultad=id_facultad)
         queryset = Escuela.objects.filter(carrera__facultad=facultad)
+        return queryset
+class SolicitudServicioFiltroVistas(viewsets.ModelViewSet):
+    serializer_class = SolicitudServicioSerializer
+
+    def get_queryset(self):
+        estudiante = self.request.query_params.get('estudiante')
+        queryset = SolicitudServicioSocial.objects.all().filter(estudiante_id=estudiante)
+        if estudiante is not None:
+            queryset = queryset.filter(estudiante_id=estudiante)
+        return queryset
+
+""" class UltimaSolicitudServicioVista(viewsets.ModelViewSet):
+    serializer_class = SolicitudServicioSerializer
+
+    def get_queryset(self):
+        estudiante = self.request.query_params.get('estudiante')
+        queryset = SolicitudServicioSocial.objects.all().filter(estudiante_id=estudiante).order_by("codigo_solicitud_servicio")[1:]
+        return queryset #Falta filtrar bien aun, que solo traiga la ultima solicitud por estudiante """
+    
+class RegistroActividadVista(viewsets.ModelViewSet):
+    serializer_class = ActividadSerializer
+    queryset = RegistroActividad.objects.all()
+
+class ActividadServicioVistas(viewsets.ModelViewSet):
+    serializer_class = ActividadSerializer
+
+    def get_queryset(self):
+        servicio = self.request.query_params.get('servicio')
+        queryset = RegistroActividad.objects.all().filter(solicitud_servicio_id=servicio)
+        if servicio is not None:
+            queryset = queryset.filter(solicitud_servicio_id=servicio)
         return queryset

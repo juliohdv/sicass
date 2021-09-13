@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Form, Col, Tooltip, OverlayTrigger, Alert } from "react-bootstrap";
-import Botones from "./BotonesRegistro";
+import Botones from "../BotonesRegistro";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Formik } from "formik";
@@ -103,7 +103,7 @@ class RegistroUps extends Component {
         {({ values, handleSubmit, handleChange }) => (
           <Form onSubmit={handleSubmit}>
             {this.state.ultimoEstado === "En Proceso" ||
-            this.state.ultimoEstado === "Aprobada" ? (
+            this.state.ultimoEstado === "Aprobado" ? (
               <Alert variant="success">
                 <Alert.Heading>Aviso</Alert.Heading>
                 <hr />
@@ -118,12 +118,12 @@ class RegistroUps extends Component {
                       "Consultar Registro".
                     </li>
                     <li>
-                      Si su solicitud es "Rechazada", debe realizar otra
+                      Si su solicitud es "Rechazado", debe realizar otra
                       solicitud, cuando haya solventado toda las observaciones
                       que se le realizaron.
                     </li>
                     <li>
-                      Si su solicitud es "Aprobada", se habilitaran las opciones
+                      Si su solicitud es "Aprobado", se habilitaran las opciones
                       para que pueda solicitar un servicio social.
                     </li>
                   </ul>

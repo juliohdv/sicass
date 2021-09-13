@@ -24,16 +24,16 @@ import LogoSicass from "./componentes/LogoSicass";
 import EnvioRegistro from "./componentes/EnvioRegistro";
 import EnvioPropuesta from "./componentes/EnvioPropuesta";
 import EnvioSolicitud from "./componentes/EnvioSolicitud";
-import Roles from "./componentes/Roles";
+import Roles from "./componentes/administrador/Roles";
 import Solicitudes from "./componentes/Solicitudes";
 import Login from "./componentes/login";
 import Propuestas from "./componentes/Propuestas";
-import Usuarios from "./componentes/Usuarios";
+import Usuarios from "./componentes/administrador/Usuarios";
 import InicioInformacion from "./componentes/InicioInformacion";
-import EnvioRegistroUps from "./componentes/EnvioRegistroUps";
-import SolicitudInscripcion from "./componentes/SolicitudInscripcion";
-import ServicioSocial from "./componentes/ServicioSocial";
-import SolicitudProyecto from "./componentes/SolicitudProyecto";
+import EnvioRegistroUps from "./componentes/estudiante/EnvioRegistroUps";
+import SolicitudInscripcion from "./componentes/estudiante/SolicitudInscripcion";
+import ServicioSocial from "./componentes/estudiante/ServicioSocial";
+import SolicitudProyecto from "./componentes/estudiante/SolicitudProyecto";
 import SolicitudesEstudiantes from "./componentes/SolicitudesEstudiantes";
 import Docentes  from "./componentes/docente/Docente";
 import AsignarEE from "./componentes/docente/AsignarEE";
@@ -41,6 +41,9 @@ import { LockOpen } from "@material-ui/icons";
 import { Formik } from "formik";
 import axios from "axios";
 import Swal from "sweetalert2";
+import RegistrarActividad from "./componentes/estudiante/RegistrarActividad";
+import SolicitarSS from "./componentes/SolicitudRegistroSS";
+import SolicitudUPS from "./componentes/SolicitudRegistroUPS";
 
 //LOGIN
 /*function leerCookie(nombre){
@@ -375,7 +378,7 @@ export default function App() {
                     Swal.fire({
                       position: "center",
                       icon: "error",
-                      title: error.response.data.detail,
+                      title: "No hay conexion con la base de datos, intente en otro momento",
                       showConfirmButton: false,
                       timer: 2500,
                     });
@@ -475,16 +478,16 @@ export default function App() {
                 <ConsultarPropuesta />
               </Route>
               <Route path="/RegistroUps">
-                <RegistrarseUps />
+              {!autenticado ? <Redirect to="/" /> : <RegistrarseUps /> }
               </Route>
               <Route path="/SolicitudInscripcion">
-                <ConsultarInscripcion />
+              {!autenticado ? <Redirect to="/" /> : <ConsultarInscripcion /> }
               </Route>
               <Route path="/ServicioSocial">
-                <Servicios />
+              {!autenticado ? <Redirect to="/" /> : <Servicios /> }
               </Route>
               <Route path="/SolicitudProyecto">
-                <Proyecto />
+              {!autenticado ? <Redirect to="/" /> : <Proyecto /> }
               </Route>
               <Route path="/ConsultarSolicitudesEstudiantes">
                 {!autenticado ? <Redirect to="/" /> : <ConsultarSolicitudesEstudiantes />}
@@ -494,6 +497,15 @@ export default function App() {
               </Route>
               <Route path="/AsignarEE">
                 {!autenticado ? <Redirect to="/"/> : <AsignarEncargadoEscuela/>}
+              </Route>
+              <Route path="/Actividades">
+                {!autenticado ? <Redirect to="/" /> : <Actividades />}
+              </Route>
+              <Route path="/SolicitudRegistroSS">
+                <SolicitudRegistroSS />
+              </Route>
+              <Route path="/SolicitudRegistroUPS">
+                <SolicitudRegistroUPS />
               </Route>
             </Switch>
           </Container>
@@ -552,5 +564,14 @@ function Docente(){
 }
 function AsignarEncargadoEscuela(){
   return <AsignarEE/>
+}
+function Actividades(){
+  return <RegistrarActividad/>
+}
+function SolicitudRegistroSS(){
+  return <SolicitarSS/>;
+}
+function SolicitudRegistroUPS(){
+  return <SolicitudUPS/>;
 }
 

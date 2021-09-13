@@ -155,6 +155,8 @@ class Migration(migrations.Migration):
             name='SolicitudServicioSocial',
             fields=[
                 ('codigo_solicitud_servicio', models.BigAutoField(primary_key=True, serialize=False, unique=True)),
+                ('observaciones', models.CharField(max_length=500)),
+                ('estado_solicitud', models.TextField(default='En Proceso', max_length=50)),
                 ('estudiante', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='login.estudiante')),
                 ('servicio_social', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='login.serviciosocial')),
             ],

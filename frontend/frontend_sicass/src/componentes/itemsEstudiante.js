@@ -40,7 +40,7 @@ export const itemsEstudiante = (
       opcion2={"Estado de Mis Servicios Sociales"}
       link2={"/SolicitudProyecto"}
       opcion3={"Registrar Actividades"}
-      link3={""}
+      link3={"/Actividades"}
       opcion4={"Resolución"}
       link={""}
     />
