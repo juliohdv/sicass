@@ -50,13 +50,19 @@ export const itemsFacultad = (
       </ListItemIcon>
       <ListItemText primary="Solicitudes" />
     </ListItem>
-    <DesplegarServicioSocial
+    <ListItem button component={Link} to="/GestionServicioSocial">
+      <ListItemIcon>
+        <LibraryBooks />
+      </ListItemIcon>
+      <ListItemText primary="Servicios Sociales" />
+    </ListItem>
+    {/* <DesplegarServicioSocial
       opcionGeneral={"Servicios Sociales"}
       opcion1={"Registrar Servicio Social"}
       link1={""}
       opcion2={"Consultar Servicio Social"}
       link2={""}
-    />
+    /> */}
   </div>
 );
 function DesplegarServicioSocial(props) {

@@ -114,7 +114,7 @@ class GestionServicioSocial extends Component {
   //Metodo en que realiza la peticion para actualizar los datos a la BD mediante la api
   peticionPut = () => {
     console.log(this.state.codigo_servicio_social);
-    axios.put(url + this.state.form.codigo_servicio_social, this.state.form)
+    axios.put(url + this.state.form.codigo_servicio_social + "/", this.state.form )
     .then((response) => {
       this.modalInsertar();
       Swal.fire({
@@ -155,11 +155,12 @@ class GestionServicioSocial extends Component {
     this.setState({
       tipoModal: "actualizar",
       form: {
-        entidad: servicio[0],
-        descripcion: servicio[1],
-        cantidad_horas: servicio[2],
-        cantidad_estudiantes: servicio[2],
-        tipo_servicio_social: servicio[3],/* las pisiciones se deben cambiar con base en BD */
+        codigo_servicio_social:servicio[0],
+        entidad: servicio[1],
+        descripcion: servicio[2],
+        cantidad_horas: servicio[3],
+        cantidad_estudiantes: servicio[4],
+        tipo_servicio_social: servicio[5],/* las pisiciones se deben cambiar con base en BD */
       },
     });
   };
@@ -218,9 +219,9 @@ class GestionServicioSocial extends Component {
         label: "Horas",
       },
       {
+        
         name: "cantidad_estudiantes",
         label: "Cantidad de estudiantes",
-        
       },
       {
         name: "tipo_servicio_social",
@@ -302,10 +303,11 @@ class GestionServicioSocial extends Component {
                 {this.state.tipoModal === "insertar" ? (
                   <span>Crear servicio social</span>
                 ) : (
-                  <span>Actualizar servicio socia</span>
+                  <span>Actualizar servicio social</span>
                 )}
               </ModalHeader>
               <ModalBody>
+                {/*
                 <Form.Group>
                   <Form.Label>Código</Form.Label>
                   <Form.Control
@@ -313,9 +315,9 @@ class GestionServicioSocial extends Component {
                     id="codigo_servicio_social"
                     name="codigo_servicio_social"
                     value={form ? form.codigo_servicio_social : this.state.servicios.length + 1}
-                    readOnly
+                    
                   />
-                </Form.Group>
+                </Form.Group>*/}
                 <Form.Group>
                   <Form.Label>Entidad</Form.Label>
                   <Form.Control
@@ -355,7 +357,7 @@ class GestionServicioSocial extends Component {
                 <Form.Group>
                   <Form.Label>Cantidad de estudiantes</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="number"
                     placeholder="##"
                     id="cantidad_estudiantes"
                     name="cantidad_estudiantes"

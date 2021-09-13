@@ -36,6 +36,7 @@ import ServicioSocial from "./componentes/ServicioSocial";
 import SolicitudProyecto from "./componentes/SolicitudProyecto";
 import { LockOpen } from "@material-ui/icons";
 import { Backdrop, Fade, Modal } from "@material-ui/core";
+import GestionServicioSocial from "./componentes/GestionServicioSocial";
 
 function leerCookie(nombre){
   let key = nombre + "=";
@@ -408,4 +409,7 @@ function Servicios() {
 }
 function Proyecto() {
   return <SolicitudProyecto />;
+}
+function GestionSS() {
+  return <GestionServicioSocial />;
 }
