@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Dashboard from "./Dashboard";
+import Dashboard from "../Dashboard";
 import axios from "axios";
 import Swal from "sweetalert2";
 import MUIDataTable from "mui-datatables";
@@ -182,9 +182,7 @@ class Propuestas extends Component {
         const arreglo_inicial = response.data; //Guardamos el arreglo inicial para su reescritura
         const servicios = []; //Arreglo donde guardaremos los objetos reescritos
         for (var i = 0; i < arreglo_inicial.length; i++) {
-          //Asignamos los campos del arrelgo inicial a los del nuevo objeto
           if (arreglo_inicial[i].cantidad_estudiantes > 0) {
-            //Recorremos el arreglo inicial
             servicios[i] = {
               codigo_servicio_social: arreglo_inicial[i].codigo_servicio_social,
               cantidad_estudiantes: arreglo_inicial[i].cantidad_estudiantes,
@@ -266,7 +264,6 @@ class Propuestas extends Component {
               this.state.ultimoEstado === ""
             ) {
               return (
-                /* Boton para redirigir hacia el proyecto que le corresponde a la propuesta */
                 <Tooltip title="Solicitar servicio social">
                   <Button
                     size="sm"
@@ -290,7 +287,6 @@ class Propuestas extends Component {
         contenedor={
           <>
             <div className="pt-5">
-              {/* Se invoca la tabla, con los datos correspondientes */}
               <MUIDataTable
                 title={"Servicios sociales disponibles"}
                 data={this.state.servicio}

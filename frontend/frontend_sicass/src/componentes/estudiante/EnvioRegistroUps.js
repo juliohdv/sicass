@@ -1,69 +1,8 @@
 import React, { Component } from "react";
-import Dashboard from "./Dashboard";
-import Card from "./Card";
+import Dashboard from "../Dashboard";
+import Card from "../Card";
 import RegistroUps from "./RegistroUps";
 import { Image } from "react-bootstrap";
-
-//Constante para ampliacion de imagen
-/* let imagenes = [
-  "https://i.ibb.co/CWKq30Z/Google.png",
-  "https://i.ibb.co/5RWvQwZ/Drive.png",
-  "https://i.ibb.co/jLRgSNq/Carpeta.png",
-  "https://i.ibb.co/6BGCd3x/Archivos.png",
-  "https://i.ibb.co/Z2CgLmh/Opcion.png" 
-];*/
-
-/* const GoogleImage =() => {
-  let sourceImageUrls = [
-  "../img/Archivos.png",
-  "../img/Carpeta.png",
-  "../img/Drive.png",
-  "../img/Google.png",
-  "../img/Opcion.png"
-] 
-  let thumbImageUrls = sourceImageUrls; //In reality, the thumbnail and the original may not be the same, which are set to be equal, just for the sake of a simple demonstration
-  return (
-    <RViewer imageUrls={sourceImageUrls}>
-      <ul>
-        {thumbImageUrls.map((pic, index) => {
-          return (
-            <li key={index} style={{ marginBottom: "20PX" }}>
-              <RViewerTrigger index={index}>
-                <img
-                  src={pic}
-                  style={{ width: "50px", verticalAlign: "middle" }}
-                />
-              </RViewerTrigger>
-            </li>
-          );
-        })}
-      </ul>
-    </RViewer>
-  );
-}; */
-
-/* const GoogleImage = () => {
-  let sourceUrl = "../img/Archivos.png";
-  let options = {
-    toolbar: {
-      //Since there is only one picture, let's hide "prev" and "next"
-      prev: false,
-      next: false,
-    },
-  };
-  return (
-    <RViewer options={options} imageUrls={sourceUrl}>
-      <RViewerTrigger>
-         <Tooltip title="Ver proyecto">
-      <Button size="sm" variant="outline-info">
-        <Visibility />
-      </Button>
-    </Tooltip>
-        <button>Imagen</button>
-      </RViewerTrigger>
-    </RViewer>
-  );
-}; */
 
 //Clase principal del componente
 class EnvioRegistroUps extends Component {
@@ -79,7 +18,7 @@ class EnvioRegistroUps extends Component {
                   <>
                     <label>
                       Debe seguir los siguientes pasos para la solicitud de su
-                      registro a la Unidad de Proyección social y así poder
+                      registro a la Unidad de Proyección Social y así poder
                       realizar su servicio social:
                     </label>
                     <ul>

@@ -89,8 +89,6 @@ class Registro extends Component {
                       telefono_estudiante: values.telefono_estudiante,
                       carrera: values.carrera_id,
                       user: response.data.map((elemento) => elemento.id).toString()
-                      //username: response.data.map((elemento) => elemento.username).toString(),
-                      //user_id: response.data.map((elemento) => elemento.id).toString()
                     })
                     .then((response) => {
                       Swal.fire({
@@ -348,7 +346,7 @@ class Registro extends Component {
                       key={elemento.codigo_carrera}
                       value={elemento.codigo_carrera}
                     >
-                      {elemento.nombre_carrera}
+                      {elemento.id_carrera + " " + elemento.nombre_carrera +" - "+ elemento.plan_carrera + " (Modalidad: " + elemento.modalidad_carrera + ")"}
                     </option>
                   ))}
                 </Form.Control>

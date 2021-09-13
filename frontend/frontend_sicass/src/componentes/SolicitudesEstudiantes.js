@@ -18,7 +18,7 @@ const options = {
   tableBodyHeight: "320px",
   textLabels: {
     body: {
-      noMatch: "No hay registros de propuestas",
+      noMatch: "No hay registros de solicitudes",
       toolTip: "Sort",
       columnHeaderTooltip: (column) => `Ordenar por ${column.label}`,
     },
@@ -53,9 +53,9 @@ const options = {
 };
 
 //Constante con la url de la api (Backend)
-const url = "http://127.0.0.1:8000/login/propuestas/";
+const url = "http://127.0.0.1:8000/login/solicitudUpsVista";
 //Clase principal del componente
-class Propuestas extends Component {
+class SolicitudesEstudiantes extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -64,7 +64,7 @@ class Propuestas extends Component {
   }
   componentDidMount() {
     axios
-      .get(url)
+      .get("http://127.0.0.1:8000/login/solicitudUpsVista")
       .then((response) => {
         const arreglo_inicial = response.data; //Guardamos el arreglo inicial para su reescritura
         const solicitud = []; //Arreglo donde guardaremos los objetos reescritos
@@ -73,20 +73,11 @@ class Propuestas extends Component {
           solicitud[i] =
             //Asignamos los campos del arrelgo inicial a los del nuevo objeto
             {
-              codigo_propuesta: arreglo_inicial[i].codigo_propuesta,
-              entidad_externa:
-                arreglo_inicial[i].entidad_externa_detalle.nombre_entidad,
-              tipo_entidad:
-                arreglo_inicial[i].entidad_externa_detalle
-                  .clasificacion_entidad,
-              carrera: arreglo_inicial[i].carrera_detalle.nombre_carrera,
-              tipo_servicio_social:
-                arreglo_inicial[i].tipo_servicio_social_detalle
-                  .nombre_tipo_servicio_social,
-              fecha_inicio_propuesta: arreglo_inicial[i].fecha_inicio_propuesta,
-              fecha_fin_propuesta: arreglo_inicial[i].fecha_fin_propuesta,
-              descripcion_propuesta: arreglo_inicial[i].descripcion_propuesta,
-              estado_propuesta: arreglo_inicial[i].estado_propuesta,
+              codigo_solicitud_ups: arreglo_inicial[i].codigo_solicitud_ups,
+              enlace: arreglo_inicial[i].enlace,
+              observaciones:arreglo_inicial[i].observaciones,
+              estado_solicitud: arreglo_inicial[i].estado_solicitud,
+              estudiante:arreglo_inicial[i].estudiante,
             };
         }
         this.setState({ solicitudes: solicitud }); //Asignamos el nuevo arreglo reescrito al del estado
@@ -104,62 +95,39 @@ class Propuestas extends Component {
     //Constante con las columnas de la tabla
     const columns = [
       {
-        name: "codigo_propuesta",
-        label: "Código",
-        key: "codigo_propuesta",
-        options: {
-          display: false,
-        }
+        name: "codigo_solicitud_ups",
+        label: "Codigo",
+        key: "codigo_solicitud_ups",
       },
       {
-        name: "entidad_externa",
-        label: "Entidad que solicita",
-        key: "entidad_externa",
+        name: "enlace",
+        label: "Enlace",
+        key: "enlace",
       },
       {
-        name: "tipo_entidad",
-        label: "Tipo de entidad",
-        key: "tipo_entidad",
+        name: "observaciones",
+        label: "Observaciones",
+        key: "observaciones",
       },
       {
-        name: "carrera",
-        label: "Carrera",
-        key: "carrera",
+        name: "estado_solicitud",
+        label: "Estado de Solcitud",
+        key: "estado_solicitud",
       },
       {
-        name: "tipo_servicio_social",
-        label: "Tipo de Servicio Social",
-        key: "tipo_servicio_social",
-      },
-      {
-        name: "fecha_inicio_propuesta",
-        label: "Fecha de Solicitud",
-        key: "fecha_inicio_propuesta",
-      },
-      {
-        name: "fecha_fin_propuesta",
-        label: "Fecha de Finalización",
-        key: "fecha_fin_propuesta",
-      },
-      {
-        name: "descripcion_propuesta",
-        label: "Descripción propuesta",
-        key: "descripcion_propuesta",
-      },
-      {
-        name: "estado_propuesta",
-        label: "Estado",
-        key: "estado_propuesta",
+        name: "estudiante",
+        label: "Estudiante",
+        key: "estudiante",
       },
       {
         name: "acciones",
         label: "Acciónes",
         options: {
           customBodyRender: (value, tableMeta, updateValue) => {
-            if (tableMeta.rowData[8] === "Aprobado") {
+            if (tableMeta.rowData[7] === "Aprobado") {
               return (
-                /* Boton para redirigir hacia el proyecto que le corresponde a la propuesta */
-                <Tooltip title="Ver proyecto">
+                /* Boton para redirigir hacia la solcitud */
+                <Tooltip title="Ver solicitud">
                   <Button
                     size="sm"
                     variant="outline-info"
@@ -183,7 +151,7 @@ class Propuestas extends Component {
           <div className="pt-5">
             {/* Se invoca la tabla, con los datos correspondientes */}
             <MUIDataTable
-              title={"Solicitudes de propuestas"}
+              title={"Solicitudes de Registros a UPS"}
               data={this.state.solicitudes}
               columns={columns}
               options={options}
@@ -195,4 +163,4 @@ class Propuestas extends Component {
   }
 }
 
-export default Propuestas;
+export default SolicitudesEstudiantes;

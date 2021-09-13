@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Dashboard from "./Dashboard";
+import Dashboard from "../Dashboard";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -126,11 +126,9 @@ class SolicitudInscripcion extends Component {
   }
   render() {
     return (
-      /* Filtrar por el usuario, los respectivos estado de solicitud */
       <Dashboard
         contenedor={
           <div className="pt-5">
-            {/* Se invoca la tabla, con los datos correspondientes */}
             <MUIDataTable
               title={"Estado solicitud de inscripción"}
               data={this.state.solicitudes}

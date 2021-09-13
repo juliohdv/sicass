@@ -74,9 +74,9 @@ class Logout extends Component{
         .then((data)=>{
             this.setState({isAuthenticated:false})
             this.getCSRF();
-            sessionStorage.clear();
-            document.cookie='name=tipo_usuario;expires=Thu, 01 Jan 1970 00:00:01 GMT';
-            document.cookie='name=usuario;expires=Thu, 01 Jan 1970 00:00:01 GMT';
+            sessionStorage.clear()
+            
+            window.location.href = "/";
             
 
         })
@@ -87,14 +87,15 @@ class Logout extends Component{
     render(){
         return(
             <Card border="info" style={{width:'18rem'}} >
-            <Card.Header className="bg-light">Iniciar Sesión:</Card.Header>
+            <Card.Header className="bg-light">Cerrar Sesión:</Card.Header>
                 <Card.Body>
+                    <p>¿Está seguro de que quiere cerrar sesión?</p>
                     <Button
                     variant="primary"
                     type="button"
                     onClick={this.logout}
                     >
-                        Cerrar Sesión
+                        SI
                     </Button>
                 </Card.Body>
                 <p>{this.state.error}</p>

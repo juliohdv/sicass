@@ -36,21 +36,9 @@ class InicioInformacion extends Component {
             <div className="container">
               <div className="wrap-center">
                 <div className="navbar-brand">
-                  <OverlayTrigger
-                    placement="bottom"
-                    overlay={
-                      <Tooltip>
-                        Clic para ir a la página oficial de la Secretaria
-                      </Tooltip>
-                    }
-                  >
-                    <a
-                      href="http://proyeccionsocial.ues.edu.sv/"
-                      target="_blank" rel="noreferrer"
-                    >
-                      <LogoProyeccion></LogoProyeccion>
-                    </a>
-                  </OverlayTrigger>
+                  <a href="http://proyeccionsocial.ues.edu.sv/" target="_blank" rel="noreferrer">
+                    <LogoProyeccion></LogoProyeccion>
+                  </a>
                 </div>
                 <div id="header_front">
                   <h1>Secretaria de proyección social</h1>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Dashboard from "./Dashboard";
+import Dashboard from "../Dashboard";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -28,7 +28,7 @@ const columns = [
     key: "codigo_solicitud_servicio",
     options: {
       display: false,
-    }
+    },
   },
   {
     name: "estado_solicitud",
@@ -68,7 +68,7 @@ const options = {
   tableBodyHeight: "320px",
   textLabels: {
     body: {
-      noMatch: "No hay registros de solicitudes",
+      noMatch: "No hay registros de proyectos",
       toolTip: "Sort",
       columnHeaderTooltip: (column) => `Ordenar por ${column.label}`,
     },
@@ -126,13 +126,15 @@ class SolicitudProyecto extends Component {
         const arreglo_inicial = response.data;
         const solicitud = [];
         for (var i = 0; i < arreglo_inicial.length; i++) {
-          solicitud[i] = 
-          {
-            codigo_solicitud_servicio: arreglo_inicial[i].codigo_solicitud_servicio,
+          solicitud[i] = {
+            codigo_solicitud_servicio:
+              arreglo_inicial[i].codigo_solicitud_servicio,
             estado_solicitud: arreglo_inicial[i].estado_solicitud,
             observaciones: arreglo_inicial[i].observaciones,
             entidad: arreglo_inicial[i].servicio_social_detalle.entidad,
-            tipo_servicio_social: arreglo_inicial[i].servicio_social_detalle.tipo_servicio_social_detalle.nombre_tipo_servicio_social,
+            tipo_servicio_social:
+              arreglo_inicial[i].servicio_social_detalle
+                .tipo_servicio_social_detalle.nombre_tipo_servicio_social,
             descripcion: arreglo_inicial[i].servicio_social_detalle.descripcion,
           };
         }
@@ -149,11 +151,9 @@ class SolicitudProyecto extends Component {
   }
   render() {
     return (
-      /* Filtrar por usuario iniciado, los estdos de solicitud respectivos */
       <Dashboard
         contenedor={
           <div className="pt-5">
-            {/* Se invoca la tabla, con los datos correspondientes */}
             <MUIDataTable
               title={"Estado solicitud de proyecto"}
               data={this.state.solicitudes}

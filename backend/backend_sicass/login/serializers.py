@@ -29,7 +29,7 @@ class FacultadSerializer(serializers.ModelSerializer):
 class CarreraSerializer(serializers.ModelSerializer):
     class Meta:
         model = Carrera
-        fields = ['codigo_carrera','nombre_carrera', 'cantidad_materias','facultad']
+        fields = ['codigo_carrera','id_carrera','modalidad_carrera','plan_carrera','nombre_carrera', 'cantidad_materias','facultad']
 
 class EstudianteSerializer(serializers.ModelSerializer):
     carrera_detalle = CarreraSerializer(source = 'carrera',read_only=True)
@@ -91,7 +91,7 @@ class UsuariosGestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id','last_login','is_superuser', 'username', 'password', 'first_name','last_name','email','is_staff','is_active','date_joined','tipo_usuario']
-        extra_kwargs = {'password': {'write_only':True, 'required':False}}
+        extra_kwargs = {'password': {'write_only':True, 'required':False}} #Como el administrador editaria los demas datos, no necesita password
     def create(self, validated_data):
         usuarios = User.objects.create_user(**validated_data)
         return usuarios
@@ -132,3 +132,14 @@ class SolicitudServicioSerializer(serializers.ModelSerializer):
     def create(self, validate_data):
         solicitudServicio = SolicitudServicioSocial.objects.create(**validate_data)
         return solicitudServicio
+
+class DocenteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Docente
+        fields = "__all__" 
+        
+class ActividadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RegistroActividad
+        fields = "__all__"         
+        

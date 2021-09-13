@@ -11,9 +11,9 @@ class User(AbstractUser):
         (1, 'estudiante'),
         (2, 'encargadoFacultad'),
         (3, 'encargadoEscuela'),
-        (4,'admin'),
+        (4, 'admin'),
     )
-    tipo_usuario = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES)
+    tipo_usuario = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=4)
 class EntidadExterna(models.Model):
     codigo_entidad = models.BigAutoField(primary_key=True)
     nombre_entidad = models.CharField(max_length=150)
@@ -40,8 +40,13 @@ class Estado(models.Model):
 
 class Carrera(models.Model):
     codigo_carrera = models.CharField(max_length=25, primary_key=True, unique=True)
-    nombre_carrera = models.CharField(max_length=100)
+    id_carrera = models.CharField(max_length=24)
+    plan_carrera = models.CharField(max_length=20)
+    nombre_carrera = models.CharField(max_length=200)
     cantidad_materias = models.IntegerField()
+    modalidad_carrera = models.CharField(max_length=5)
+    grado_carrera = models.CharField(max_length=25)
+    tipo_carrera = models.CharField(max_length=50)
     facultad = ForeignKey(Facultad, on_delete=models.CASCADE)
     def __str__(self):
 
@@ -123,3 +128,47 @@ class SolicitudServicioSocial(models.Model):
 
     def __str__(self):
         return '%s' % (self.codigo_solicitud_servicio)
+
+class Escuela(models.Model):
+    codigo_escuela = models.BigAutoField(primary_key=True, unique=True)
+    nombre_escuela = models.CharField(max_length=50)
+    facultad = models.ForeignKey(Facultad, on_delete=models.CASCADE)
+    def __str__(self):
+        return '%s' % (self.codigo_escuela)
+
+class Docente(models.Model):
+    codigo_docente = models.BigAutoField(primary_key=True, unique=True)
+    nombres_docente = models.CharField(max_length=50)
+    apellidos_docente = models.CharField(max_length=50)
+    correo = models.EmailField()
+    sexo = models.CharField(max_length=15)
+    direccion_docente = models.CharField(max_length=250)
+    telefono_docente = models.IntegerField()
+    def __str__(self):
+        return '%s' % (self.codigo_docente)
+
+class EncargadoEscuela(models.Model):
+    codigo_encargado = models.BigAutoField(primary_key=True, unique=True)
+    estado = models.BooleanField()
+    docente_encargado = models.ForeignKey(Docente, on_delete=models.CASCADE)
+    escuela = models.ForeignKey(Escuela, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return '%s' % (self.codigo_encargado)
+
+class EncargadoFacultad(models.Model):
+    codigo_encargado = models.BigAutoField(primary_key=True, unique=True)
+    estado = models.BooleanField()
+    docente_encargado = models.ForeignKey(Docente, on_delete=models.CASCADE)
+    facultad = models.ForeignKey(Facultad, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return '%s' % (self.codigo_encargado)
+
+class RegistroActividad(models.Model):
+    codigo_actividad = models.BigAutoField(primary_key=True, unique=True)
+    fecha = models.DateField()
+    descripcion = models.CharField(max_length=500)
+    encargado = models.CharField(max_length=50)
+    total_horas = models.IntegerField()
+    solicitud_servicio = models.ForeignKey(SolicitudServicioSocial, on_delete=models.CASCADE)

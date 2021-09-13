@@ -106,6 +106,9 @@ class Solicitudes extends Component {
         name: "codigo_solicitud",
         label: "Codigo",
         key: "codigo_solicitud",
+        options: {
+          display: false,
+        }
       },
       {
         name: "entidad_externa",
