@@ -17,7 +17,7 @@ const options = {
   selectableRows: false,
   tableBodyHeight: "320px",
   rowsPerPage: 5,
-  rowsPerPageOptions: [5,10,20],
+  rowsPerPageOptions: [5, 10, 20],
   textLabels: {
     body: {
       noMatch: "No hay registros de privilegios",
@@ -65,6 +65,7 @@ class GestionServicioSocial extends Component {
       servicios: [], //Estdo que contendra todo lo que digite el usuario
       modalInsertar: false, //Estado que controla el abrir o cerra el modal correspondiente
       modalEliminar: false,
+      tipoServicio: [],
       form: {
         //Estado que contiene los campos del formulario a ingresar
         codigo_servicio_social: "",
@@ -107,29 +108,29 @@ class GestionServicioSocial extends Component {
           title: "Ocurrio un error en el registro del servicio social",
           showConfirmButton: false,
           timer: 2500,
-        });  
+        });
       });
   };
 
   //Metodo en que realiza la peticion para actualizar los datos a la BD mediante la api
   peticionPut = () => {
     console.log(this.state.codigo_servicio_social);
-    axios.put(url + this.state.form.codigo_servicio_social + "/", this.state.form )
-    .then((response) => {
-      this.modalInsertar();
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Se a guardado con exito",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-      this.componentDidMount();
-    })
-    .catch((error) => {
+    axios.put(url + this.state.form.codigo_servicio_social + "/", this.state.form)
+      .then((response) => {
+        this.modalInsertar();
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Se a guardado con exito",
+          showConfirmButton: false,
+          timer: 2500,
+        });
+        this.componentDidMount();
+      })
+      .catch((error) => {
 
-    });
-    
+      });
+
   };
 
   //Metodo en que realiza la peticion para eliminar los datos a la BD mediante la api
@@ -145,9 +146,9 @@ class GestionServicioSocial extends Component {
       });
       this.componentDidMount();
     })
-    .catch((error) => {
+      .catch((error) => {
 
-    });
+      });
   };
 
   //Metodo que funciona para saber que elemento a selecciconado de la tabla y mandarlo al modal
@@ -155,7 +156,7 @@ class GestionServicioSocial extends Component {
     this.setState({
       tipoModal: "actualizar",
       form: {
-        codigo_servicio_social:servicio[0],
+        codigo_servicio_social: servicio[0],
         entidad: servicio[1],
         descripcion: servicio[2],
         cantidad_horas: servicio[3],
@@ -187,8 +188,16 @@ class GestionServicioSocial extends Component {
       .get(url)
       .then((response) => {
         this.setState({ servicios: response.data });
+        axios
+          .get("http://127.0.0.1:8000/login/tiposServicioSocial/")
+          .then((response) => {
+            console.log(response.data)
+            this.setState({ tipoServicio: response.data })
+          })
+          .catch((error) => { })
       })
       .catch((error) => {
+
         Swal.fire({
           position: "center",
           icon: "error",
@@ -219,14 +228,14 @@ class GestionServicioSocial extends Component {
         label: "Horas",
       },
       {
-        
+
         name: "cantidad_estudiantes",
         label: "Cantidad de estudiantes",
       },
       {
         name: "tipo_servicio_social",
         label: "Tipo de Servicio",
-        
+
       },
       {
         name: "acciones",
@@ -235,7 +244,7 @@ class GestionServicioSocial extends Component {
           customBodyRender: (value, tableMeta, updateValue) => {
             return (
               <>
-              {/* Botones para editar y eliminar */}
+                {/* Botones para editar y eliminar */}
                 <Tooltip title="Editar">
                   <Button
                     size="sm"
@@ -296,9 +305,9 @@ class GestionServicioSocial extends Component {
                 />
               </div>
             </div>
-            
+
             {/* Modal para actualizar o crear */}
-            <Modal isOpen={this.state.modalInsertar} centered className= "pt-5">
+            <Modal isOpen={this.state.modalInsertar} centered className="pt-5">
               <ModalHeader style={{ display: "block" }}>
                 {this.state.tipoModal === "insertar" ? (
                   <span>Crear servicio social</span>
@@ -364,19 +373,27 @@ class GestionServicioSocial extends Component {
                     required
                     value={form ? form.cantidad_estudiantes : ""}
                     onChange={this.handleChange}
-                  />                
+                  />
                 </Form.Group>
                 <Form.Group>
-                  <Form.Label>Tipo de servicio</Form.Label>
+                  <Form.Label>Tipo Servicio </Form.Label>
                   <Form.Control
-                    type="text" /* Aqui debe ir un combobox */
-                    placeholder="###"
+                    as="select"
                     id="tipo_servicio_social"
                     name="tipo_servicio_social"
-                    required
+                    required={true}
                     value={form ? form.tipo_servicio_social : ""}
                     onChange={this.handleChange}
-                  />
+                  >
+                    <option value="" disabled={true}>
+                      Seleccione..
+                    </option>
+                    {this.state.tipoServicio.map((elemento) => (
+                      <option key={elemento.condigo_tipo_servicio_social} value={elemento.condigo_tipo_servicio_social}>
+                        {elemento.nombre_tipo_servicio_social}
+                      </option>
+                    ))}
+                  </Form.Control>
                 </Form.Group>
                 <ModalFooter>
                   {this.state.tipoModal === "insertar" ? (
@@ -406,8 +423,8 @@ class GestionServicioSocial extends Component {
 
             {/* Modal para eliminar */}
             <Modal isOpen={this.state.modalEliminar} centered>
-            <ModalHeader style={{ display: "block" }}>
-                  <span>Eliminar Servicio Social</span>
+              <ModalHeader style={{ display: "block" }}>
+                <span>Eliminar Servicio Social</span>
               </ModalHeader>
               <ModalBody>
                 ¿Esta seguro de eliminar el Servicio Social seleccionado?
