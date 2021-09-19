@@ -340,7 +340,7 @@ class RegistrarActividad extends Component {
                   <div>
                     <Row>
                       <Col sm={2}>
-                        {this.state.cantidad_horas !== this.calculoHoras() ? (
+                        {this.state.cantidad_horas > this.calculoHoras() ? (
                           <Button
                             variant="success"
                             onClick={() => {
