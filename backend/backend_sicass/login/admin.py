@@ -1,3 +1,4 @@
+
 from django.contrib import admin
 from .models import *
 
@@ -14,7 +15,10 @@ admin.site.register(User)
 admin.site.register(ServicioSocial)
 admin.site.register(SolicitudUps)
 admin.site.register(SolicitudServicioSocial)
-admin.site.register(Escuela)
-admin.site.register(Docente)
+admin.site.register(RegistroActividad)
 admin.site.register(EncargadoEscuela)
 admin.site.register(EncargadoFacultad)
+admin.site.register(Docente)
+admin.site.register(Escuela)
+
+
