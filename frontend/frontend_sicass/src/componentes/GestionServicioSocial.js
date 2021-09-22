@@ -9,6 +9,21 @@ import { Tooltip } from "@material-ui/core";
 import Delete from "@material-ui/icons/Delete";
 import Edit from "@material-ui/icons/Edit";
 
+function leerCookie(nombre) {
+  let key = nombre + "=";
+  let cookies = document.cookie.split(";");
+  for (let i = 0; i < cookies.length; i++) {
+    let cookie = cookies[i];
+    while (cookie.charAt(0) === " ") {
+      cookie = cookie.substring(1, cookie.length);
+    }
+    if (cookie.indexOf(key) === 0) {
+      return cookie.substring(key.length, cookie.length);
+    }
+  }
+  return null;
+}
+
 //Constante con las opciones de la tabla
 const options = {
   download: "false",
@@ -188,13 +203,6 @@ class GestionServicioSocial extends Component {
       .get(url)
       .then((response) => {
         this.setState({ servicios: response.data });
-        axios
-          .get("http://127.0.0.1:8000/login/tiposServicioSocial/")
-          .then((response) => {
-            console.log(response.data)
-            this.setState({ tipoServicio: response.data })
-          })
-          .catch((error) => { })
       })
       .catch((error) => {
 
@@ -252,6 +260,15 @@ class GestionServicioSocial extends Component {
                     onClick={() => {
                       this.seleccionServicio(tableMeta.rowData);
                       this.modalInsertar();
+                      axios
+                          .get("http://127.0.0.1:8000/login/tipoServicioFacultad/",{
+                            params:{user:leerCookie("usuario")}
+                          })
+                          .then((response) => {
+                            console.log(response.data)
+                            this.setState({ tipoServicio: response.data })
+                          })
+                          .catch((error) => { })
                     }}
                   >
                     <Edit></Edit>
@@ -289,6 +306,15 @@ class GestionServicioSocial extends Component {
                 onClick={() => {
                   this.setState({ form: null, tipoModal: "insertar" });
                   this.modalInsertar();
+                  axios
+                      .get("http://127.0.0.1:8000/login/tipoServicioFacultad/",{
+                        params:{user:leerCookie("usuario")}
+                      })
+                      .then((response) => {
+                        console.log(response.data)
+                        this.setState({ tipoServicio: response.data })
+                      })
+                      .catch((error) => { })
                 }}
               >
                 Crear
