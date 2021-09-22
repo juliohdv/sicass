@@ -72,7 +72,7 @@ const options = {
 };
 
 //Constante con la url de la api (Backend)
-const url = "http://127.0.0.1:8000/login/registroUps/";
+const url = "http://127.0.0.1:8000/login/solicitudUpsPorEncargadoDeEscuela/";
 
 //Clase principal del componente
 class SolicitudInscripcionUPS extends Component {
@@ -149,7 +149,9 @@ class SolicitudInscripcionUPS extends Component {
         let nombre_usuario = leerCookie("usuario"); //Se obtiene el usuario logeado
         console.log(nombre_usuario);
         axios
-            .get(url)
+            .get(url,{
+                params :{user:nombre_usuario}
+            })
             .then((response) => {
                 this.setState({ solicitudes: response.data });
             })
