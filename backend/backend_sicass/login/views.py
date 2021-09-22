@@ -294,3 +294,15 @@ class SolicitudUpsPorEncargadoEscuela(viewsets.ModelViewSet):
         carrera = escuela.__getattribute__('carrera')
         queryset = SolicitudUps.objects.filter(estudiante__carrera=carrera)
         return queryset
+
+class SolicitudEstudiateASSPorEncargadoEscuela(viewsets.ModelViewSet):
+    serializer_class = SolicitudServicioSerializer
+    def get_queryset(self):
+        nombre_usuario = self.request.query_params.get('user')
+        usuario = User.objects.get(username=nombre_usuario)
+        encargadoEscuela = EncargadoEscuela.objects.get(user=usuario)
+        docente = encargadoEscuela.__getattribute__('docente_encargado')
+        escuela = docente.__getattribute__('escuela')
+        carrera = escuela.__getattribute__('carrera')
+        queryset = SolicitudServicioSocial.objects.filter(estudiante__carrera=carrera)
+        return queryset

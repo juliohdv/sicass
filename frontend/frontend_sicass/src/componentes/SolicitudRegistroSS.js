@@ -72,7 +72,7 @@ const options = {
 };
 
 //Constante con la url de la api (Backend)
-const url = "http://127.0.0.1:8000/login/solicitudServicio/";
+const url = "http://127.0.0.1:8000/login/solicitudEstudiateASSPorEncargadoEscuela/";
 
 //Clase principal del componente
 class SolicitudRegistroSS extends Component {
@@ -90,6 +90,7 @@ class SolicitudRegistroSS extends Component {
         nombre_tipo_servicio_social: "",
         codigo_solicitud_servicio: "",
         tipo_servicio_social: "",
+        servicio_social: "",
       },
       modalConfirmar: false,
     };
@@ -100,7 +101,7 @@ class SolicitudRegistroSS extends Component {
   peticionPut = () => {
     console.log(this.state.form);
     axios
-      .put(url + this.state.form.codigo_solicitud_servicio + "/", this.state.form)
+      .put("http://127.0.0.1:8000/login/solicitudServicio/" + this.state.form.codigo_solicitud_servicio + "/", this.state.form)
       .then((response) => {
         this.setState({ modalConfirmar: false });
         Swal.fire({
@@ -144,8 +145,8 @@ class SolicitudRegistroSS extends Component {
         observaciones: solicitudes[3],
         cantidad_horas: solicitudes[4],
         entidad: solicitudes[5],
-        nombre_tipo_servicio_social: solicitudes[6],
-        condigo_tipo_servicio_social: solicitudes[7],
+        servicio_social: solicitudes[6],
+        servicio_social_descripcion: solicitudes[7],
       },
     });
   };
@@ -155,9 +156,29 @@ class SolicitudRegistroSS extends Component {
     let nombre_usuario = leerCookie("usuario"); //Se obtiene el usuario logeado
     console.log(nombre_usuario);
     axios
-      .get(url)
+      .get(url,{
+        params:{user:nombre_usuario}
+      })
       .then((response) => {
-        this.setState({ solicitudes: response.data });
+        const arreglo_inicial = response.data; //Guardamos el arreglo inicial para su reescritura
+        const solicitud = []; //Arreglo donde guardaremos los objetos reescritos
+        for (var i = 0; i < arreglo_inicial.length; i++) {
+          //Recorremos el arreglo inicial
+          solicitud[i] =
+            //Asignamos los campos del arrelgo inicial a los del nuevo objeto
+            {
+              codigo_solicitud_servicio: arreglo_inicial[i].codigo_solicitud_servicio,
+              servicio_social_cantidad_estudiantes: arreglo_inicial[i].servicio_social_detalle.cantidad_estudiantes,
+              servicio_social_cantidad_horas: arreglo_inicial[i].servicio_social_detalle.cantidad_horas,
+              servicio_social_descripcion: arreglo_inicial[i].servicio_social_detalle.descripcion,
+              servicio_social_entidad: arreglo_inicial[i].servicio_social_detalle.entidad,
+              observaciones:arreglo_inicial[i].observaciones,
+              estado_solicitud: arreglo_inicial[i].estado_solicitud,
+              servicio_social: arreglo_inicial[i].servicio_social,
+              estudiante:arreglo_inicial[i].estudiante,
+            };
+        }
+        this.setState({ solicitudes: solicitud });
         
       })
       .catch((error) => {
@@ -200,21 +221,30 @@ class SolicitudRegistroSS extends Component {
 
       },
       {
-        name: "cantidad_horas",
+        name: "servicio_social_cantidad_horas",
         label: "Cantidad de Horas",
-        key: "cantidad_horas",
+        key: "servicio_social_cantidad_horas",
 
       },
       {
-        name: "entidad",
+        name: "servicio_social_entidad",
         label: "Entidad",
-        key: "entidad",
+        key: "servicio_social_entidad",
 
       },
       {
-        name: "nombre_tipo_servicio_social",
+        name: "servicio_social",
         label: "Servicio Social",
-        key: "nombre_tipo_servicio_social",
+        key: "servicio_social",
+        options: {
+          display: false,
+      },
+
+      },
+      {
+        name: "servicio_social_descripcion",
+        label: "Descripción",
+        key: "servicio_social_descripcion",
 
       },
       {
