@@ -507,6 +507,9 @@ export default function App() {
               <Route path="/SolicitudRegistroUPS">
                 <SolicitudRegistroUPS />
               </Route>
+              <Route path="/PropuestasAceptadas">
+                <PropuestasAceptadas />
+              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -574,4 +577,6 @@ function SolicitudRegistroSS(){
 function SolicitudRegistroUPS(){
   return <SolicitudUPS/>;
 }
-
+function PropuestasAceptadas(){
+  return <Propuestas/>;
+}

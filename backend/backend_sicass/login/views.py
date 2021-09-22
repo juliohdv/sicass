@@ -232,7 +232,19 @@ class EncargadosEscuelaPorFacultad(viewsets.ModelViewSet):
         facultad = carrera.__getattribute__('facultad')
         queryset = EncargadoEscuela.objects.filter(docente_encargado__escuela__carrera__facultad=facultad)
         return queryset
-
+class EscuelasPorEncargadoFacultad(viewsets.ModelViewSet):
+    serializer_class = EscuelaSerializer
+    def get_queryset(self):
+        nombre_usuario = self.request.query_params.get('user')
+        usuario = User.objects.get(username=nombre_usuario)
+        encargadoFacultad = EncargadoFacultad.objects.get(user=usuario)
+        docente = encargadoFacultad.__getattribute__('docente_encargado')
+        escuela = docente.__getattribute__('escuela')
+        carrera = escuela.__getattribute__('carrera')
+        facultad = carrera.__getattribute__('facultad')
+        queryset = Escuela.objects.filter(carrera__facultad=facultad)
+        return queryset
+        
 class EscuelasPorFacultad(viewsets.ModelViewSet):
     serializer_class = EscuelaSerializer
     def get_queryset(self):
@@ -242,7 +254,6 @@ class EscuelasPorFacultad(viewsets.ModelViewSet):
         return queryset
 class SolicitudServicioFiltroVistas(viewsets.ModelViewSet):
     serializer_class = SolicitudServicioSerializer
-
     def get_queryset(self):
         estudiante = self.request.query_params.get('estudiante')
         queryset = SolicitudServicioSocial.objects.all().filter(estudiante_id=estudiante)

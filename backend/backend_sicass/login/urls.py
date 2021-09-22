@@ -33,6 +33,7 @@ router.register('docentes', DocentesVista, basename='Docentes') #Retorna todos l
 router.register('encargadoEscuela', EncargadoEscuelaVista, basename='EncargadoEscuela')
 router.register('docentesPorEncargadoFacultad', DocentesPorEncargadoFacultad, basename='DocentesPorEncargadoFacultad')
 router.register('escuelasPorFacultad',EscuelasPorFacultad, basename="EscuelasPorFacultad")
+router.register('escuelasPorEncargadoFacultad',EscuelasPorEncargadoFacultad, basename="EscuelasPorEncargadoFacultad")
 router.register('encargadosEscuelaPorFacultad',EncargadosEscuelaPorFacultad, basename="EncargadosEscuelaPorFacultad")
 
 router.register('solicitudServicioEstudiante', SolicitudServicioFiltroVistas, basename="Servicio") #Regresa las solicitudes de SS de los estudiantes

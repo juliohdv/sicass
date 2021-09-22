@@ -383,6 +383,13 @@ class Docentes extends Component {
                 <Button
                   variant="success"
                   onClick={() => {
+                    axios 
+                      .get('http://127.0.0.1:8000/login/escuelasPorFacultad/',{
+                        params:{facultad: this.state.form.facultad_id}
+                      })
+                      .then((response) =>{
+                        this.setState({escuelas: response.data})
+                      })
                     this.setState({ form: null, tipoModal: "insertar" });
                     this.modalInsertar();
                   }}

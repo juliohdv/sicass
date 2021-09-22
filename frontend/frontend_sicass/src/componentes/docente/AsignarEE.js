@@ -4,7 +4,7 @@ import MUIDataTable from 'mui-datatables'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import { Tooltip } from '@material-ui/core'
-import { Button, Form,} from "react-bootstrap"
+import { Button, Form, OverlayTrigger} from "react-bootstrap"
 import { Modal, ModalBody, ModalFooter } from 'reactstrap'
 import Delete from "@material-ui/icons/Delete";
 import Edit from "@material-ui/icons/Edit";
@@ -76,46 +76,63 @@ class AsignarEE extends Component{
         this.state = {
             listaDocentes: [],
             listaEncargados: [],
+            escuelas:[],
             modalInsertar:false,
             modalEliminar:false,
             form: {
                 codigo_encargado:"",
-                estado: false,
+                estado: "",
                 docente_encargado:"",
+                nombre_docente_encargado:"",
                 escuela: "",
+                nombre_escuela:"",
                 user:"",
+                password:"",
+                nombre_usuario:"",
             },
         }
     }
     peticionPost = async () =>{
         await axios
-            .post(url, {
-                codigo_encargado : this.state.form.codigo_encargado,
-                estado: this.state.form.estado,
-                docente_encargado: this.state.form.docente_encargado,
-                escuela: this.state.form.escuela,
-                user: this.state.form.user
-            })
+        .post("http://127.0.0.1:8000/login/crearUsuario/", {
+          username: this.state.form.user,
+          password: this.state.form.password,
+          tipo_usuario: 3
+        })
+        .then((response)=>{
+            axios
+            .get("http://127.0.0.1:8000/login/ultimoUsuario/")
             .then((response) =>{
-                this.modalInsertar();
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Se a guardado con exito",
-                    showConfirmButton: false,
-                    timer: 2500,
+                axios
+                .post(url, {
+                    codigo_encargado : this.state.form.codigo_encargado,
+                    estado: true,
+                    docente_encargado: this.state.form.docente_encargado,
+                    escuela: this.state.form.escuela,
+                    user: response.data.map((elemento) => elemento.id).toString()
                 })
-                this.componentDidMount();
+                .then((response) =>{
+                    this.modalInsertar();
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Se a guardado con exito",
+                        showConfirmButton: false,
+                        timer: 2500,
+                    })
+                    this.componentDidMount();
+                })
+                .catch((error) =>{
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Ocurrio un error en la asignación!",
+                        showConfirmButton: false,
+                        timer: 2500,
+                      })
+                })
             })
-            .catch((error) =>{
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: "Ocurrio un error en la asignación!",
-                    showConfirmButton: false,
-                    timer: 2500,
-                  })
-            })
+        })
     }
     peticionPut = () => {
         axios
@@ -171,8 +188,11 @@ class AsignarEE extends Component{
           form: {
               codigo_encargado: encargado[0],
               docente_encargado: encargado[1],
+              nombre_docente_encargado: encargado[2],
               escuela: encargado[3],
+              nombre_escuela: encargado[4],
               user: encargado[5],
+              nombre_usuario:[6],
               estado : encargado[7],
           },
         });
@@ -291,18 +311,6 @@ class AsignarEE extends Component{
                     customBodyRender:  (value, tableMeta, updateValue) =>{
                         return(
                             <>
-                                <Tooltip title="Editar">
-                                    <Button
-                                    size="sm"
-                                    variant="outline-primary"
-                                    onClick={()=>{
-                                        this.seleccionEncargado(tableMeta.rowData);
-                                        this.modalInsertar();
-                                    }}
-                                    >
-                                        <Edit></Edit>
-                                    </Button>
-                                </Tooltip>
                                 <span>
                                 <Tooltip title="Eliminar">
                                     <Button
@@ -334,6 +342,13 @@ class AsignarEE extends Component{
                                 onClick={()=>{
                                     this.setState({form: null, tipoModal:"insertar"})
                                     this.modalInsertar();
+                                    axios 
+                                        .get('http://127.0.0.1:8000/login/escuelasPorEncargadoFacultad/',{
+                                        params:{user: leerCookie('usuario')}
+                                        })
+                                        .then((response) =>{
+                                        this.setState({escuelas: response.data})
+                                        })
                                 }}>
                                     Asignar Nuevo
                                 </Button>
@@ -380,45 +395,65 @@ class AsignarEE extends Component{
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Docente</Form.Label>
-                                    <Autocomplete
+                                    <Form.Control
+                                    as="select"
                                     id="docente_encargado"
                                     name="docente_encargado"
-                                    freeSolo
-                                    value = {form ? form.docente_encargado : ''}
+                                    required={true}
+                                    value={form ? form.docente_encargado : ""}
                                     onChange={this.handleChange}
-                                    options={this.state.listaDocentes.map((option) => option.nombres_docente + " " + option.apellidos_docente)}
-                                    renderInput={(params) => (
-                                    <TextField {...params} label="Seleccione" margin="normal" variant="outlined" />
-                                    )}
-                                />
+                                >
+                                    <option value="" disabled={true}>
+                                    Seleccione..
+                                    </option>
+                                    {this.state.listaDocentes.map((elemento) =>(
+                                    <option key={elemento.codigo_docente} value={elemento.codigo_docente}>
+                                        {elemento.nombres_docente + " " + elemento.apellidos_docente}
+                                    </option>
+                                    ))}
+                                </Form.Control>
                                 </Form.Group>
                                 <Form.Group>
-                                    <Form.Label>Escuela Asignada</Form.Label>
-                                    <Autocomplete
+                                <Form.Label>Escuela</Form.Label>
+                                <Form.Control
+                                    as="select"
                                     id="escuela"
                                     name="escuela"
-                                    freeSolo
-                                    value = {form ? form.escuela : ''}
+                                    required={true}
+                                    value={form ? form.escuela : ""}
                                     onChange={this.handleChange}
-                                    options={this.state.listaDocentes.map((option) => option.nombres_docente)}
-                                    renderInput={(params) => (
-                                    <TextField {...params} label="Seleccione" margin="normal" variant="outlined" />
-                                    )}
-                                />
+                                >
+                                    <option value="" disabled={true}>
+                                    Seleccione..
+                                    </option>
+                                    {this.state.escuelas.map((elemento) =>(
+                                    <option key={elemento.codigo_escuela} value={elemento.codigo_escuela}>
+                                        {elemento.nombre_escuela}
+                                    </option>
+                                    ))}
+                                </Form.Control>
                                 </Form.Group>
                                 <Form.Group>
-                                    <Form.Label>Usuario</Form.Label>
-                                    <Autocomplete
-                                    id="user"
-                                    name="user"
-                                    freeSolo
-                                    value = {form ? form.user : ''}
-                                    onChange={this.handleChange}
-                                    options={this.state.listaDocentes.map((option) => option.nombres_docente)}
-                                    renderInput={(params) => (
-                                    <TextField {...params} label="Seleccione" margin="normal" variant="outlined" />
-                                    )}
-                                />
+                                <Form.Label>Usuario</Form.Label>
+                                <Form.Control
+                                        type="text"
+                                        id="user"
+                                        name="user"
+                                        required
+                                        onChange={this.handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label>Contraseña</Form.Label>
+                                    <Form.Control
+                                        type="password"
+                                        placeholder="**********"
+                                        id="password"
+                                        name="password"
+                                        autoComplete="off"
+                                        required={true}
+                                        onChange={this.handleChange}
+                                    />
                                 </Form.Group>
                                 <ModalFooter>
                                     {this.state.tipoModal === "insertar" ? (
