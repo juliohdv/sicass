@@ -69,7 +69,7 @@ const options = {
 };
 
 //Constannte que contiene la url de conexion con la api de rest
-const url = "http://127.0.0.1:8000/login/docentes/";
+const url = "https://juliohdv.pythonanywhere.com/login/docentes/";
 
 //Clase principal del componente
 class Docentes extends Component {
@@ -236,7 +236,7 @@ class Docentes extends Component {
   componentDidMount() {
     let nombre_usuario = leerCookie("usuario")
     axios
-      .get('http://127.0.0.1:8000/login/docentesPorEncargadoFacultad/',{
+      .get('https://juliohdv.pythonanywhere.com/login/docentesPorEncargadoFacultad/',{
         params: {
           user: nombre_usuario,
         },
@@ -341,7 +341,7 @@ class Docentes extends Component {
                     onClick={() => {
                       this.seleccionDocente(tableMeta.rowData);
                       axios 
-                        .get('http://127.0.0.1:8000/login/escuelasPorFacultad/',{
+                        .get('https://juliohdv.pythonanywhere.com/login/escuelasPorFacultad/',{
                           params:{facultad: this.state.form.facultad_id}
                         })
                         .then((response) =>{
@@ -384,7 +384,7 @@ class Docentes extends Component {
                   variant="success"
                   onClick={() => {
                     axios 
-                      .get('http://127.0.0.1:8000/login/escuelasPorFacultad/',{
+                      .get('https://juliohdv.pythonanywhere.com/login/escuelasPorFacultad/',{
                         params:{facultad: this.state.form.facultad_id}
                       })
                       .then((response) =>{

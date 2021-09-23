@@ -53,7 +53,7 @@ const options = {
 };
 
 //Constante con la url de la api (Backend)
-const url = "http://127.0.0.1:8000/login/solicitudes/";
+const url = "https://juliohdv.pythonanywhere.com/login/solicitudes/";
 //Clase principal del componente
 class Solicitudes extends Component {
   constructor(props) {

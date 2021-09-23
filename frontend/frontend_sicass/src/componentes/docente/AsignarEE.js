@@ -25,7 +25,7 @@ function leerCookie(nombre) {
     }
     return null;
   }
-const url = "http://127.0.0.1:8000/login/encargadoEscuela/"
+const url = "https://juliohdv.pythonanywhere.com/login/encargadoEscuela/"
 const options = {
     download: "false",
     print: "false",
@@ -94,14 +94,14 @@ class AsignarEE extends Component{
     }
     peticionPost = async () =>{
         await axios
-        .post("http://127.0.0.1:8000/login/crearUsuario/", {
+        .post("https://juliohdv.pythonanywhere.com/login/crearUsuario/", {
           username: this.state.form.user,
           password: this.state.form.password,
           tipo_usuario: 3
         })
         .then((response)=>{
             axios
-            .get("http://127.0.0.1:8000/login/ultimoUsuario/")
+            .get("https://juliohdv.pythonanywhere.com/login/ultimoUsuario/")
             .then((response) =>{
                 axios
                 .post(url, {
@@ -225,7 +225,7 @@ class AsignarEE extends Component{
     componentDidMount(){
         let nombre_usuario = leerCookie("usuario")
             axios
-            .get('http://127.0.0.1:8000/login/encargadosEscuelaPorFacultad/',{
+            .get('https://juliohdv.pythonanywhere.com/login/encargadosEscuelaPorFacultad/',{
             params: {
                 user: nombre_usuario,
             },
@@ -259,7 +259,7 @@ class AsignarEE extends Component{
                 })
             })
             axios
-            .get("http://127.0.0.1:8000/login/docentes/")
+            .get("https://juliohdv.pythonanywhere.com/login/docentes/")
             .then((response) => {
                 this.setState({listaDocentes: response.data})
             })
@@ -343,7 +343,7 @@ class AsignarEE extends Component{
                                     this.setState({form: null, tipoModal:"insertar"})
                                     this.modalInsertar();
                                     axios 
-                                        .get('http://127.0.0.1:8000/login/escuelasPorEncargadoFacultad/',{
+                                        .get('https://juliohdv.pythonanywhere.com/login/escuelasPorEncargadoFacultad/',{
                                         params:{user: leerCookie('usuario')}
                                         })
                                         .then((response) =>{

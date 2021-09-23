@@ -53,7 +53,7 @@ const options = {
 };
 
 //Constante con la url de la api (Backend)
-const url = "http://127.0.0.1:8000/login/solicitudUpsVista";
+const url = "https://juliohdv.pythonanywhere.com/login/solicitudUpsVista";
 //Clase principal del componente
 class SolicitudesEstudiantes extends Component {
   constructor(props) {
@@ -64,7 +64,7 @@ class SolicitudesEstudiantes extends Component {
   }
   componentDidMount() {
     axios
-      .get("http://127.0.0.1:8000/login/solicitudUpsVista")
+      .get("https://juliohdv.pythonanywhere.com/login/solicitudUpsVista")
       .then((response) => {
         const arreglo_inicial = response.data; //Guardamos el arreglo inicial para su reescritura
         const solicitud = []; //Arreglo donde guardaremos los objetos reescritos

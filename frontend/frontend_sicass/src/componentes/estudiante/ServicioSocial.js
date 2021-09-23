@@ -70,7 +70,7 @@ const options = {
 };
 
 //Constante con la url de la api (Backend)
-const url = "http://127.0.0.1:8000/login/servicioSocialPorCarreraTipo/";
+const url = "https://juliohdv.pythonanywhere.com/login/servicioSocialPorCarreraTipo/";
 //Clase principal del componente
 class Propuestas extends Component {
   constructor(props) {
@@ -120,7 +120,7 @@ class Propuestas extends Component {
   //Metodo en que realiza la peticion para ingreso de datos a la BD mediante la api
   peticionPost = async () => {
     await axios
-      .post("http://127.0.0.1:8000/login/solicitudServicio/", {
+      .post("https://juliohdv.pythonanywhere.com/login/solicitudServicio/", {
         servicio_social: this.state.form.servicio_social,
         observaciones: this.state.form.observaciones,
         estado_solicitud: this.state.form.estado_solicitud,
@@ -129,7 +129,7 @@ class Propuestas extends Component {
       .then((response) => {
         axios
           .put(
-            "http://127.0.0.1:8000/login/servicioSocial/" +
+            "https://juliohdv.pythonanywhere.com/login/servicioSocial/" +
               this.state.form.servicio_social +
               "/",
             this.state.formUpdate
@@ -161,7 +161,7 @@ class Propuestas extends Component {
   componentDidMount() {
     let nombre_usuario = leerCookie("usuario"); //Se obtiene el usuario logeado
     axios
-      .get("http://127.0.0.1:8000/login/solicitudServicioEstudiante/", {
+      .get("https://juliohdv.pythonanywhere.com/login/solicitudServicioEstudiante/", {
         params: {
           estudiante: nombre_usuario,
         },

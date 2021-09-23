@@ -188,7 +188,7 @@ export default function App() {
     document.cookie = cookie; 
   }
   const handleCSRF = () => {
-    fetch("http://127.0.0.1:8000/login/csrf/",{
+    fetch("https://juliohdv.pythonanywhere.com/login/csrf/",{
       credentials: "include",
     })
     .then((res)=>{
@@ -198,7 +198,7 @@ export default function App() {
     })
   }
   const handleSession = () =>{
-    fetch("http://127.0.0.1:8000/login/session/",{
+    fetch("https://juliohdv.pythonanywhere.com/login/session/",{
       credentials: "include",
     })
     .then((res) => res.json())
@@ -294,7 +294,7 @@ export default function App() {
                   password:"",
                 }}
                 onSubmit={async(values) =>{ //AQUI SE HACE EL LOGOUT
-                  fetch("http://127.0.0.1:8000/login/logout/",{
+                  fetch("https://juliohdv.pythonanywhere.com/login/logout/",{
                     credentials: 'include',
                   })
                   .then(data =>{
@@ -352,7 +352,7 @@ export default function App() {
                 onSubmit={async(values) =>{ //AQUI SE HACE EL LOGIN
                   await new Promise((resolve) => setTimeout(resolve,500))
                   axios
-                    .post("http://127.0.0.1:8000/login/login/",{
+                    .post("https://juliohdv.pythonanywhere.com/login/login/",{
                       username: values.usuario, password: values.password
                     },{
                       headers:{'Content-Type':'application/json', 'X-CSRFToken': csrfToken}

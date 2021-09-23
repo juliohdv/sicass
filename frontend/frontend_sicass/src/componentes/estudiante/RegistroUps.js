@@ -22,7 +22,7 @@ function leerCookie(nombre) {
 }
 
 //Constannte que contiene la url de conexion con la api de rest
-const url = "http://127.0.0.1:8000/login/registroUpsEstudiante/";
+const url = "https://juliohdv.pythonanywhere.com/login/registroUpsEstudiante/";
 
 //Clase principal del componente, para el registro de los estudiantes
 class RegistroUps extends Component {
@@ -72,7 +72,7 @@ class RegistroUps extends Component {
           await new Promise((resolve) => setTimeout(resolve, 500));
           let nombre_usuario = leerCookie("usuario");
           axios
-            .post("http://127.0.0.1:8000/login/registroUps/", {
+            .post("https://juliohdv.pythonanywhere.com/login/registroUps/", {
               enlace: values.enlace,
               observaciones: values.observaciones,
               estado: values.estado,

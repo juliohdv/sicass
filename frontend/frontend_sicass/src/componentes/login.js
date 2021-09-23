@@ -30,7 +30,7 @@ class Login extends Component {
         }
     }
     getCSRF = () =>{
-        fetch("http://127.0.0.1:8000/login/csrf/",{
+        fetch("https://juliohdv.pythonanywhere.com/login/csrf/",{
             credentials: "include",
         })
         .then((res)=>{
@@ -43,7 +43,7 @@ class Login extends Component {
         })
     }
     getSession = () => {
-        fetch("http://127.0.0.1:8000/login/session/",{
+        fetch("https://juliohdv.pythonanywhere.com/login/session/",{
             credentials: "include",
         })
         .then((res) => res.json())
@@ -61,7 +61,7 @@ class Login extends Component {
         })
     }
     whoami = () =>{
-        fetch("http://127.0.0.1:8000/login/whoami/",{
+        fetch("https://juliohdv.pythonanywhere.com/login/whoami/",{
             headers:{
                 "Content-Type": "application/json",
             },
@@ -77,7 +77,7 @@ class Login extends Component {
     }
     login = event =>{
         console.log(this.state.credenciales);
-        fetch('http://127.0.0.1:8000/login/login/',{
+        fetch('https://juliohdv.pythonanywhere.com/login/login/',{
             method: 'POST',
             headers: {'Content-Type': 'application/json',
             'X-CSRFToken': this.state.csrf},
@@ -98,7 +98,7 @@ class Login extends Component {
         ).catch(error => this.setState({error:"Nombre de usuario o contraseña no válido."}))
     }
     logout = () =>{
-        fetch("http://127.0.0.1:8000/login/logout/",{
+        fetch("https://juliohdv.pythonanywhere.com/login/logout/",{
             credentials: "include",
         })
         .then(this.isResponseOk)

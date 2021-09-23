@@ -70,7 +70,7 @@ const options = {
 };
 
 //Constannte que contiene la url de conexion con la api de rest
-const url = "http://127.0.0.1:8000/login/actividades/";
+const url = "https://juliohdv.pythonanywhere.com/login/actividades/";
 
 //Clase principal del componente
 class RegistrarActividad extends Component {
@@ -218,7 +218,7 @@ class RegistrarActividad extends Component {
   componentDidMount() {
     let nombre_usuario = leerCookie("usuario"); //Se obtiene el usuario logeado
     axios
-      .get("http://127.0.0.1:8000/login/solicitudServicioEstudiante/", {
+      .get("https://juliohdv.pythonanywhere.com/login/solicitudServicioEstudiante/", {
         params: {
           estudiante: nombre_usuario,
         },
@@ -246,7 +246,7 @@ class RegistrarActividad extends Component {
           }
         }
         axios
-          .get("http://127.0.0.1:8000/login/actividadesEstudiante/", {
+          .get("https://juliohdv.pythonanywhere.com/login/actividadesEstudiante/", {
             params: {
               servicio: this.state.solicitud_servicio,
             },

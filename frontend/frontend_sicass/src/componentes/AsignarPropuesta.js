@@ -56,7 +56,7 @@ const options = {
 };
 
 //Constante con la url de la api (Backend)
-const url = "http://127.0.0.1:8000/login/propuestaEstado/";
+const url = "https://juliohdv.pythonanywhere.com/login/propuestaEstado/";
 //Clase principal del componente
 class AsignarPropuesta extends Component {
   constructor(props) {
@@ -120,7 +120,7 @@ class AsignarPropuesta extends Component {
    peticionPost = async () => {
     //delete this.state.form.id;
     await axios
-      .post("http://127.0.0.1:8000/login/servicioSocial/", {
+      .post("https://juliohdv.pythonanywhere.com/login/servicioSocial/", {
         propuesta: this.state.form.propuesta,
         entidad: this.state.form.entidad,
         tipo_servicio_social: this.state.form.condigo_tipo_servicio_social,
@@ -132,7 +132,7 @@ class AsignarPropuesta extends Component {
       })
       .then((response) => {
         /* axios 
-        .put("http://127.0.0.1:8000/login/propuestas/"+this.state.form.propuesta+"/",
+        .put("https://juliohdv.pythonanywhere.com/login/propuestas/"+this.state.form.propuesta+"/",
         this.state.form
         ).then((response)=>{
         

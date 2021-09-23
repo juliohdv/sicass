@@ -21,7 +21,7 @@ class Logout extends Component{
         }
     }
     getCSRF = () =>{
-        fetch("http://127.0.0.1:8000/login/csrf/",{
+        fetch("https://juliohdv.pythonanywhere.com/login/csrf/",{
             credentials: "same-origin",
         })
         .then((res)=>{
@@ -34,7 +34,7 @@ class Logout extends Component{
         })
     }
     getSession = () => {
-        fetch("http://127.0.0.1:8000/login/session/",{
+        fetch("https://juliohdv.pythonanywhere.com/login/session/",{
             credentials: "same-origin",
         })
         .then((res) => res.json())
@@ -51,7 +51,7 @@ class Logout extends Component{
         })
     }
     whoami = () =>{
-        fetch("http://127.0.0.1:8000/login/whoami/",{
+        fetch("https://juliohdv.pythonanywhere.com/login/whoami/",{
             headers:{
                 "Content-Type": "application/json",
             },
@@ -67,7 +67,7 @@ class Logout extends Component{
     }
     
     logout = () =>{
-        fetch("http://127.0.0.1:8000/login/logout/",{
+        fetch("https://juliohdv.pythonanywhere.com/login/logout/",{
             credentials: "same-origin",
         })
         .then(this.isResponseOk)

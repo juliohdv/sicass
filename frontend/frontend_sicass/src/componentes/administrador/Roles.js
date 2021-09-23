@@ -55,7 +55,7 @@ const options = {
 };
 
 //Constannte que contiene la url de conexion con la api de rest
-const url = "http://127.0.0.1:8000/login/permisos/";
+const url = "https://juliohdv.pythonanywhere.com/permisos/";
 
 //Clase principal del componente
 class Roles extends Component {
@@ -210,7 +210,7 @@ class Roles extends Component {
       .then((response) => {
         this.setState({ permisos: response.data });
         axios
-          .get("http://127.0.0.1:8000/login/tipoContenido/")
+          .get("https://juliohdv.pythonanywhere.com/login/tipoContenido/")
           .then((response) => {
             this.setState({ tipoContenido: response.data });
           })

@@ -25,7 +25,7 @@ class SolicitudServicio extends Component {
     this.setState({ facultadSeleccionada: event.target.value });
     this.setState({ carreraSeleccionada: event.target.value });
     axios
-      .get('http://127.0.0.1:8000/login/carreraPorFacultad/', {params:{facultad: event.target.value}})
+      .get('https://juliohdv.pythonanywhere.com/login/carreraPorFacultad/', {params:{facultad: event.target.value}})
       .then((response) =>{
         console.log(response);
         this.setState({carreras:response.data})
@@ -40,7 +40,7 @@ class SolicitudServicio extends Component {
     this.setState({ carreraSeleccionada: event.target.value });
     this.setState({tipoServicioSocialSeleccionado:  event.target.value })
     axios
-      .get("http://127.0.0.1:8000/login/tiposServicioSocialPorCarrera/",{
+      .get("https://juliohdv.pythonanywhere.com/login/tiposServicioSocialPorCarrera/",{
         params: {carrera: event.target.value },
       })
       .then((response) => {
@@ -51,7 +51,7 @@ class SolicitudServicio extends Component {
   componentDidMount() {
     //Consulta lista de facultades
     axios
-      .get('http://127.0.0.1:8000/login/facultades/')
+      .get('https://juliohdv.pythonanywhere.com/login/facultades/')
       .then((response) =>{
         this.setState({facultades:response.data})
       })
@@ -61,7 +61,7 @@ class SolicitudServicio extends Component {
     
       
     axios
-      .get('http://127.0.0.1:8000/login/tiposServicioSocial/')
+      .get('https://juliohdv.pythonanywhere.com/login/tiposServicioSocial/')
       .then((response) => {
         this.setState({ facultades: response.data });
       })
@@ -106,7 +106,7 @@ class SolicitudServicio extends Component {
         onSubmit={async (values, {resetForm}) => {
           await new Promise((resolve) => setTimeout(resolve, 500));
           axios
-            .post("http://127.0.0.1:8000/login/entidadExterna/", {
+            .post("https://juliohdv.pythonanywhere.com/login/entidadExterna/", {
               nombre_entidad: values.nombre_entidad,
               direccion_entidad: values.direccion_entidad,
               correo_entidad: values.correo_entidad,
@@ -115,10 +115,10 @@ class SolicitudServicio extends Component {
             })
             .then((response) => {
               axios
-                .get("http://127.0.0.1:8000/login/ultimaEntidadExterna/")
+                .get("https://juliohdv.pythonanywhere.com/login/ultimaEntidadExterna/")
                 .then((response) => {
                   axios
-                    .post("http://127.0.0.1:8000/login/solicitudes/", {
+                    .post("https://juliohdv.pythonanywhere.com/login/solicitudes/", {
                       fecha_fin_solicitud: values.fecha_fin_solicitud,
                       estado_solicitud: values.estado_solicitud,
                       entidad_externa: response.data
