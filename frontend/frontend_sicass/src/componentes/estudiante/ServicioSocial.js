@@ -79,6 +79,7 @@ class Propuestas extends Component {
       servicio: [],
       modalVerificacion: false,
       ultimoEstado: "",
+      estadoRegistro: "",
       form: {
         servicios_social: "",
         cantidad_estudiantes: 0,
@@ -172,6 +173,18 @@ class Propuestas extends Component {
         }
       })
       .catch((error) => {});
+      axios
+      .get("http://127.0.0.1:8000/login/registroUpsEstudiante/", {
+        params: {
+          estudiante: nombre_usuario,
+        },
+      })
+      .then((response) => {
+        for (var i = 0; i < response.data.length; i++) {
+          this.setState({ estadoRegistro: response.data[i].estado_solicitud });
+        }
+      })
+      .catch((error) => {});
     axios
       .get(url, {
         params: {
@@ -259,9 +272,10 @@ class Propuestas extends Component {
         options: {
           customBodyRender: (value, tableMeta, updateValue) => {
             if (
-              this.state.ultimoEstado === "Rechazado" ||
+              (this.state.ultimoEstado === "Rechazado" ||
               this.state.ultimoEstado === "Finalizado" ||
-              this.state.ultimoEstado === ""
+              this.state.ultimoEstado === "") &&
+              this.state.estadoRegistro === "Aprobado"
             ) {
               return (
                 <Tooltip title="Solicitar servicio social">
