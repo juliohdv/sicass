@@ -42,6 +42,7 @@ router.register('actividades', RegistroActividadVista, basename="Actividades") #
 router.register('actividadesEstudiante', ActividadServicioVistas, basename="ActividadesEstudiante") #Retorna las actividades de un estudiante
 router.register('solicitudUpsPorEncargadoDeEscuela',SolicitudUpsPorEncargadoEscuela, basename="SolicitudUpsPorEncargadoDeEscuela")
 router.register('solicitudEstudiateASSPorEncargadoEscuela', SolicitudEstudiateASSPorEncargadoEscuela, basename="SolicitudEstudiateASSPorEncargadoEscuela")
+router.register('propuestaEstado', PropuestaFiltroVista, basename="PropuestaEstado") 
 
 urlpatterns = [
     path('', include(router.urls)),

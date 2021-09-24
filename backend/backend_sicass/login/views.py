@@ -268,14 +268,22 @@ class SolicitudServicioFiltroVistas(viewsets.ModelViewSet):
         estudiante = self.request.query_params.get('estudiante')
         queryset = SolicitudServicioSocial.objects.all().filter(estudiante_id=estudiante).order_by("codigo_solicitud_servicio")[1:]
         return queryset #Falta filtrar bien aun, que solo traiga la ultima solicitud por estudiante """
-    
+class PropuestaFiltroVista(viewsets.ModelViewSet):
+    serializer_class = PropuestaSerializer
+    def get_queryset(self):
+        propuesta = self.request.query_params.get('estado')
+        queryset = Propuesta.objects.all().filter(estado_propuesta=propuesta)
+        if propuesta is not None:
+            queryset = queryset.filter(estado_propuesta=propuesta)
+        return queryset
+
 class RegistroActividadVista(viewsets.ModelViewSet):
     serializer_class = ActividadSerializer
     queryset = RegistroActividad.objects.all()
 
 class ActividadServicioVistas(viewsets.ModelViewSet):
     serializer_class = ActividadSerializer
-
+    
     def get_queryset(self):
         servicio = self.request.query_params.get('servicio')
         queryset = RegistroActividad.objects.all().filter(solicitud_servicio_id=servicio)

@@ -509,7 +509,7 @@ export default function App() {
               {!autenticado ? <Redirect to="/" /> :<SolicitudRegistroUPS />}
               </Route>
               <Route path="/AsignarPropuesta">
-              {!autenticado ? <Redirect to="/" /> :<PropuestaAsignada />}
+              {!autenticado ? <Redirect to="/" /> :<PropuestasAceptadas />}
               </Route>
               <Route path="/PropuestasAceptadas">
                 <PropuestasAceptadas />
@@ -582,5 +582,5 @@ function SolicitudRegistroUPS(){
   return <SolicitudUPS/>;
 }
 function PropuestasAceptadas(){
-  return <Propuestas/>;
+  return <AsignarPropuesta/>;
 }
