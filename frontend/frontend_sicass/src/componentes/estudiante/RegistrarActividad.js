@@ -6,7 +6,6 @@ import Swal from "sweetalert2";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import MUIDataTable from "mui-datatables";
 import { Tooltip } from "@material-ui/core";
-import Delete from "@material-ui/icons/Delete";
 import Edit from "@material-ui/icons/Edit";
 
 //Funcion para obtener el nombre del usuario
@@ -28,6 +27,7 @@ function leerCookie(nombre) {
 //Constante con las opciones de la tabla
 const options = {
   download: "false",
+  print: "false",
   responsive: "simple",
   selectableRows: false,
   rowsPerPage: 5,
@@ -175,32 +175,6 @@ class RegistrarActividad extends Component {
       });
   };
 
-  //Metodo en que realiza la peticion para eliminar los datos a la BD mediante la api
-  /* peticionDelete = () => {
-    axios
-      .delete(url + this.state.form.id)
-      .then((response) => {
-        this.setState({ modalEliminar: false });
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Se a eliminado con exito",
-          showConfirmButton: false,
-          timer: 2500,
-        });
-        this.componentDidMount();
-      })
-      .catch((error) => {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Ocurrio un error en el eliminar el usuario",
-          showConfirmButton: false,
-          timer: 2500,
-        });
-      });
-  }; */
-
   //Metodo que funciona para saber que elemento a selecciconado de la tabla y mandarlo al modal
   seleccionActividad = (actividad) => {
     this.setState({
@@ -223,7 +197,6 @@ class RegistrarActividad extends Component {
   //Metodo para calcular el total de horas del servicio
   calculoHoras = () => {
     var totalHoras = 0;
-    const arreglo_inicial = this.state.actividades;
     for (var i = 0; i < this.state.actividades.length; i++) {
       totalHoras += this.state.actividades[i].total_horas;
     }
@@ -245,32 +218,33 @@ class RegistrarActividad extends Component {
   componentDidMount() {
     let nombre_usuario = leerCookie("usuario"); //Se obtiene el usuario logeado
     axios
-      .get("http://127.0.0.1:8000/login/ultimaSolicitudServicio/", {
+      .get("http://127.0.0.1:8000/login/solicitudServicioEstudiante/", {
         params: {
           estudiante: nombre_usuario,
         },
       })
       .then((response) => {
         const arreglo_inicial = response.data;
-        this.setState({
-          tipo_servicio_social:
-            arreglo_inicial[0].servicio_social_detalle
-              .tipo_servicio_social_detalle.nombre_tipo_servicio_social,
-        });
-        this.setState({
-          cantidad_horas:
-            arreglo_inicial[0].servicio_social_detalle.cantidad_horas,
-        });
-        this.setState({
-          entidad: arreglo_inicial[0].servicio_social_detalle.entidad,
-        });
-        this.setState({
-          estado_solicitud: arreglo_inicial[0].estado_solicitud,
-        });
-        this.setState({
-          solicitud_servicio: arreglo_inicial[0].codigo_solicitud_servicio,
-        });
-
+        var posicion = response.data.length - 1;
+        for (var i = 0; i < response.data.length; i++) {
+          this.setState({
+            estado_solicitud: response.data[i].estado_solicitud,
+          });
+          if (this.state.estado_solicitud === "Aprobado") {
+            this.setState({
+              solicitud_servicio:
+                arreglo_inicial[posicion].codigo_solicitud_servicio,
+              entidad:
+                arreglo_inicial[posicion].servicio_social_detalle.entidad,
+              cantidad_horas:
+                arreglo_inicial[posicion].servicio_social_detalle
+                  .cantidad_horas,
+              tipo_servicio_social:
+                arreglo_inicial[posicion].servicio_social_detalle
+                  .tipo_servicio_social_detalle.nombre_tipo_servicio_social,
+            });
+          }
+        }
         axios
           .get("http://127.0.0.1:8000/login/actividadesEstudiante/", {
             params: {
@@ -281,37 +255,8 @@ class RegistrarActividad extends Component {
             this.setState({ actividades: response.data });
           })
           .catch((error) => {});
-        /* 
-        this.form.solicitud_servicio = arreglo_inicial[0].codigo_solicitud_servicio; */
-
-        /* const solicitud = [];
-        for (var i = 0; i < arreglo_inicial.length; i++) {
-          solicitud[i] = {
-            cantidad_horas: arreglo_inicial[i].servicio_social_detalle.cantidad_horas,
-            entidad: arreglo_inicial[i].servicio_social_detalle.entidad,
-            tipo_servicio_social:
-              arreglo_inicial[i].servicio_social_detalle
-                .tipo_servicio_social_detalle.nombre_tipo_servicio_social,
-          };
-        } */
       })
-      .catch((error) => {
-        /* if(error.data == null){
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title:
-              "No ha realizado ninguna solicitud de servicio social o su solicitud aun ",
-          });
-          return
-        }
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title:
-            "Por el momento no hay conexión con la base de datos, intente en otro momento",
-        }); */
-      });
+      .catch((error) => {});
   }
   render() {
     const { form } = this.state; //Constante que contiene el estado del formulario
@@ -351,7 +296,6 @@ class RegistrarActividad extends Component {
           customBodyRender: (value, tableMeta, updateValue) => {
             return (
               <>
-                {/* Botones para las opciones de editar y eliminar */}
                 <Tooltip title="Editar">
                   <Button
                     size="sm"
@@ -364,20 +308,6 @@ class RegistrarActividad extends Component {
                     <Edit></Edit>
                   </Button>
                 </Tooltip>
-                {/*  <span>
-                  <Tooltip title="Eliminar">
-                    <Button
-                      size="sm"
-                      variant="outline-danger"
-                      onClick={() => {
-                        this.seleccionActividad(tableMeta.rowData);
-                        this.setState({ modalEliminar: true });
-                      }}
-                    >
-                      <Delete></Delete>
-                    </Button>
-                  </Tooltip>
-                </span> */}
               </>
             );
           },
@@ -409,31 +339,40 @@ class RegistrarActividad extends Component {
                   </Table>
                   <div>
                     <Row>
-                      <Col>
-                        <Button
-                          variant="success"
-                          onClick={() => {
-                            this.setState({
-                              form: null,
-                              tipoModal: "insertar",
-                            });
-                            this.modalInsertar();
-                          }}
-                        >
-                          Registrar
-                        </Button>
+                      <Col sm={2}>
+                        {this.state.cantidad_horas > this.calculoHoras() ? (
+                          <Button
+                            variant="success"
+                            onClick={() => {
+                              this.setState({
+                                form: null,
+                                tipoModal: "insertar",
+                              });
+                              this.modalInsertar();
+                            }}
+                          >
+                            Registrar
+                          </Button>
+                        ) : (
+                          <></>
+                        )}
                       </Col>
-                      <Col>
-                        <Row>
-                          <Form.Label>Total de horas invertidas</Form.Label>
-                          <Form.Control
-                            type="text"
-                            readOnly={true}
-                            value={this.calculoHoras()}
-                          ></Form.Control>
-                        </Row>
+                      <Col sm={8}>
+                        <Form.Group as={Row}>
+                          <Form.Label column className="text-right" sm={6}>
+                            Total de horas invertidas
+                          </Form.Label>
+                          <Col>
+                            <Form.Control
+                              type="text"
+                              readOnly={true}
+                              value={this.calculoHoras()}
+                            ></Form.Control>
+                          </Col>
+                          <Col></Col>
+                        </Form.Group>
                       </Col>
-                      <Col className="text-right">
+                      <Col className="text-right" sm={2}>
                         {/* <Button
                           variant="secondary"
                            onClick={() => {
@@ -442,12 +381,12 @@ class RegistrarActividad extends Component {
                     }} 
                         >
                           Imprimir
-                        </Button> */}
+                        </Button>  */}
                       </Col>
                     </Row>
                   </div>
                   <div>
-                    <div className="pt-3">
+                    <div>
                       <MUIDataTable
                         title={"Actividades"}
                         data={this.state.actividades}
@@ -459,7 +398,9 @@ class RegistrarActividad extends Component {
                 </>
               ) : (
                 <Alert variant="info">
-                  <Alert.Heading className="text-center">Aviso!!!</Alert.Heading>
+                  <Alert.Heading className="text-center">
+                    Aviso!!!
+                  </Alert.Heading>
                   <hr />
                   <p className="mb-0">
                     Por el momento no esta asignado en ningun proyecto, solicite
@@ -551,27 +492,6 @@ class RegistrarActividad extends Component {
                 </ModalFooter>
               </ModalBody>
             </Modal>
-
-            {/* Modal para eliminar 
-            <Modal isOpen={this.state.modalEliminar} centered>
-              <ModalHeader style={{ display: "block" }}>
-                <span>Eliminar actividad</span>
-              </ModalHeader>
-              <ModalBody>
-                ¿Esta seguro de eliminar el usuario seleccionado?
-              </ModalBody>
-              <ModalFooter>
-                <Button variant="danger" onClick={() => this.peticionDelete()}>
-                  Si
-                </Button>
-                <Button
-                  variant="secondary"
-                  onClick={() => this.setState({ modalEliminar: false })}
-                >
-                  No
-                </Button>
-              </ModalFooter>
-            </Modal> */}
           </div>
         }
       />

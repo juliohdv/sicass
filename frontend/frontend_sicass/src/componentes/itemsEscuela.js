@@ -16,7 +16,7 @@ export const itemsEscuela = (
       </ListItemIcon>
       <ListItemText primary="Inicio" />
     </ListItem>
-    <ListItem button component={Link} to="/AsignarPropuesta">
+    <ListItem button component={Link} to="/PropuestasAceptadas">
       <ListItemIcon>
         <Beenhere />
       </ListItemIcon>

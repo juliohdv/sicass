@@ -79,6 +79,7 @@ class Propuestas extends Component {
       servicio: [],
       modalVerificacion: false,
       ultimoEstado: "",
+      estadoRegistro: "",
       form: {
         servicios_social: "",
         cantidad_estudiantes: 0,
@@ -172,6 +173,18 @@ class Propuestas extends Component {
         }
       })
       .catch((error) => {});
+      axios
+      .get("http://127.0.0.1:8000/login/registroUpsEstudiante/", {
+        params: {
+          estudiante: nombre_usuario,
+        },
+      })
+      .then((response) => {
+        for (var i = 0; i < response.data.length; i++) {
+          this.setState({ estadoRegistro: response.data[i].estado_solicitud });
+        }
+      })
+      .catch((error) => {});
     axios
       .get(url, {
         params: {
@@ -183,7 +196,6 @@ class Propuestas extends Component {
         const servicios = []; //Arreglo donde guardaremos los objetos reescritos
         for (var i = 0; i < arreglo_inicial.length; i++) {
           if (arreglo_inicial[i].cantidad_estudiantes > 0) {
-            //Recorremos el arreglo inicial
             servicios[i] = {
               codigo_servicio_social: arreglo_inicial[i].codigo_servicio_social,
               cantidad_estudiantes: arreglo_inicial[i].cantidad_estudiantes,
@@ -260,12 +272,12 @@ class Propuestas extends Component {
         options: {
           customBodyRender: (value, tableMeta, updateValue) => {
             if (
-              this.state.ultimoEstado === "Rechazado" ||
+              (this.state.ultimoEstado === "Rechazado" ||
               this.state.ultimoEstado === "Finalizado" ||
-              this.state.ultimoEstado === ""
+              this.state.ultimoEstado === "") &&
+              this.state.estadoRegistro === "Aprobado"
             ) {
               return (
-                /* Boton para redirigir hacia el proyecto que le corresponde a la propuesta */
                 <Tooltip title="Solicitar servicio social">
                   <Button
                     size="sm"
@@ -289,7 +301,6 @@ class Propuestas extends Component {
         contenedor={
           <>
             <div className="pt-5">
-              {/* Se invoca la tabla, con los datos correspondientes */}
               <MUIDataTable
                 title={"Servicios sociales disponibles"}
                 data={this.state.servicio}

@@ -50,7 +50,7 @@ class Carrera(models.Model):
     facultad = ForeignKey(Facultad, on_delete=models.CASCADE)
     def __str__(self):
 
-        return '%s' % (self.nombre_carrera)
+        return '%s %s' % (self.id_carrera, self.nombre_carrera )
 class TipoServicioSocial(models.Model):
     condigo_tipo_servicio_social = CharField(max_length=25, primary_key=True, unique=True)
     nombre_tipo_servicio_social = CharField(max_length=100)
@@ -132,9 +132,9 @@ class SolicitudServicioSocial(models.Model):
 class Escuela(models.Model):
     codigo_escuela = models.BigAutoField(primary_key=True, unique=True)
     nombre_escuela = models.CharField(max_length=50)
-    facultad = models.ForeignKey(Facultad, on_delete=models.CASCADE)
+    carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
     def __str__(self):
-        return '%s' % (self.codigo_escuela)
+        return '%s' % (self.nombre_escuela)
 
 class Docente(models.Model):
     codigo_docente = models.BigAutoField(primary_key=True, unique=True)
@@ -144,14 +144,14 @@ class Docente(models.Model):
     sexo = models.CharField(max_length=15)
     direccion_docente = models.CharField(max_length=250)
     telefono_docente = models.IntegerField()
+    escuela = models.ForeignKey(Escuela, on_delete=models.CASCADE)
     def __str__(self):
-        return '%s' % (self.codigo_docente)
+        return '%s %s' % (self.nombres_docente, self.apellidos_docente)
 
 class EncargadoEscuela(models.Model):
     codigo_encargado = models.BigAutoField(primary_key=True, unique=True)
     estado = models.BooleanField()
     docente_encargado = models.ForeignKey(Docente, on_delete=models.CASCADE)
-    escuela = models.ForeignKey(Escuela, on_delete=models.CASCADE)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     def __str__(self):
         return '%s' % (self.codigo_encargado)
@@ -160,7 +160,6 @@ class EncargadoFacultad(models.Model):
     codigo_encargado = models.BigAutoField(primary_key=True, unique=True)
     estado = models.BooleanField()
     docente_encargado = models.ForeignKey(Docente, on_delete=models.CASCADE)
-    facultad = models.ForeignKey(Facultad, on_delete=models.CASCADE)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     def __str__(self):
         return '%s' % (self.codigo_encargado)

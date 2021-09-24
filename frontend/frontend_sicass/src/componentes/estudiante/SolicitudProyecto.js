@@ -68,7 +68,7 @@ const options = {
   tableBodyHeight: "320px",
   textLabels: {
     body: {
-      noMatch: "No hay registros de solicitudes",
+      noMatch: "No hay registros de proyectos",
       toolTip: "Sort",
       columnHeaderTooltip: (column) => `Ordenar por ${column.label}`,
     },
@@ -151,11 +151,9 @@ class SolicitudProyecto extends Component {
   }
   render() {
     return (
-      /* Filtrar por usuario iniciado, los estdos de solicitud respectivos */
       <Dashboard
         contenedor={
           <div className="pt-5">
-            {/* Se invoca la tabla, con los datos correspondientes */}
             <MUIDataTable
               title={"Estado solicitud de proyecto"}
               data={this.state.solicitudes}
