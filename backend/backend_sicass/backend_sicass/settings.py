@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-v9#v+ffky5(ef7cgn=qa^x7+tsyqfscpa5t9wx5k*9qu718_pq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['juliohdv.pythonanywhere.com']
 
 
 # Application definition
@@ -96,7 +96,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'HOST': 'juliohdv.mysql.pythonanyware-services.com',
-        'NAME': 'sicass',
+        'NAME': 'juliohdv$sicass',
         'USER': 'juliohdv',
         'PASSWORD': 'adminJulio',
     }

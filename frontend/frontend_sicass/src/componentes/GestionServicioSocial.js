@@ -70,7 +70,7 @@ const options = {
 };
 
 //Constannte que contiene la url de conexion con la api de rest
-const url = "http://127.0.0.1:8000/login/servicioSocial/";
+const url = "https://juliohdv.pythonanywhere.com/login/servicioSocial/";
 
 //Clase principal del componente
 class GestionServicioSocial extends Component {
@@ -261,7 +261,7 @@ class GestionServicioSocial extends Component {
                       this.seleccionServicio(tableMeta.rowData);
                       this.modalInsertar();
                       axios
-                          .get("http://127.0.0.1:8000/login/tipoServicioFacultad/",{
+                          .get("https://juliohdv.pythonanywhere.com/login/tipoServicioFacultad/",{
                             params:{user:leerCookie("usuario")}
                           })
                           .then((response) => {
@@ -307,7 +307,7 @@ class GestionServicioSocial extends Component {
                   this.setState({ form: null, tipoModal: "insertar" });
                   this.modalInsertar();
                   axios
-                      .get("http://127.0.0.1:8000/login/tipoServicioFacultad/",{
+                      .get("https://juliohdv.pythonanywhere.com/login/tipoServicioFacultad/",{
                         params:{user:leerCookie("usuario")}
                       })
                       .then((response) => {

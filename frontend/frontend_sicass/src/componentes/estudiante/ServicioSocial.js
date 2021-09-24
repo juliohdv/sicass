@@ -174,7 +174,7 @@ class Propuestas extends Component {
       })
       .catch((error) => {});
       axios
-      .get("http://127.0.0.1:8000/login/registroUpsEstudiante/", {
+      .get("https://juliohdv.pythonanywhere.com/login/registroUpsEstudiante/", {
         params: {
           estudiante: nombre_usuario,
         },

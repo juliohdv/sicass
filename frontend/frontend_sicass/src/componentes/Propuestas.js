@@ -165,7 +165,7 @@ class Propuestas extends Component {
                     variant="outline-info"
                     onClick={() => {
                       axios
-                        .get("http://127.0.0.1:8000/login/servicioSocialPorPropuesta/",{
+                        .get("https://juliohdv.pythonanywhere.com/login/servicioSocialPorPropuesta/",{
                           params:{codigo_propuesta:tableMeta.rowData[0]}
                         })
                         .then((response) => {
