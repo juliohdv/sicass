@@ -83,9 +83,9 @@ TEMPLATES = [
 AUTH_USER_MODEL = 'login.User'
 WSGI_APPLICATION = 'backend_sicass.wsgi.application'
 
-#CORS_ORIGIN_ALLOW_ALL=True #cambiar en produccion
+CORS_ORIGIN_ALLOW_ALL=True #cambiar en produccion
 CORS_ALLOWED_ORIGINS = [
-    "https://juliohdv.pythonanywhere.com/"
+    "https://juliohdv.pythonanywhere.com"
 ]
 CORS_EXPOSE_HEADERS  = ['Content-Type', 'X-CSRFToken']
 CORS_ALLOW_CREDENTIALS = True
@@ -95,7 +95,7 @@ CORS_ALLOW_CREDENTIALS = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'juliohdv.mysql.pythonanyware-services.com',
+        'HOST': 'juliohdv.mysql.pythonanywhere-services.com',
         'NAME': 'juliohdv$sicass',
         'USER': 'juliohdv',
         'PASSWORD': 'adminJulio',
