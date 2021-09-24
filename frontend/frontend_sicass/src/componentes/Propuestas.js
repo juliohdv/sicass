@@ -163,10 +163,29 @@ class Propuestas extends Component {
                   <Button
                     size="sm"
                     variant="outline-info"
-                    /* onClick={() => {
-                    this.seleccionPrivilegio(tableMeta.rowData);
-                    this.modalInsertar();
-                  }} */
+                    onClick={() => {
+                      axios
+                        .get("http://127.0.0.1:8000/login/servicioSocialPorPropuesta/",{
+                          params:{codigo_propuesta:tableMeta.rowData[0]}
+                        })
+                        .then((response) => {
+                          Swal.fire({
+                            position: "center",
+                            title: "Detalle de proyecto",
+                            html:"<table><tr><td>Cantidad de estudiantes asignados:</td><td>"+response.data[0].cantidad_estudiantes+"</td></tr>"+
+                            "<tr><td>Cantidad de horas asignadas:</td><td>"+response.data[0].cantidad_horas+"</td></tr>"+
+                            "<tr><td>Descripción:</td><td>"+response.data[0].descripcion+"</td></tr></table>",
+                          });
+                        })
+                        .catch((error) => {
+                          Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            title:
+                              "Por el momento no hay conexión con la base de datos, intente en otro momento",
+                          });
+                        });
+                  }} 
                   >
                     <Visibility />
                   </Button>

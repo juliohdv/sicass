@@ -26,12 +26,6 @@ export const itemsVisitante = (
       </ListItemIcon>
       <ListItemText primary="Inicio" />
     </ListItem>
-    <ListItem button component={Link} to="/Login">
-      <ListItemIcon>
-        <LockOpen />
-      </ListItemIcon>
-      <ListItemText primary="Login" />
-    </ListItem>
     <ListItem button component={Link} to="/RegistroEstudiante">
       <ListItemIcon>
         <PersonAdd />

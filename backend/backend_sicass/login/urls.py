@@ -44,6 +44,7 @@ router.register('tipoServicioFacultad', TipoServicioFacultad, basename="tipoServ
 router.register('solicitudUpsPorEncargadoDeEscuela',SolicitudUpsPorEncargadoEscuela, basename="SolicitudUpsPorEncargadoDeEscuela")
 router.register('solicitudEstudiateASSPorEncargadoEscuela', SolicitudEstudiateASSPorEncargadoEscuela, basename="SolicitudEstudiateASSPorEncargadoEscuela")
 router.register('propuestaEstado', PropuestaFiltroVista, basename="PropuestaEstado") 
+router.register('servicioSocialPorPropuesta', ServicioSocialPorPropuesta, basename="ServicioSocialPorPropuesta")
 
 
 urlpatterns = [

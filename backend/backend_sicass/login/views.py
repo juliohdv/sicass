@@ -330,3 +330,10 @@ class SolicitudEstudiateASSPorEncargadoEscuela(viewsets.ModelViewSet):
         queryset = SolicitudServicioSocial.objects.filter(estudiante__carrera=carrera)
         return queryset
 
+class ServicioSocialPorPropuesta(viewsets.ModelViewSet):
+    serializer_class = ServicioSocialSerializer
+    def get_queryset(self):
+        codigo_propuesta = self.request.query_params.get('codigo_propuesta')
+        propuesta = Propuesta.objects.get(codigo_propuesta=codigo_propuesta)
+        queryset = ServicioSocial.objects.filter(propuesta=propuesta)
+        return queryset
