@@ -29,12 +29,21 @@ router.register('registroUpsEstudiante', SolicitudUpsFiltroVistas, basename='Est
 router.register('servicioSocialPorCarreraTipo', ServicioSocialPorCarreraTipo, basename="ServicioSocial") #Retorna el servicio por carrera
 router.register('solicitudServicio', SolicitudServicioVista) #Para actualizar la cantidad de estudiantes
 router.register('solicitudUpsVista', SolicitudUpsVista) #Retorna las solicitudes de registro a la ups de estudiantes
-router.register('docentes', DocentesVista, basename='Docentes')
+router.register('docentes', DocentesVista, basename='Docentes') #Retorna todos los docentes
+router.register('encargadoEscuela', EncargadoEscuelaVista, basename='EncargadoEscuela')
+router.register('docentesPorEncargadoFacultad', DocentesPorEncargadoFacultad, basename='DocentesPorEncargadoFacultad')
+router.register('escuelasPorFacultad',EscuelasPorFacultad, basename="EscuelasPorFacultad")
+router.register('escuelasPorEncargadoFacultad',EscuelasPorEncargadoFacultad, basename="EscuelasPorEncargadoFacultad")
+router.register('encargadosEscuelaPorFacultad',EncargadosEscuelaPorFacultad, basename="EncargadosEscuelaPorFacultad")
+
 router.register('solicitudServicioEstudiante', SolicitudServicioFiltroVistas, basename="Servicio") #Regresa las solicitudes de SS de los estudiantes
 """ router.register('ultimaSolicitudServicio', UltimaSolicitudServicioVista, basename="UltimaSolicitud")  """#Regresa las ultima solicitud de SS de un estudiante
 router.register('actividades', RegistroActividadVista, basename="Actividades") #Retorna las actividades realizadas
 router.register('actividadesEstudiante', ActividadServicioVistas, basename="ActividadesEstudiante") #Retorna las actividades de un estudiante
 router.register('tipoServicioFacultad', TipoServicioFacultad, basename="tipoServicioFacultad") 
+router.register('solicitudUpsPorEncargadoDeEscuela',SolicitudUpsPorEncargadoEscuela, basename="SolicitudUpsPorEncargadoDeEscuela")
+router.register('solicitudEstudiateASSPorEncargadoEscuela', SolicitudEstudiateASSPorEncargadoEscuela, basename="SolicitudEstudiateASSPorEncargadoEscuela")
+router.register('propuestaEstado', PropuestaFiltroVista, basename="PropuestaEstado") 
 
 
 urlpatterns = [

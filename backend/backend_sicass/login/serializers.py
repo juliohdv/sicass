@@ -1,3 +1,4 @@
+from typing import SupportsRound
 from django.db.models import fields
 from rest_framework import serializers
 from django.contrib.auth.models import User
@@ -27,9 +28,10 @@ class FacultadSerializer(serializers.ModelSerializer):
         fields = ['codigo_facultad', 'nombre_facultad']
 
 class CarreraSerializer(serializers.ModelSerializer):
+    facultad_detalle = FacultadSerializer(source='facultad', read_only=True)
     class Meta:
         model = Carrera
-        fields = ['codigo_carrera','id_carrera','modalidad_carrera','plan_carrera','nombre_carrera', 'cantidad_materias','facultad']
+        fields = "__all__"
 
 class EstudianteSerializer(serializers.ModelSerializer):
     carrera_detalle = CarreraSerializer(source = 'carrera',read_only=True)
@@ -133,10 +135,31 @@ class SolicitudServicioSerializer(serializers.ModelSerializer):
         solicitudServicio = SolicitudServicioSocial.objects.create(**validate_data)
         return solicitudServicio
 
+class EscuelaSerializer(serializers.ModelSerializer):
+    carrera_detalle = CarreraSerializer(source = 'carrera', read_only=True)
+    class Meta:
+        model = Escuela
+        fields = "__all__"
+
 class DocenteSerializer(serializers.ModelSerializer):
+    escuela_detalle = EscuelaSerializer(source = 'escuela', read_only=True)
     class Meta:
         model = Docente
         fields = "__all__" 
+
+class EncargadoEscuelaSerializer(serializers.ModelSerializer):
+    docente_detalle =  DocenteSerializer(source = 'docente_encargado', read_only=True)
+    usuario_detalle = UsuarioSerializer(source = 'user', read_only=True)
+    class Meta:
+        model = EncargadoEscuela
+        fields = "__all__"
+
+class EncargadoFacultadSerializer(serializers.ModelSerializer):
+    docente_detalle =  DocenteSerializer(source = 'docente_encargado', read_only=True)
+    usuario_detalle = UsuarioSerializer(source = 'user', read_only=True)
+    class Meta:
+        model = EncargadoFacultad
+        fields = "__all__"
         
 class ActividadSerializer(serializers.ModelSerializer):
     class Meta:

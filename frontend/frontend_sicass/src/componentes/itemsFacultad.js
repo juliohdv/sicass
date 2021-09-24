@@ -32,7 +32,7 @@ export const itemsFacultad = (
       </ListItemIcon>
       <ListItemText primary="Nómina Docente" />
     </ListItem>
-    <ListItem button component={Link} to="/">
+    <ListItem button component={Link} to="/AsignarEE">
       <ListItemIcon>
         <GroupAdd />
       </ListItemIcon>

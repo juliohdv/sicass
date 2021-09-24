@@ -36,6 +36,7 @@ import ServicioSocial from "./componentes/estudiante/ServicioSocial";
 import SolicitudProyecto from "./componentes/estudiante/SolicitudProyecto";
 import SolicitudesEstudiantes from "./componentes/SolicitudesEstudiantes";
 import Docentes  from "./componentes/docente/Docente";
+import AsignarEE from "./componentes/docente/AsignarEE";
 import { LockOpen } from "@material-ui/icons";
 import { Formik } from "formik";
 import axios from "axios";
@@ -44,6 +45,8 @@ import RegistrarActividad from "./componentes/estudiante/RegistrarActividad";
 import SolicitarSS from "./componentes/SolicitudRegistroSS";
 import SolicitudUPS from "./componentes/SolicitudRegistroUPS";
 import GestionServicioSocial from "./componentes/GestionServicioSocial";
+import AsignarPropuesta from "./componentes/AsignarPropuesta";
+
 
 //LOGIN
 /*function leerCookie(nombre){
@@ -493,16 +496,25 @@ export default function App() {
                 {!autenticado ? <Redirect to="/" /> : <ConsultarSolicitudesEstudiantes />}
               </Route>
               <Route path="/Docentes">
-                {!autenticado ? <Redirect to="/" /> : <Docentes />}
+                {!autenticado ? <Redirect to="/" /> : <Docente />}
+              </Route>
+              <Route path="/AsignarEE">
+                {!autenticado ? <Redirect to="/"/> : <AsignarEncargadoEscuela/>}
               </Route>
               <Route path="/Actividades">
                 {!autenticado ? <Redirect to="/" /> : <Actividades />}
               </Route>
               <Route path="/SolicitudRegistroSS">
-                <SolicitudRegistroSS />
+              {!autenticado ? <Redirect to="/" /> : <SolicitudRegistroSS />}
               </Route>
               <Route path="/SolicitudRegistroUPS">
-                <SolicitudRegistroUPS />
+              {!autenticado ? <Redirect to="/" /> :<SolicitudRegistroUPS />}
+              </Route>
+              <Route path="/AsignarPropuesta">
+              {!autenticado ? <Redirect to="/" /> :<PropuestasAceptadas />}
+              </Route>
+              <Route path="/PropuestasAceptadas">
+                <PropuestasAceptadas />
               </Route>
               <Route path="/GestionServicioSocial">
                 <GestionSS />
@@ -560,7 +572,10 @@ function ConsultarSolicitudesEstudiantes() {
   return <SolicitudesEstudiantes />;
 }
 function Docente(){
-  return <Docente/>
+  return <Docentes/>;
+}
+function AsignarEncargadoEscuela(){
+  return <AsignarEE/>
 }
 function Actividades(){
   return <RegistrarActividad/>
@@ -571,7 +586,12 @@ function SolicitudRegistroSS(){
 function SolicitudRegistroUPS(){
   return <SolicitudUPS/>;
 }
+
 function GestionSS() {
   return <GestionServicioSocial />;
+}
+
+function PropuestasAceptadas(){
+  return <AsignarPropuesta/>;
 }
 
