@@ -311,7 +311,7 @@ export default function App() {
                       showConfirmButton: false,
                       timer: 2500,
                       willClose: () =>{
-                        window.location.href = "/sicas_app"
+                        window.location.href = "/sicass_app"
                       }
                     });
                   }).catch(error => {

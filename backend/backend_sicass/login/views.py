@@ -315,7 +315,7 @@ class SolicitudUpsPorEncargadoEscuela(viewsets.ModelViewSet):
         docente = encargadoEscuela.__getattribute__('docente_encargado')
         escuela = docente.__getattribute__('escuela')
         carrera = escuela.__getattribute__('carrera')
-        queryset = SolicitudUps.objects.filter(estudiante__carrera=carrera)
+        queryset = SolicitudUps.objects.filter(estudiante__carrera=carrera, estado_solicitud="En Proceso")
         return queryset
 
 class SolicitudEstudiateASSPorEncargadoEscuela(viewsets.ModelViewSet):
