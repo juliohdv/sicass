@@ -18,27 +18,17 @@ class SolicitudServicio extends Component {
       carreraSeleccionada: "",
       tipoServicioSocialSeleccionado: "",
     };
-    this.handleFacultad = this.handleFacultad.bind(this);
-    this.handleCarrera = this.handleCarrera.bind(this);
   }
   handleFacultad(event) {
-    this.setState({ facultadSeleccionada: event.target.value });
-    this.setState({ carreraSeleccionada: event.target.value });
     axios
       .get('https://juliohdv.pythonanywhere.com/login/carreraPorFacultad/', {params:{facultad: event.target.value}})
       .then((response) =>{
-        console.log(response);
         this.setState({carreras:response.data})
-      })
-      .then((response) => {
-        this.setState({ carreras: response.data });
+        console.log(this.state.carreras)
       })
       .catch((error) => {});
   }
   handleCarrera(event){
-    this.setState({ facultadSeleccionada: event.target.value });
-    this.setState({ carreraSeleccionada: event.target.value });
-    this.setState({tipoServicioSocialSeleccionado:  event.target.value })
     axios
       .get("https://juliohdv.pythonanywhere.com/login/tiposServicioSocialPorCarrera/",{
         params: {carrera: event.target.value },
@@ -63,7 +53,7 @@ class SolicitudServicio extends Component {
     axios
       .get('https://juliohdv.pythonanywhere.com/login/tiposServicioSocial/')
       .then((response) => {
-        this.setState({ facultades: response.data });
+        this.setState({ tipo_servicio_social: response.data });
       })
       .catch((error) => {
         Swal.fire({
@@ -271,23 +261,23 @@ class SolicitudServicio extends Component {
               <Form.Group as={Col}>
                 <Form.Label>Facultad</Form.Label>
                 <Form.Control
-                  as="select"
-                  id="facultad"
-                  required={true}
-                  onChange={this.handleFacultad}
-                >
-                  <option value="" disabled={true} selected>
-                    Seleccione...
-                  </option>
-                  {this.state.facultades.map((elemento) => (
-                    <option
-                      key={elemento.codigo_facultad}
-                      value={elemento.codigo_facultad}
-                    >
-                      {elemento.nombre_facultad}
+                    as="select"
+                    id="facultad"
+                    required={true}
+                    onChange={this.handleFacultad}
+                  >
+                    <option value="" disabled={true} selected>
+                      Selecione...
                     </option>
-                  ))}
-                </Form.Control>
+                    {this.state.facultades.map((elemento) => (
+                      <option
+                        key={elemento.codigo_facultad}
+                        value={elemento.codigo_facultad}
+                      >
+                        {elemento.nombre_facultad}
+                      </option>
+                    ))}
+                  </Form.Control>
               </Form.Group>
               <Col sm="1"></Col>
             </Form.Row>
@@ -297,20 +287,19 @@ class SolicitudServicio extends Component {
                 <Form.Label>Carrera</Form.Label>
                 <Form.Control
                   as="select"
-                  id="carrera_id"
-                  value={values.carrera_id}
+                  id="carrera"
                   required={true}
-                  onChange={this.handleCarrera}
+                  onChange={this.handleChange}
                 >
-                  <option value="" disabled={true}>
-                    Seleccione...
+                  <option value="" disabled={true} selected>
+                    Seleccione..
                   </option>
                   {this.state.carreras.map((elemento) => (
                     <option
                       key={elemento.codigo_carrera}
                       value={elemento.codigo_carrera}
                     >
-                      {elemento.nombre_carrera}
+                      {elemento.id_carrera + " " + elemento.nombre_carrera +" - "+ elemento.plan_carrera + " (Modalidad: " + elemento.modalidad_carrera + ")"}
                     </option>
                   ))}
                 </Form.Control>
@@ -326,7 +315,7 @@ class SolicitudServicio extends Component {
                   id="tipo_servicio_social_id"
                   required={true}
                   value={values.tipo_servicio_social_id}
-                  onChange={handleChange}
+                  onChange={this.handleCarrera}
                 >
                   <option value="" disabled={true} selected={true}>
                     Seleccione...

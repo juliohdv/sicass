@@ -268,20 +268,43 @@ class SolicitudServicioFiltroVistas(viewsets.ModelViewSet):
         estudiante = self.request.query_params.get('estudiante')
         queryset = SolicitudServicioSocial.objects.all().filter(estudiante_id=estudiante).order_by("codigo_solicitud_servicio")[1:]
         return queryset #Falta filtrar bien aun, que solo traiga la ultima solicitud por estudiante """
-    
+class PropuestaFiltroVista(viewsets.ModelViewSet):
+    serializer_class = PropuestaSerializer
+    def get_queryset(self):
+        propuesta = self.request.query_params.get('estado')
+        queryset = Propuesta.objects.all().filter(estado_propuesta=propuesta)
+        if propuesta is not None:
+            queryset = queryset.filter(estado_propuesta=propuesta)
+        return queryset
+
 class RegistroActividadVista(viewsets.ModelViewSet):
     serializer_class = ActividadSerializer
     queryset = RegistroActividad.objects.all()
 
 class ActividadServicioVistas(viewsets.ModelViewSet):
     serializer_class = ActividadSerializer
-
+    
     def get_queryset(self):
         servicio = self.request.query_params.get('servicio')
         queryset = RegistroActividad.objects.all().filter(solicitud_servicio_id=servicio)
         if servicio is not None:
             queryset = queryset.filter(solicitud_servicio_id=servicio)
         return queryset
+
+
+class TipoServicioFacultad(viewsets.ModelViewSet):
+    serializer_class = TipoServicioSocialSerializer
+    def get_queryset(self):
+        nombre_usuario = self.request.query_params.get('user')
+        usuario = User.objects.get(username=nombre_usuario)
+        encargadoFacultad = EncargadoFacultad.objects.get(user=usuario)
+        docente = encargadoFacultad.__getattribute__('docente_encargado')
+        escuela = docente.__getattribute__('escuela')
+        carrera = escuela.__getattribute__('carrera')
+        facultad= carrera.__getattribute__('facultad')
+        queryset = TipoServicioSocial.objects.filter(carrera__facultad=facultad)
+        return queryset
+
         
 class SolicitudUpsPorEncargadoEscuela(viewsets.ModelViewSet):
     serializer_class = SolicitudUpsSerializer
@@ -305,4 +328,12 @@ class SolicitudEstudiateASSPorEncargadoEscuela(viewsets.ModelViewSet):
         escuela = docente.__getattribute__('escuela')
         carrera = escuela.__getattribute__('carrera')
         queryset = SolicitudServicioSocial.objects.filter(estudiante__carrera=carrera)
+        return queryset
+
+class ServicioSocialPorPropuesta(viewsets.ModelViewSet):
+    serializer_class = ServicioSocialSerializer
+    def get_queryset(self):
+        codigo_propuesta = self.request.query_params.get('codigo_propuesta')
+        propuesta = Propuesta.objects.get(codigo_propuesta=codigo_propuesta)
+        queryset = ServicioSocial.objects.filter(propuesta=propuesta)
         return queryset

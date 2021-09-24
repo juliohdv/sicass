@@ -95,6 +95,13 @@ export const mainListItems = (
     opcion2={"Estado solicitud"}
     link2={"/SolicitudProyecto"}
     />
+    {/*ListItem funciona para mostrar el boton en la pantalla basandose en los componentes y las url creados en el frontend*/}
+     <ListItem button component={Link} to="/GestionServicioSocial"> 
+        <ListItemIcon>
+          <AssignmentIcon/>
+        </ListItemIcon>
+          <ListItemText primary="Gestionar servicio social" />
+      </ListItem>
   </div>
 );
 function Desplegar(props) {

@@ -44,6 +44,9 @@ import Swal from "sweetalert2";
 import RegistrarActividad from "./componentes/estudiante/RegistrarActividad";
 import SolicitarSS from "./componentes/SolicitudRegistroSS";
 import SolicitudUPS from "./componentes/SolicitudRegistroUPS";
+import GestionServicioSocial from "./componentes/GestionServicioSocial";
+import AsignarPropuesta from "./componentes/AsignarPropuesta";
+
 
 //LOGIN
 /*function leerCookie(nombre){
@@ -308,7 +311,7 @@ export default function App() {
                       showConfirmButton: false,
                       timer: 2500,
                       willClose: () =>{
-                        window.location.href = "/"
+                        window.location.href = "/sicas_app"
                       }
                     });
                   }).catch(error => {
@@ -502,13 +505,19 @@ export default function App() {
                 {!autenticado ? <Redirect to="/" /> : <Actividades />}
               </Route>
               <Route path="/SolicitudRegistroSS">
-                <SolicitudRegistroSS />
+              {!autenticado ? <Redirect to="/" /> : <SolicitudRegistroSS />}
               </Route>
               <Route path="/SolicitudRegistroUPS">
-                <SolicitudRegistroUPS />
+              {!autenticado ? <Redirect to="/" /> :<SolicitudRegistroUPS />}
+              </Route>
+              <Route path="/AsignarPropuesta">
+              {!autenticado ? <Redirect to="/" /> :<PropuestasAceptadas />}
               </Route>
               <Route path="/PropuestasAceptadas">
                 <PropuestasAceptadas />
+              </Route>
+              <Route path="/GestionServicioSocial">
+                <GestionSS />
               </Route>
             </Switch>
           </Container>
@@ -577,6 +586,12 @@ function SolicitudRegistroSS(){
 function SolicitudRegistroUPS(){
   return <SolicitudUPS/>;
 }
-function PropuestasAceptadas(){
-  return <Propuestas/>;
+
+function GestionSS() {
+  return <GestionServicioSocial />;
 }
+
+function PropuestasAceptadas(){
+  return <AsignarPropuesta/>;
+}
+

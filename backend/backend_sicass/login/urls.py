@@ -40,8 +40,12 @@ router.register('solicitudServicioEstudiante', SolicitudServicioFiltroVistas, ba
 """ router.register('ultimaSolicitudServicio', UltimaSolicitudServicioVista, basename="UltimaSolicitud")  """#Regresa las ultima solicitud de SS de un estudiante
 router.register('actividades', RegistroActividadVista, basename="Actividades") #Retorna las actividades realizadas
 router.register('actividadesEstudiante', ActividadServicioVistas, basename="ActividadesEstudiante") #Retorna las actividades de un estudiante
+router.register('tipoServicioFacultad', TipoServicioFacultad, basename="tipoServicioFacultad") 
 router.register('solicitudUpsPorEncargadoDeEscuela',SolicitudUpsPorEncargadoEscuela, basename="SolicitudUpsPorEncargadoDeEscuela")
 router.register('solicitudEstudiateASSPorEncargadoEscuela', SolicitudEstudiateASSPorEncargadoEscuela, basename="SolicitudEstudiateASSPorEncargadoEscuela")
+router.register('propuestaEstado', PropuestaFiltroVista, basename="PropuestaEstado") 
+router.register('servicioSocialPorPropuesta', ServicioSocialPorPropuesta, basename="ServicioSocialPorPropuesta")
+
 
 urlpatterns = [
     path('', include(router.urls)),

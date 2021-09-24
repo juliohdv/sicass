@@ -279,6 +279,9 @@ class AsignarEE extends Component{
             {
                 name: "docente_encargado",
                 label: "IDDocente",
+                options: {
+                    display: false,
+                },
             },
             {
                 name: "nombre_docente_encargado",
@@ -287,6 +290,9 @@ class AsignarEE extends Component{
             {
                 name: "escuela",
                 label: "IDEscuela",
+                options: {
+                    display: false,
+                },
             },
             {
                 name: "escuela_detalle",
@@ -295,6 +301,9 @@ class AsignarEE extends Component{
             {
                 name: "user",
                 label: "IDUsuario",
+                options: {
+                    display: false,
+                },
             },
             {
                 name: "nombre_usuario",
