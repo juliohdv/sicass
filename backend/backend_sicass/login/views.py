@@ -298,7 +298,10 @@ class TipoServicioFacultad(viewsets.ModelViewSet):
         nombre_usuario = self.request.query_params.get('user')
         usuario = User.objects.get(username=nombre_usuario)
         encargadoFacultad = EncargadoFacultad.objects.get(user=usuario)
-        facultad= encargadoFacultad.__getattribute__('facultad')
+        docente = encargadoFacultad.__getattribute__('docente_encargado')
+        escuela = docente.__getattribute__('escuela')
+        carrera = escuela.__getattribute__('carrera')
+        facultad= carrera.__getattribute__('facultad')
         queryset = TipoServicioSocial.objects.filter(carrera__facultad=facultad)
         return queryset
 
