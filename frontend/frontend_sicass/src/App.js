@@ -44,7 +44,9 @@ import Swal from "sweetalert2";
 import RegistrarActividad from "./componentes/estudiante/RegistrarActividad";
 import SolicitarSS from "./componentes/SolicitudRegistroSS";
 import SolicitudUPS from "./componentes/SolicitudRegistroUPS";
+import GestionServicioSocial from "./componentes/GestionServicioSocial";
 import AsignarPropuesta from "./componentes/AsignarPropuesta";
+
 
 //LOGIN
 /*function leerCookie(nombre){
@@ -514,6 +516,9 @@ export default function App() {
               <Route path="/PropuestasAceptadas">
                 <PropuestasAceptadas />
               </Route>
+              <Route path="/GestionServicioSocial">
+                <GestionSS />
+              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -581,6 +586,12 @@ function SolicitudRegistroSS(){
 function SolicitudRegistroUPS(){
   return <SolicitudUPS/>;
 }
+
+function GestionSS() {
+  return <GestionServicioSocial />;
+}
+
 function PropuestasAceptadas(){
   return <AsignarPropuesta/>;
 }
+

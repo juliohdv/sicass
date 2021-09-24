@@ -98,6 +98,7 @@ DATABASES = {
         'NAME': 'sicass',
         'USER': 'root',
         'PASSWORD': 'admin',
+
     }
 }
 

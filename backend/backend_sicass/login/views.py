@@ -290,6 +290,18 @@ class ActividadServicioVistas(viewsets.ModelViewSet):
         if servicio is not None:
             queryset = queryset.filter(solicitud_servicio_id=servicio)
         return queryset
+
+
+class TipoServicioFacultad(viewsets.ModelViewSet):
+    serializer_class = TipoServicioSocialSerializer
+    def get_queryset(self):
+        nombre_usuario = self.request.query_params.get('user')
+        usuario = User.objects.get(username=nombre_usuario)
+        encargadoFacultad = EncargadoFacultad.objects.get(user=usuario)
+        facultad= encargadoFacultad.__getattribute__('facultad')
+        queryset = TipoServicioSocial.objects.filter(carrera__facultad=facultad)
+        return queryset
+
         
 class SolicitudUpsPorEncargadoEscuela(viewsets.ModelViewSet):
     serializer_class = SolicitudUpsSerializer
@@ -314,3 +326,4 @@ class SolicitudEstudiateASSPorEncargadoEscuela(viewsets.ModelViewSet):
         carrera = escuela.__getattribute__('carrera')
         queryset = SolicitudServicioSocial.objects.filter(estudiante__carrera=carrera)
         return queryset
+
