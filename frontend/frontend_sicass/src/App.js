@@ -452,7 +452,7 @@ export default function App() {
           <Container>
             <Switch>
               {
-                <Route exact path="/">
+                <Route exact path="/sicass_app">
                   <Inicio />
                 </Route>
               }
@@ -466,7 +466,7 @@ export default function App() {
                 <RegistrarSolicitud />
               </Route>
               <Route path="/GestionarPrivilegios">
-                { !autenticado ? <Redirect to="/" /> : <GestionarRoles />}
+                { !autenticado ? <Redirect to="/sicass_app" /> : <GestionarRoles />}
               </Route>
               <Route path="/ConsultarSolicitud">
                 <ConsultarSolicitud />
@@ -475,49 +475,49 @@ export default function App() {
                 <IniciarSesion />
               </Route>
               <Route path="/GestionarUsuarios">
-                {!autenticado ? <Redirect to="/" /> : <GestionUsuarios />}
+                {!autenticado ? <Redirect to="/sicass_app" /> : <GestionUsuarios />}
               </Route>
               <Route path="/ConsultarPropuesta">
                 <ConsultarPropuesta />
               </Route>
               <Route path="/RegistroUps">
-              {!autenticado ? <Redirect to="/" /> : <RegistrarseUps /> }
+              {!autenticado ? <Redirect to="/sicass_app" /> : <RegistrarseUps /> }
               </Route>
               <Route path="/SolicitudInscripcion">
-              {!autenticado ? <Redirect to="/" /> : <ConsultarInscripcion /> }
+              {!autenticado ? <Redirect to="/sicass_app" /> : <ConsultarInscripcion /> }
               </Route>
               <Route path="/ServicioSocial">
-              {!autenticado ? <Redirect to="/" /> : <Servicios /> }
+              {!autenticado ? <Redirect to="/sicass_app" /> : <Servicios /> }
               </Route>
               <Route path="/SolicitudProyecto">
-              {!autenticado ? <Redirect to="/" /> : <Proyecto /> }
+              {!autenticado ? <Redirect to="/sicass_app" /> : <Proyecto /> }
               </Route>
               <Route path="/ConsultarSolicitudesEstudiantes">
-                {!autenticado ? <Redirect to="/" /> : <ConsultarSolicitudesEstudiantes />}
+                {!autenticado ? <Redirect to="/sicass_app" /> : <ConsultarSolicitudesEstudiantes />}
               </Route>
               <Route path="/Docentes">
-                {!autenticado ? <Redirect to="/" /> : <Docente />}
+                {!autenticado ? <Redirect to="/sicass_app" /> : <Docente />}
               </Route>
               <Route path="/AsignarEE">
-                {!autenticado ? <Redirect to="/"/> : <AsignarEncargadoEscuela/>}
+                {!autenticado ? <Redirect to="/sicass_app"/> : <AsignarEncargadoEscuela/>}
               </Route>
               <Route path="/Actividades">
-                {!autenticado ? <Redirect to="/" /> : <Actividades />}
+                {!autenticado ? <Redirect to="/sicass_app" /> : <Actividades />}
               </Route>
               <Route path="/SolicitudRegistroSS">
-              {!autenticado ? <Redirect to="/" /> : <SolicitudRegistroSS />}
+              {!autenticado ? <Redirect to="/sicass_app" /> : <SolicitudRegistroSS />}
               </Route>
               <Route path="/SolicitudRegistroUPS">
-              {!autenticado ? <Redirect to="/" /> :<SolicitudRegistroUPS />}
+              {!autenticado ? <Redirect to="/sicass_app" /> :<SolicitudRegistroUPS />}
               </Route>
               <Route path="/AsignarPropuesta">
-              {!autenticado ? <Redirect to="/" /> :<PropuestasAceptadas />}
+              {!autenticado ? <Redirect to="/sicass_app" /> :<PropuestasAceptadas />}
               </Route>
               <Route path="/PropuestasAceptadas">
-                <PropuestasAceptadas />
+               {!autenticado ? <Redirect to="/sicass_app" /> :<PropuestasAceptadas />} 
               </Route>
               <Route path="/GestionServicioSocial">
-                <GestionSS />
+                {!autenticado ? <Redirect to="/sicass_app" /> :<GestionSS />}
               </Route>
             </Switch>
           </Container>

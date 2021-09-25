@@ -89,6 +89,7 @@ class GestionServicioSocial extends Component {
         cantidad_horas: "",
         cantidad_estudiantes: "",
         tipo_servicio_social: "",
+        nombre_tipo_servicio_social:"",
         tipoModal: "",
       },
     };
@@ -176,7 +177,8 @@ class GestionServicioSocial extends Component {
         descripcion: servicio[2],
         cantidad_horas: servicio[3],
         cantidad_estudiantes: servicio[4],
-        tipo_servicio_social: servicio[5],/* las pisiciones se deben cambiar con base en BD */
+        nombre_tipo_servicio_social: servicio[5],
+        tipo_servicio_social: servicio[6],/* las pisiciones se deben cambiar con base en BD */
       },
     });
   };
@@ -202,7 +204,21 @@ class GestionServicioSocial extends Component {
     axios
       .get(url)
       .then((response) => {
-        this.setState({ servicios: response.data });
+        const arreglo_inicial = response.data;
+        const servicio = [];
+        for(var i=0;i< arreglo_inicial.length;i++){
+          servicio[i] = 
+          {
+            codigo_servicio_social: arreglo_inicial[i].codigo_servicio_social,
+            entidad: arreglo_inicial[i].entidad,
+            descripcion: arreglo_inicial[i].descripcion,
+            cantidad_horas: arreglo_inicial[i].cantidad_horas,
+            cantidad_estudiantes: arreglo_inicial[i].cantidad_horas,
+            tipo_servicio_social: arreglo_inicial[i].tipo_servicio_social,
+            nombre_tipo_servicio_social: arreglo_inicial[i].tipo_servicio_social_detalle.nombre_tipo_servicio_social,
+          }
+        }
+        this.setState({ servicios: servicio });
       })
       .catch((error) => {
 
@@ -225,7 +241,7 @@ class GestionServicioSocial extends Component {
       },
       {
         name: "entidad",
-        label: "Nombre",
+        label: "Nombre de la Entidad",
       },
       {
         name: "descripcion",
@@ -241,9 +257,16 @@ class GestionServicioSocial extends Component {
         label: "Cantidad de estudiantes",
       },
       {
-        name: "tipo_servicio_social",
+        name: "nombre_tipo_servicio_social",
         label: "Tipo de Servicio",
 
+      },
+      {
+        name: "tipo_servicio_social",
+        label: "ID Tipo de Servicio",
+        options: {
+          display: false,
+         }
       },
       {
         name: "acciones",
