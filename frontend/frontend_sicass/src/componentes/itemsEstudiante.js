@@ -20,7 +20,7 @@ export const itemsEstudiante = (
 
   <div>
     <ListSubheader>Menú Estudiante</ListSubheader>
-    <ListItem button component={Link} to="/">
+    <ListItem button component={Link} to="/sicass_app">
       <ListItemIcon>
         <Home />
       </ListItemIcon>

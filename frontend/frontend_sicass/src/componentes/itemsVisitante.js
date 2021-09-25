@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 export const itemsVisitante = (
   <div>
     <ListSubheader>Menú</ListSubheader>
-    <ListItem button component={Link} to="/">
+    <ListItem button component={Link} to="/sicass_app">
       <ListItemIcon>
         <Home />
       </ListItemIcon>

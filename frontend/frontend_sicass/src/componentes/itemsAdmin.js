@@ -10,7 +10,7 @@ import { ListSubheader } from "@material-ui/core";
 export const itemsAdmin= (
   <div>
     <ListSubheader>Menú Administrador</ListSubheader>
-    <ListItem button component={Link} to="/">
+    <ListItem button component={Link} to="/sicass_app">
       <ListItemIcon>
         <Home />
       </ListItemIcon>
