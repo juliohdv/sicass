@@ -7,3 +7,5 @@ Usado para su desarrollo
 - dJango 3.2.4
 - Node 15.2.1
 
+Mira un preview en:
+https://juliohdv.github.io/sicass_app

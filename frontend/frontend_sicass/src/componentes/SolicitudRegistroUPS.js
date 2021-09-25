@@ -97,7 +97,7 @@ class SolicitudInscripcionUPS extends Component {
     peticionPut = () => {
         console.log(this.state.form);
         axios
-            .put(url + this.state.form.codigo_solicitud_ups + "/", this.state.form)
+            .put("http://127.0.0.1:8000/login/solicitudUpsVista/" + this.state.form.codigo_solicitud_ups + "/", this.state.form)
             .then((response) => {
                 this.setState({ modalConfirmar: false });
                 Swal.fire({
