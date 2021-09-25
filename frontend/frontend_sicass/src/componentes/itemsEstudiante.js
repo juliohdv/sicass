@@ -41,8 +41,8 @@ export const itemsEstudiante = (
       link2={"/SolicitudProyecto"}
       opcion3={"Registrar Actividades"}
       link3={"/Actividades"}
-      opcion4={"Resolución"}
-      link={""}
+      /* opcion4={"Resolución"}
+      link={""} */
     />
   </div>
 );
@@ -148,7 +148,7 @@ function DesplegarServicioSocial(props) {
           <ListItemText primary={props.opcion3} />
         </ListItem>
       </Collapse>
-      <Collapse in={open} timeout="auto">
+      {/* <Collapse in={open} timeout="auto">
         <ListItem
           button
           className={classes.nested}
@@ -160,7 +160,7 @@ function DesplegarServicioSocial(props) {
           </ListItemIcon>
           <ListItemText primary={props.opcion4} />
         </ListItem>
-      </Collapse>
+      </Collapse> */}
     </>
   );
 }

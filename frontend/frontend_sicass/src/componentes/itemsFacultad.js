@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 export const itemsFacultad = (
   <div>
     <ListSubheader>Menú Encargado de Facultad</ListSubheader>
-    <ListItem button component={Link} to="/">
+    <ListItem button component={Link} to="/sicass">
       <ListItemIcon>
         <Home />
       </ListItemIcon>
@@ -38,7 +38,7 @@ export const itemsFacultad = (
       </ListItemIcon>
       <ListItemText primary="Asignar Encargado a Escuela" />
     </ListItem>
-    <ListItem button component={Link} to="/">
+    {/* <ListItem button component={Link} to="/">
       <ListItemIcon>
         <ImportContacts />
       </ListItemIcon>
@@ -49,7 +49,7 @@ export const itemsFacultad = (
         <LibraryBooks />
       </ListItemIcon>
       <ListItemText primary="Solicitudes" />
-    </ListItem>
+    </ListItem> */}
     <ListItem button component={Link} to="/GestionServicioSocial">
       <ListItemIcon>
         <LibraryBooks />
