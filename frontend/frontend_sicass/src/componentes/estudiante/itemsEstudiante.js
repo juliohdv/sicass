@@ -42,7 +42,7 @@ export const itemsEstudiante = (
       opcion3={"Registrar Actividades"}
       link3={"/Actividades"}
       opcion4={"Resolución"}
-      link={""}
+      link4={"/Resolucion"}
     />
   </div>
 );

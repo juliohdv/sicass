@@ -164,10 +164,16 @@ class EncargadoFacultad(models.Model):
     def __str__(self):
         return '%s' % (self.codigo_encargado)
 
+class Proyecto(models.Model):
+    codigo_proyecto= models.BigAutoField(primary_key=True, unique=True)
+    observaciones = models.CharField(max_length=500)
+    estado_proyecto = TextField(max_length=50, default='En Proceso')
+    solicitud_servicio = models.ForeignKey(SolicitudServicioSocial, on_delete=models.CASCADE)
+
 class RegistroActividad(models.Model):
     codigo_actividad = models.BigAutoField(primary_key=True, unique=True)
     fecha = models.DateField()
     descripcion = models.CharField(max_length=500)
     encargado = models.CharField(max_length=50)
     total_horas = models.IntegerField()
-    solicitud_servicio = models.ForeignKey(SolicitudServicioSocial, on_delete=models.CASCADE)
+    proyecto= models.ForeignKey(Proyecto, on_delete=models.CASCADE)

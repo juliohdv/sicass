@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Dashboard from "../Dashboard";
+import Dashboard from "../layout/Dashboard";
 import axios from "axios";
 import { Button, Form } from "react-bootstrap";
 import Swal from "sweetalert2";

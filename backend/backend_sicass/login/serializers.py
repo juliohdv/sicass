@@ -164,5 +164,14 @@ class EncargadoFacultadSerializer(serializers.ModelSerializer):
 class ActividadSerializer(serializers.ModelSerializer):
     class Meta:
         model = RegistroActividad
-        fields = "__all__"         
+        fields = "__all__"
+
+class ProyectoSerializer(serializers.ModelSerializer):
+    solicitud_servicio_detalle = SolicitudServicioSerializer(source='solicitud_servicio', read_only=True)
+    class Meta:
+        model = Proyecto
+        fields = "__all__"
+    def create(self, validate_data):
+        proyecto = Proyecto.objects.create(**validate_data)
+        return proyecto
         

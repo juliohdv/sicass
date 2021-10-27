@@ -285,10 +285,10 @@ class ActividadServicioVistas(viewsets.ModelViewSet):
     serializer_class = ActividadSerializer
     
     def get_queryset(self):
-        servicio = self.request.query_params.get('servicio')
-        queryset = RegistroActividad.objects.all().filter(solicitud_servicio_id=servicio)
-        if servicio is not None:
-            queryset = queryset.filter(solicitud_servicio_id=servicio)
+        proyecto = self.request.query_params.get('proyecto')
+        queryset = RegistroActividad.objects.all().filter(proyecto_id=proyecto)
+        if proyecto is not None:
+            queryset = queryset.filter(proyecto_id=proyecto)
         return queryset
 
 
@@ -337,3 +337,14 @@ class ServicioSocialPorPropuesta(viewsets.ModelViewSet):
         propuesta = Propuesta.objects.get(codigo_propuesta=codigo_propuesta)
         queryset = ServicioSocial.objects.filter(propuesta=propuesta)
         return queryset
+
+class ProyectoPorEstudiante(viewsets.ModelViewSet):
+    serializer_class = ProyectoSerializer
+    def get_queryset(self):
+        estudiante = self.request.query_params.get('estudiante')
+        queryset = Proyecto.objects.filter(solicitud_servicio_id__estudiante_id=estudiante)
+        return queryset
+
+class ProyectoVista(viewsets.ModelViewSet):
+    serializer_class = ProyectoSerializer
+    queryset = Proyecto.objects.all()

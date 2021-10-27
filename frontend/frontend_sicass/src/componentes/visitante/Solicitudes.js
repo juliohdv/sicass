@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Dashboard from "./Dashboard";
+import Dashboard from "../layout/Dashboard";
 import axios from "axios";
 import Swal from "sweetalert2";
 import MUIDataTable from "mui-datatables";
@@ -18,7 +18,7 @@ const options = {
   tableBodyHeight: "320px",
   textLabels: {
     body: {
-      noMatch: "No hay registros de propuestas",
+      noMatch: "No hay registros de solicitudes",
       toolTip: "Sort",
       columnHeaderTooltip: (column) => `Ordenar por ${column.label}`,
     },
@@ -53,9 +53,9 @@ const options = {
 };
 
 //Constante con la url de la api (Backend)
-const url = "http://127.0.0.1:8000/login/propuestas/";
+const url = "http://127.0.0.1:8000/login/solicitudes/";
 //Clase principal del componente
-class Propuestas extends Component {
+class Solicitudes extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -73,7 +73,7 @@ class Propuestas extends Component {
           solicitud[i] =
             //Asignamos los campos del arrelgo inicial a los del nuevo objeto
             {
-              codigo_propuesta: arreglo_inicial[i].codigo_propuesta,
+              codigo_solicitud: arreglo_inicial[i].codigo_solicitud,
               entidad_externa:
                 arreglo_inicial[i].entidad_externa_detalle.nombre_entidad,
               tipo_entidad:
@@ -83,10 +83,9 @@ class Propuestas extends Component {
               tipo_servicio_social:
                 arreglo_inicial[i].tipo_servicio_social_detalle
                   .nombre_tipo_servicio_social,
-              fecha_inicio_propuesta: arreglo_inicial[i].fecha_inicio_propuesta,
-              fecha_fin_propuesta: arreglo_inicial[i].fecha_fin_propuesta,
-              descripcion_propuesta: arreglo_inicial[i].descripcion_propuesta,
-              estado_propuesta: arreglo_inicial[i].estado_propuesta,
+              fecha_inicio_solicitud: arreglo_inicial[i].fecha_inicio_solicitud,
+              fecha_fin_solicitud: arreglo_inicial[i].fecha_fin_solicitud,
+              estado_solicitud: arreglo_inicial[i].estado_solicitud,
             };
         }
         this.setState({ solicitudes: solicitud }); //Asignamos el nuevo arreglo reescrito al del estado
@@ -104,9 +103,9 @@ class Propuestas extends Component {
     //Constante con las columnas de la tabla
     const columns = [
       {
-        name: "codigo_propuesta",
-        label: "Código",
-        key: "codigo_propuesta",
+        name: "codigo_solicitud",
+        label: "Codigo",
+        key: "codigo_solicitud",
         options: {
           display: false,
         }
@@ -132,60 +131,36 @@ class Propuestas extends Component {
         key: "tipo_servicio_social",
       },
       {
-        name: "fecha_inicio_propuesta",
+        name: "fecha_inicio_solicitud",
         label: "Fecha de Solicitud",
-        key: "fecha_inicio_propuesta",
+        key: "fecha_inicio_solicitud",
       },
       {
-        name: "fecha_fin_propuesta",
+        name: "fecha_fin_solicitud",
         label: "Fecha de Finalización",
-        key: "fecha_fin_propuesta",
+        key: "fecha_fin_solicitud",
       },
       {
-        name: "descripcion_propuesta",
-        label: "Descripción propuesta",
-        key: "descripcion_propuesta",
-      },
-      {
-        name: "estado_propuesta",
+        name: "estado_solicitud",
         label: "Estado",
-        key: "estado_propuesta",
+        key: "estado_solicitud",
       },
       {
         name: "acciones",
         label: "Acciónes",
         options: {
           customBodyRender: (value, tableMeta, updateValue) => {
-            if (tableMeta.rowData[8] === "Aprobado") {
+            if (tableMeta.rowData[7] === "Aprobado") {
               return (
                 /* Boton para redirigir hacia el proyecto que le corresponde a la propuesta */
                 <Tooltip title="Ver proyecto">
                   <Button
                     size="sm"
                     variant="outline-info"
-                    onClick={() => {
-                      axios
-                        .get("http://127.0.0.1:8000/login/servicioSocialPorPropuesta/",{
-                          params:{codigo_propuesta:tableMeta.rowData[0]}
-                        })
-                        .then((response) => {
-                          Swal.fire({
-                            position: "center",
-                            title: "Detalle de proyecto",
-                            html:"<table><tr><td>Cantidad de estudiantes asignados:</td><td>"+response.data[0].cantidad_estudiantes+"</td></tr>"+
-                            "<tr><td>Cantidad de horas asignadas:</td><td>"+response.data[0].cantidad_horas+"</td></tr>"+
-                            "<tr><td>Descripción:</td><td>"+response.data[0].descripcion+"</td></tr></table>",
-                          });
-                        })
-                        .catch((error) => {
-                          Swal.fire({
-                            position: "center",
-                            icon: "error",
-                            title:
-                              "Por el momento no hay conexión con la base de datos, intente en otro momento",
-                          });
-                        });
-                  }} 
+                    /* onClick={() => {
+                    this.seleccionPrivilegio(tableMeta.rowData);
+                    this.modalInsertar();
+                  }} */
                   >
                     <Visibility />
                   </Button>
@@ -202,7 +177,7 @@ class Propuestas extends Component {
           <div className="pt-5">
             {/* Se invoca la tabla, con los datos correspondientes */}
             <MUIDataTable
-              title={"Solicitudes de propuestas"}
+              title={"Solicitudes de servicios"}
               data={this.state.solicitudes}
               columns={columns}
               options={options}
@@ -214,4 +189,4 @@ class Propuestas extends Component {
   }
 }
 
-export default Propuestas;
+export default Solicitudes;
