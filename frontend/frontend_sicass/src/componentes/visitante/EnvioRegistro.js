@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Dashboard from "./Dashboard";
-import Card from "./Card";
+import Dashboard from "../layout/Dashboard";
+import Card from "../Card";
 import Registro from "./Registro";
 
 //Clase principal del componente

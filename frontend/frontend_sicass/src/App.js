@@ -15,37 +15,38 @@ import Container from "@material-ui/core/Container";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { Button, TextField } from "@material-ui/core";
-import { itemsVisitante } from "./componentes/itemsVisitante";
-import { itemsEstudiante } from "./componentes/itemsEstudiante";
-import { itemsFacultad } from "./componentes/itemsFacultad";
-import { itemsEscuela } from "./componentes/itemsEscuela";
-import { itemsAdmin } from "./componentes/itemsAdmin";
-import LogoSicass from "./componentes/LogoSicass";
-import EnvioRegistro from "./componentes/EnvioRegistro";
-import EnvioPropuesta from "./componentes/EnvioPropuesta";
-import EnvioSolicitud from "./componentes/EnvioSolicitud";
+import { itemsVisitante } from "./componentes/visitante/itemsVisitante";
+import { itemsEstudiante } from "./componentes/estudiante/itemsEstudiante";
+import { itemsFacultad } from "./componentes/encargado_facultad/itemsFacultad";
+import { itemsEscuela } from "./componentes/encargado_escuela/itemsEscuela";
+import { itemsAdmin } from "./componentes/administrador/itemsAdmin";
+import LogoSicass from "./componentes/layout/LogoSicass";
+import EnvioRegistro from "./componentes/visitante/EnvioRegistro";
+import EnvioPropuesta from "./componentes/visitante/EnvioPropuesta";
+import EnvioSolicitud from "./componentes/visitante/EnvioSolicitud";
 import Roles from "./componentes/administrador/Roles";
-import Solicitudes from "./componentes/Solicitudes";
+import Solicitudes from "./componentes/visitante/Solicitudes";
 import Login from "./componentes/login";
-import Propuestas from "./componentes/Propuestas";
+import Propuestas from "./componentes/visitante/Propuestas";
 import Usuarios from "./componentes/administrador/Usuarios";
-import InicioInformacion from "./componentes/InicioInformacion";
+import InicioInformacion from "./componentes/layout/InicioInformacion";
 import EnvioRegistroUps from "./componentes/estudiante/EnvioRegistroUps";
 import SolicitudInscripcion from "./componentes/estudiante/SolicitudInscripcion";
 import ServicioSocial from "./componentes/estudiante/ServicioSocial";
 import SolicitudProyecto from "./componentes/estudiante/SolicitudProyecto";
-import SolicitudesEstudiantes from "./componentes/SolicitudesEstudiantes";
-import Docentes  from "./componentes/docente/Docente";
-import AsignarEE from "./componentes/docente/AsignarEE";
+import SolicitudesEstudiantes from "./componentes/encargado_escuela/SolicitudesEstudiantes";
+import Docentes  from "./componentes/encargado_facultad/Docente";
+import AsignarEE from "./componentes/encargado_facultad/AsignarEE";
 import { LockOpen } from "@material-ui/icons";
 import { Formik } from "formik";
 import axios from "axios";
 import Swal from "sweetalert2";
 import RegistrarActividad from "./componentes/estudiante/RegistrarActividad";
-import SolicitarSS from "./componentes/SolicitudRegistroSS";
-import SolicitudUPS from "./componentes/SolicitudRegistroUPS";
-import GestionServicioSocial from "./componentes/GestionServicioSocial";
-import AsignarPropuesta from "./componentes/AsignarPropuesta";
+import SolicitarSS from "./componentes/encargado_escuela/SolicitudRegistroSS";
+import SolicitudUPS from "./componentes/encargado_escuela/SolicitudRegistroUPS";
+import GestionServicioSocial from "./componentes/encargado_facultad/GestionServicioSocial";
+import AsignarPropuesta from "./componentes/encargado_escuela/AsignarPropuesta";
+import Resolucion from "./componentes/estudiante/Resolucion";
 
 
 //LOGIN
@@ -519,6 +520,9 @@ export default function App() {
               <Route path="/GestionServicioSocial">
                 {!autenticado ? <Redirect to="/sicass_app" /> :<GestionSS />}
               </Route>
+              <Route path="/Resolucion">
+                {!autenticado ? <Redirect to="/sicass_app" /> :<ResolucionProyecto />}
+              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -593,5 +597,9 @@ function GestionSS() {
 
 function PropuestasAceptadas(){
   return <AsignarPropuesta/>;
+}
+
+function ResolucionProyecto(){
+  return <Resolucion/>;
 }
 
