@@ -17,10 +17,6 @@ class UsuarioSerializer(serializers.ModelSerializer):
         return usuario
     
 
-class TipoServicioSocialSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TipoServicioSocial
-        fields = ['condigo_tipo_servicio_social', 'nombre_tipo_servicio_social','carrera']
     
 class FacultadSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,6 +27,12 @@ class CarreraSerializer(serializers.ModelSerializer):
     facultad_detalle = FacultadSerializer(source='facultad', read_only=True)
     class Meta:
         model = Carrera
+        fields = "__all__"
+
+class TipoServicioSocialSerializer(serializers.ModelSerializer):
+    carrera_detalle = CarreraSerializer(source = 'carrera',read_only=True)
+    class Meta:
+        model = TipoServicioSocial
         fields = "__all__"
 
 class EstudianteSerializer(serializers.ModelSerializer):
