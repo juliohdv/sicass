@@ -21,7 +21,7 @@ export default class TablaInforme extends Component {
         <div>
           <Table responsive="sm" className="text-center" hover={false}>
             <thead>
-              <tr className="bg-secondary text-white">{this.props.columnas}</tr>
+              <tr className="bg-info">{this.props.columnas}</tr>
             </thead>
             <tbody>{this.props.filas}</tbody>
           </Table>
