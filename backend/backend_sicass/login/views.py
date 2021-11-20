@@ -360,4 +360,15 @@ class ProyectoActivos(viewsets.ModelViewSet):
         carrera = escuela.__getattribute__('carrera')
         queryset = Proyecto.objects.filter(solicitud_servicio__estudiante__carrera=carrera)
         return queryset
+
+class ProyectosPorEscuelaRevision(viewsets.ModelViewSet):
+        serializer_class = ProyectoSerializer
+        def get_queryset(self):
+            usuario = User.objects.get(username=self.request.query_params.get('user'))
+            encargado_escuela = EncargadoEscuela.objects.get(user=usuario)
+            docente = encargado_escuela.__getattribute__('docente_encargado')
+            escuela = docente.__getattribute__('escuela')
+            carrera = escuela.__getattribute__('carrera')
+            queryset = Proyecto.objects.filter(solicitud_servicio__estudiante__carrera=carrera, estado_proyecto="Revision")
+            return queryset
     

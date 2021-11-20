@@ -48,6 +48,7 @@ import GestionServicioSocial from "./componentes/encargado_facultad/GestionServi
 import AsignarPropuesta from "./componentes/encargado_escuela/AsignarPropuesta";
 import Resolucion from "./componentes/estudiante/Resolucion";
 import InformeProyectos from "./componentes/encargado_escuela/InformeProyectos";
+import ResolucionActividades from "./componentes/encargado_escuela/ResolucionActividades";
 
 
 //LOGIN
@@ -527,6 +528,9 @@ export default function App() {
               <Route path="/InformeProyecto">
                 {!autenticado ? <Redirect to="/sicass_app" /> :<InfoProyecto />}
               </Route>
+              <Route path="/ResolucionActividades">
+                {!autenticado ? <Redirect to="/sicass_app" /> :<ResActividades />}
+              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -609,4 +613,6 @@ function ResolucionProyecto(){
 function InfoProyecto(){
   return <InformeProyectos />;
 }
-
+function ResActividades(){
+  return <ResolucionActividades />;
+}
