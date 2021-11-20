@@ -9,6 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { ListSubheader } from "@material-ui/core";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import TocIcon from '@material-ui/icons/Toc';
 
 const useStyles = makeStyles((theme) => ({
   nested: {
@@ -42,6 +43,12 @@ export const itemsEscuela = (
         <EmojiPeople />
       </ListItemIcon>
       <ListItemText primary="Solicitudes de Estudiantes para SS" />
+    </ListItem>
+    <ListItem button component={Link} to="/ResolucionActividades">
+      <ListItemIcon>
+        <TocIcon />
+      </ListItemIcon>
+      <ListItemText primary="Resolución de Actividades" />
     </ListItem>
     <DesplegarInformes
       opcionGeneral={"Informes"}
