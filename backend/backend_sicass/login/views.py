@@ -348,3 +348,16 @@ class ProyectoPorEstudiante(viewsets.ModelViewSet):
 class ProyectoVista(viewsets.ModelViewSet):
     serializer_class = ProyectoSerializer
     queryset = Proyecto.objects.all()
+
+class ProyectoActivos(viewsets.ModelViewSet):
+    serializer_class = ProyectoSerializer
+    def get_queryset(self):
+        nombre_usuario = self.request.query_params.get('user')
+        usuario = User.objects.get(username=nombre_usuario)
+        encargadoEscuela = EncargadoEscuela.objects.get(user=usuario)
+        docente = encargadoEscuela.__getattribute__('docente_encargado')
+        escuela = docente.__getattribute__('escuela')
+        carrera = escuela.__getattribute__('carrera')
+        queryset = Proyecto.objects.filter(solicitud_servicio__estudiante__carrera=carrera)
+        return queryset
+    

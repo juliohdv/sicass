@@ -111,7 +111,7 @@ class SolicitudRegistroSS extends Component {
           axios
             .post("http://127.0.0.1:8000/login/proyecto/", {
               observaciones: "Ninguna",
-              estado_proyecto: "En proceso",
+              estado_proyecto: "En Proceso",
               solicitud_servicio: this.state.form.codigo_solicitud_servicio,
             })
             .then((response) => {

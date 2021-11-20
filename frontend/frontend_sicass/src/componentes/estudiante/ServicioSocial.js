@@ -80,6 +80,7 @@ class Propuestas extends Component {
       modalVerificacion: false,
       ultimoEstado: "",
       estadoRegistro: "",
+      totalHoras: 0,
       form: {
         servicios_social: "",
         cantidad_estudiantes: 0,
@@ -168,9 +169,15 @@ class Propuestas extends Component {
         },
       })
       .then((response) => {
+        var horasRealizadas = 0;
+        const arreglo_inicial = response.data;
         for (var i = 0; i < response.data.length; i++) {
           this.setState({ ultimoEstado: response.data[i].estado_solicitud });
+          if(arreglo_inicial[i].estado_solicitud === "Finalizado"){
+            horasRealizadas += arreglo_inicial[i].servicio_social_detalle.cantidad_horas;
+          }
         }
+        this.setState({ totalHoras: horasRealizadas });
       })
       .catch((error) => {});
       axios
@@ -275,7 +282,8 @@ class Propuestas extends Component {
               (this.state.ultimoEstado === "Rechazado" ||
               this.state.ultimoEstado === "Finalizado" ||
               this.state.ultimoEstado === "") &&
-              this.state.estadoRegistro === "Aprobado"
+              this.state.estadoRegistro === "Aprobado" &&
+              this.state.totalHoras < 500
             ) {
               return (
                 <Tooltip title="Solicitar servicio social">

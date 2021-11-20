@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import {Home, Pages, Visibility, Add, Schedule, AssignmentTurnedIn,Widgets} from "@material-ui/icons/";
+import {Home, Pages, Visibility, Add, Schedule, AssignmentTurnedIn,Widgets, Description, Work} from "@material-ui/icons/";
 import { Collapse } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { ListSubheader } from "@material-ui/core";
@@ -39,10 +39,15 @@ export const itemsEstudiante = (
       link1={"/ServicioSocial"}
       opcion2={"Estado de Mis Servicios Sociales"}
       link2={"/SolicitudProyecto"}
-      opcion3={"Registrar Actividades"}
-      link3={"/Actividades"}
-      opcion4={"Resolución"}
-      link4={"/Resolucion"}
+    />
+    <DesplegarProyecto
+      opcionGeneral={"Proyecto"}
+      opcion1={"Registrar Actividades"}
+      link1={"/Actividades"}
+      opcion2={"Reporte Actividades"}
+      link2={"/ReporteActividad"}
+      opcion3={"Resolución"}
+      link3={"/Resolucion"}
     />
   </div>
 );
@@ -135,6 +140,54 @@ function DesplegarServicioSocial(props) {
           <ListItemText primary={props.opcion2} />
         </ListItem>
       </Collapse>
+      
+    </>
+  );
+}
+
+function DesplegarProyecto(props) {
+  const [open, setOpen] = useState(false);
+  const classes = useStyles();
+  return (
+    <>
+      <ListItem
+        button
+        onClick={() => setOpen(!open)}
+        aria-controls="example-collapse-text"
+        aria-expanded={open}
+      >
+        <ListItemIcon>
+          <Work />
+        </ListItemIcon>
+        <ListItemText primary={props.opcionGeneral} />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      <Collapse in={open} timeout="auto">
+        <ListItem
+          button
+          className={classes.nested}
+          component={Link}
+          to={props.link1}
+        >
+          <ListItemIcon>
+          <Add />
+          </ListItemIcon>
+          <ListItemText primary={props.opcion1} />
+        </ListItem>
+      </Collapse>
+      <Collapse in={open} timeout="auto">
+        <ListItem
+          button
+          className={classes.nested}
+          component={Link}
+          to={props.link2}
+        >
+          <ListItemIcon>
+          <Description />
+          </ListItemIcon>
+          <ListItemText primary={props.opcion2} />
+        </ListItem>
+      </Collapse>
       <Collapse in={open} timeout="auto">
         <ListItem
           button
@@ -143,22 +196,9 @@ function DesplegarServicioSocial(props) {
           to={props.link3}
         >
           <ListItemIcon>
-            <Add />
+          <AssignmentTurnedIn />
           </ListItemIcon>
           <ListItemText primary={props.opcion3} />
-        </ListItem>
-      </Collapse>
-      <Collapse in={open} timeout="auto">
-        <ListItem
-          button
-          className={classes.nested}
-          component={Link}
-          to={props.link4}
-        >
-          <ListItemIcon>
-            <AssignmentTurnedIn />
-          </ListItemIcon>
-          <ListItemText primary={props.opcion4} />
         </ListItem>
       </Collapse>
     </>
