@@ -371,4 +371,3 @@ class ProyectosPorEscuelaRevision(viewsets.ModelViewSet):
             carrera = escuela.__getattribute__('carrera')
             queryset = Proyecto.objects.filter(solicitud_servicio__estudiante__carrera=carrera, estado_proyecto="Revision")
             return queryset
-    
