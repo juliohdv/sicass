@@ -90,6 +90,9 @@ class ResolucionActividades extends Component {
         observaciones: "",
         estado_proyecto: "",
         solicitud_servicio_id: "",
+        estudiante_id:"",
+        observaciones_solicitud:"",
+        servicio_social_solicitud:""
       },
       actividades: [],
     };
@@ -109,7 +112,7 @@ class ResolucionActividades extends Component {
         }
       )
       .then((response) => {
-        this.setState({ modalActividades: false });
+        this.setState({ modalConfirmar: false });
         Swal.fire({
           position: "center",
           icon: "success",
@@ -130,18 +133,29 @@ class ResolucionActividades extends Component {
       });
   };
   peticionAprobar = () => {
-    axios
-      .put(
+    axios.all([
+      axios.put(
         "http://127.0.0.1:8000/login/proyecto/" +
           this.state.form.codigo_proyecto +
           "/",
         {
+          observaciones: this.state.form.observaciones,
           estado_proyecto: "Aprobado",
           solicitud_servicio: this.state.form.solicitud_servicio_id,
         }
-      )
+      ),
+      axios.put("http://127.0.0.1:8000/login/solicitudServicio/"+this.state.form.solicitud_servicio_id+"/",
+      {
+        codigo_solicitud_servicio: this.state.form.solicitud_servicio_id,
+        estado_solicitud:"Finalizado",
+        observaciones: this.state.form.observaciones_solicitud,
+        estudiante: this.state.form.estudiante_id,
+        servicio_social: this.state.form.servicio_social_solicitud
+      })
+    ])
+      
       .then((response) => {
-        this.setState({ modalActividades: false });
+        this.setState({ modalConfirmar: false });
         Swal.fire({
           position: "center",
           icon: "success",
@@ -170,6 +184,9 @@ class ResolucionActividades extends Component {
         observaciones: proyecto[1],
         estado_proyecto: proyecto[2],
         solicitud_servicio_id: proyecto[3],
+        estudiante_id: proyecto[7],
+        observaciones_solicitud: proyecto[8],
+        servicio_social_solicitud: proyecto[9]
       },
     });
   };
@@ -208,17 +225,13 @@ class ResolucionActividades extends Component {
             codigo_proyecto: arreglo_inicial[i].codigo_proyecto,
             observaciones: arreglo_inicial[i].observaciones,
             estado_proyecto: arreglo_inicial[i].estado_proyecto,
-            entidad:
-              arreglo_inicial[i].solicitud_servicio_detalle
-                .servicio_social_detalle.entidad,
-            tipo_servicio_social:
-              arreglo_inicial[i].solicitud_servicio_detalle
-                .servicio_social_detalle.tipo_servicio_social_detalle
-                .nombre_tipo_servicio_social,
-            cantidad_horas:
-              arreglo_inicial[i].solicitud_servicio_detalle
-                .servicio_social_detalle.cantidad_horas,
+            entidad:arreglo_inicial[i].solicitud_servicio_detalle.servicio_social_detalle.entidad,
+            tipo_servicio_social:arreglo_inicial[i].solicitud_servicio_detalle.servicio_social_detalle.tipo_servicio_social_detalle.nombre_tipo_servicio_social,
+            cantidad_horas:arreglo_inicial[i].solicitud_servicio_detalle.servicio_social_detalle.cantidad_horas,
             solicitud_servicio_id: arreglo_inicial[i].solicitud_servicio,
+            estudiante_id: arreglo_inicial[i].solicitud_servicio_detalle.estudiante,
+            observaciones_solicitud: arreglo_inicial[i].solicitud_servicio_detalle.observaciones,
+            servicio_social_solicitud: arreglo_inicial[i].solicitud_servicio_detalle.servicio_social
           };
         }
         this.setState({ proyecto: proyectos });
@@ -262,6 +275,27 @@ class ResolucionActividades extends Component {
       {
         name: "cantidad_horas",
         label: "Total de horas",
+      },
+      {
+        name: "estudiante_id",
+        label: "Estudiante",
+        options: {
+          display: false,
+        },
+      },
+      {
+        name: "observaciones_solicitud",
+        label: "Observaciones de Solicitud",
+        options: {
+          display: false,
+        },
+      },
+      {
+        name: "servicio_social_solicitud",
+        label: "Servicio Solicial Solicitud",
+        options: {
+          display: false,
+        },
       },
       {
         name: "acciones",
@@ -347,6 +381,9 @@ class ResolucionActividades extends Component {
           {
             name: "proyecto",
             label: "Proyecto",
+            options: {
+              display: false,
+            },
           },
     ]
     return (
@@ -418,7 +455,7 @@ class ResolucionActividades extends Component {
                   <span>Aprobar las actividades</span>
                 </ModalHeader>
                 <ModalBody>
-                  ¿Esta seguro de solicitar aprobar la revisión?
+                  ¿Esta seguro de aprobar la revisión?
                   <ul>
                     <li>
                       Esto cambiará el estado del proyecto a finalizado.
