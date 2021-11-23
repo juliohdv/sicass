@@ -38,13 +38,13 @@ export const itemsFacultad = (
       </ListItemIcon>
       <ListItemText primary="Asignar Encargado a Escuela" />
     </ListItem>
-    <ListItem button component={Link} to="/">
+    <ListItem button component={Link} to="/Propuesta">
       <ListItemIcon>
         <ImportContacts />
       </ListItemIcon>
       <ListItemText primary="Propuestas" />
     </ListItem>
-    <ListItem button component={Link} to="/">
+    <ListItem button component={Link} to="/Solicitud">
       <ListItemIcon>
         <LibraryBooks />
       </ListItemIcon>
