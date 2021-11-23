@@ -36,6 +36,7 @@ router.register('escuelasPorFacultad',EscuelasPorFacultad, basename="EscuelasPor
 router.register('escuelasPorEncargadoFacultad',EscuelasPorEncargadoFacultad, basename="EscuelasPorEncargadoFacultad")
 router.register('encargadosEscuelaPorFacultad',EncargadosEscuelaPorFacultad, basename="EncargadosEscuelaPorFacultad")
 
+
 router.register('solicitudServicioEstudiante', SolicitudServicioFiltroVistas, basename="Servicio") #Regresa las solicitudes de SS de los estudiantes
 """ router.register('ultimaSolicitudServicio', UltimaSolicitudServicioVista, basename="UltimaSolicitud")  """#Regresa las ultima solicitud de SS de un estudiante
 router.register('actividades', RegistroActividadVista, basename="Actividades") #Retorna las actividades realizadas
@@ -47,6 +48,9 @@ router.register('propuestaEstado', PropuestaFiltroVista, basename="PropuestaEsta
 router.register('servicioSocialPorPropuesta', ServicioSocialPorPropuesta, basename="ServicioSocialPorPropuesta")
 router.register('proyectoPorEstudiante', ProyectoPorEstudiante, basename="proyectoPorEstudiante")
 router.register('proyecto', ProyectoVista, basename="proyecto")
+router.register('proyectoActivos', ProyectoActivos, basename="proyectoActivos")
+router.register('proyectosPorEscuelaRevision', ProyectosPorEscuelaRevision, basename="proyectoPorEscuelaRevision")
+router.register('servicioSocialConProyectos', ServicioSocialConProyectos, basename="ServicioSocialConProyectos")
 
 
 urlpatterns = [

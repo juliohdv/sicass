@@ -348,3 +348,34 @@ class ProyectoPorEstudiante(viewsets.ModelViewSet):
 class ProyectoVista(viewsets.ModelViewSet):
     serializer_class = ProyectoSerializer
     queryset = Proyecto.objects.all()
+
+class ProyectoActivos(viewsets.ModelViewSet):
+    serializer_class = ProyectoSerializer
+    def get_queryset(self):
+        nombre_usuario = self.request.query_params.get('user')
+        usuario = User.objects.get(username=nombre_usuario)
+        encargadoEscuela = EncargadoEscuela.objects.get(user=usuario)
+        docente = encargadoEscuela.__getattribute__('docente_encargado')
+        escuela = docente.__getattribute__('escuela')
+        carrera = escuela.__getattribute__('carrera')
+        queryset = Proyecto.objects.filter(solicitud_servicio__estudiante__carrera=carrera)
+        return queryset
+
+class ProyectosPorEscuelaRevision(viewsets.ModelViewSet):
+        serializer_class = ProyectoSerializer
+        def get_queryset(self):
+            usuario = User.objects.get(username=self.request.query_params.get('user'))
+            encargado_escuela = EncargadoEscuela.objects.get(user=usuario)
+            docente = encargado_escuela.__getattribute__('docente_encargado')
+            escuela = docente.__getattribute__('escuela')
+            carrera = escuela.__getattribute__('carrera')
+            queryset = Proyecto.objects.filter(solicitud_servicio__estudiante__carrera=carrera, estado_proyecto="Revision")
+            return queryset
+class ServicioSocialConProyectos(viewsets.ModelViewSet):
+        serializer_class =ProyectoSerializer
+        def get_queryset(self):
+            servicio_social_id = self.request.query_params.get('servicio_id')
+            servicio = ServicioSocial.objects.get(codigo_servicio_social=servicio_social_id)
+            solicitud_servicio = SolicitudServicioSocial.objects.get(servicio_social=servicio)
+            proyectos = Proyecto.objects.filter(solicitud_servicio=solicitud_servicio)
+            return proyectos

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Dashboard from "../layout/Dashboard";
 import axios from "axios";
-import { Button, Form, Table, Row, Col, Alert } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import MUIDataTable from "mui-datatables";
@@ -182,7 +182,7 @@ class Resolucion extends Component {
       .catch((error) => {});
   }
   render() {
-    const { form } = this.state; //Constante que contiene el estado del formulario
+    //const { form } = this.state; 
     //Constante que contiene los datos estaticos de la tabla
     const columns = [
       {
@@ -226,7 +226,7 @@ class Resolucion extends Component {
           customBodyRender: (value, tableMeta, updateValue) => {
             if (
               tableMeta.rowData[2] === "Rechazado" ||
-              tableMeta.rowData[2] === "En proceso"
+              tableMeta.rowData[2] === "En Proceso"
             ) {
               return (
                 <>

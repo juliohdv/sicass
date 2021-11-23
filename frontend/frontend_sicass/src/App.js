@@ -47,6 +47,9 @@ import SolicitudUPS from "./componentes/encargado_escuela/SolicitudRegistroUPS";
 import GestionServicioSocial from "./componentes/encargado_facultad/GestionServicioSocial";
 import AsignarPropuesta from "./componentes/encargado_escuela/AsignarPropuesta";
 import Resolucion from "./componentes/estudiante/Resolucion";
+import InformeProyectos from "./componentes/encargado_escuela/InformeProyectos";
+import ResolucionActividades from "./componentes/encargado_escuela/ResolucionActividades";
+import InformeAlumnosObservaciones from "./componentes/encargado_escuela/InformeAlumnosObservaciones";
 
 
 //LOGIN
@@ -523,6 +526,15 @@ export default function App() {
               <Route path="/Resolucion">
                 {!autenticado ? <Redirect to="/sicass_app" /> :<ResolucionProyecto />}
               </Route>
+              <Route path="/InformeProyecto">
+                {!autenticado ? <Redirect to="/sicass_app" /> :<InfoProyecto />}
+              </Route>
+              <Route path="/ResolucionActividades">
+                {!autenticado ? <Redirect to="/sicass_app" /> :<ResActividades />}
+              </Route>
+              <Route path="/InformeAlumnosObservaciones">
+                {!autenticado ? <Redirect to="/sicass_app" /> :<InfoAlumnosObservaciones />}
+              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -602,4 +614,12 @@ function PropuestasAceptadas(){
 function ResolucionProyecto(){
   return <Resolucion/>;
 }
-
+function InfoProyecto(){
+  return <InformeProyectos />;
+}
+function ResActividades(){
+  return <ResolucionActividades />;
+}
+function InfoAlumnosObservaciones(){
+  return <InformeAlumnosObservaciones/>
+}

@@ -218,14 +218,13 @@ class RegistrarActividad extends Component {
   componentDidMount() {
     let nombre_usuario = leerCookie("usuario"); //Se obtiene el usuario logeado
     axios
-      .get("http://127.0.0.1:8000/login/proyecto/", {
+      .get("http://127.0.0.1:8000/login/proyectoPorEstudiante/", {
         params: {
           estudiante: nombre_usuario,
         },
       })
       .then((response) => {
         const arreglo_inicial = response.data;
-        console.log(response.data);
         var posicion = response.data.length - 1;
         this.setState({
           proyecto: arreglo_inicial[posicion].codigo_proyecto,
@@ -315,7 +314,7 @@ class RegistrarActividad extends Component {
         contenedor={
           <div className="pt-4">
             <div>
-              {this.state.estado_proyecto === "En proceso" || this.state.estado_proyecto === "Rechazado" ? (
+              {this.state.estado_proyecto === "En Proceso" || this.state.estado_proyecto === "Rechazado" ? (
                 <>
                   <Table striped bordered hover responsive>
                     <thead>

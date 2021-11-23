@@ -8,6 +8,7 @@ import MUIDataTable from "mui-datatables";
 import { Tooltip } from "@material-ui/core";
 import Delete from "@material-ui/icons/Delete";
 import Edit from "@material-ui/icons/Edit";
+import Visibility from "@material-ui/icons/Visibility";
 
 function leerCookie(nombre) {
   let key = nombre + "=";
@@ -80,6 +81,7 @@ class GestionServicioSocial extends Component {
       servicios: [], //Estdo que contendra todo lo que digite el usuario
       modalInsertar: false, //Estado que controla el abrir o cerra el modal correspondiente
       modalEliminar: false,
+      modalEstado: false,
       tipoServicio: [],
       form: {
         //Estado que contiene los campos del formulario a ingresar
@@ -92,6 +94,7 @@ class GestionServicioSocial extends Component {
         nombre_tipo_servicio_social:"",
         tipoModal: "",
       },
+      proyectos: [],
     };
   }
 
@@ -187,7 +190,17 @@ class GestionServicioSocial extends Component {
   modalInsertar = () => {
     this.setState({ modalInsertar: !this.state.modalInsertar });
   };
-
+  modalEstado = () => {
+    this.setState({ modalEstado: !this.state.modalEstado });
+  };
+  obtenerProyectos = (servicio) => {
+    axios
+      .get("http://127.0.0.1:8000/login/servicioSocialConProyectos/",{params:{servicio_id: servicio[0]}})
+      .then((response)=>{
+        this.setState({proyectos: response.data})
+        console.log(this.state.proyectos)
+      })
+  }
   //Metodo que va guardado el estado de lo que digita el usuario en el formulario
   handleChange = async (e) => {
     e.persist();
@@ -275,7 +288,30 @@ class GestionServicioSocial extends Component {
           customBodyRender: (value, tableMeta, updateValue) => {
             return (
               <>
-                {/* Botones para editar y eliminar */}
+                {/* Botones para ver estado, editar y eliminar */}
+                <Tooltip title="Ver Estado">
+                  <Button
+                    size="sm"
+                    variant="outline-primary"
+                    onClick={() => {
+                      this.seleccionServicio(tableMeta.rowData);
+                      this.modalEstado();
+                      this.obtenerProyectos(tableMeta.rowData);
+                      axios
+                          .get("http://127.0.0.1:8000/login/tipoServicioFacultad/",{
+                            params:{user:leerCookie("usuario")}
+                          })
+                          .then((response) => {
+                            console.log(response.data)
+                            this.setState({ tipoServicio: response.data })
+                          })
+                          .catch((error) => { })
+                    }}
+                  >
+                    <Visibility/>
+                  </Button>
+                </Tooltip>
+                <span className="pl-2"></span>
                 <Tooltip title="Editar">
                   <Button
                     size="sm"
@@ -354,7 +390,47 @@ class GestionServicioSocial extends Component {
                 />
               </div>
             </div>
-
+            {/* Modal para ver estado */}
+            <Modal isOpen={this.state.modalEstado} centered className="pt-5">
+              <ModalHeader style={{ display: "block" }}>
+                  <span>Estado del servicio social</span>
+              </ModalHeader>
+              <ModalBody>
+                <Form.Group>
+                  <ul>
+                    <li>
+                      Información del servicio social:
+                      <ul>
+                        <li>Entidad: {form.entidad}</li>
+                        <li>Descripción: {form.descripcion}</li>
+                        <li>Horas: {form.cantidad_horas}</li>
+                        <li>Cantidad de estudiantes: {form.cantidad_estudiantes}</li>
+                        <li>Información de proyectos vinculados al Servicio:
+                        {this.state.proyectos.map((elemento)=>(
+                            <ul>
+                                <li>Tipo de servicio social: {elemento.solicitud_servicio_detalle.servicio_social_detalle.tipo_servicio_social_detalle.nombre_tipo_servicio_social}</li>
+                                <li>Observaciones en la solicitud: {elemento.solicitud_servicio_detalle.observaciones}</li>
+                                <li>Estado de la solicitud: {elemento.solicitud_servicio_detalle.estado_solicitud}</li>
+                                <li>Estudiante que lo realiza: {elemento.solicitud_servicio_detalle.estudiante}</li>
+                                <li>Carrera: {elemento.solicitud_servicio_detalle.servicio_social_detalle.tipo_servicio_social_detalle.carrera_detalle.nombre_carrera}</li>
+                                <li>Estado del proyecto: {elemento.estado_proyecto}</li>
+                            </ul>
+                          ))}
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </Form.Group>
+                <ModalFooter>
+                  <Button
+                    variant="secondary"
+                    onClick={() => this.modalEstado()}
+                  >
+                    Cerrar
+                  </Button>
+                </ModalFooter>
+              </ModalBody>
+            </Modal>
             {/* Modal para actualizar o crear */}
             <Modal isOpen={this.state.modalInsertar} centered className="pt-5">
               <ModalHeader style={{ display: "block" }}>
