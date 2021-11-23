@@ -363,7 +363,7 @@ class GestionServicioSocial extends Component {
               <Button
                 variant="success"
                 onClick={() => {
-                  this.setState({ form: null, tipoModal: "insertar" });
+                  this.setState({tipoModal: "insertar" });
                   this.modalInsertar();
                   axios
                       .get("http://127.0.0.1:8000/login/tipoServicioFacultad/",{

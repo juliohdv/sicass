@@ -51,7 +51,8 @@ import InformeProyectos from "./componentes/encargado_escuela/InformeProyectos";
 import ResolucionActividades from "./componentes/encargado_escuela/ResolucionActividades";
 import InformeAlumnosObservaciones from "./componentes/encargado_escuela/InformeAlumnosObservaciones";
 import InformeNoAptos from "./componentes/encargado_escuela/InformeNoAptos";
-
+import InformeTiempo from "./componentes/encargado_escuela/InformeTiempo";
+import Propuesta from "./componentes/encargado_facultad/Propuesta";
 
 //LOGIN
 /*function leerCookie(nombre){
@@ -539,6 +540,12 @@ export default function App() {
               <Route path="/estudiantesNoAptos">
                 {!autenticado ? <Redirect to="/sicass_app" /> :<InfoNoAptos />}
               </Route>
+              <Route path="/InformeTiempo">
+                {!autenticado ? <Redirect to="/sicass_app" /> :<InfoTiempo />}
+              </Route>
+              <Route path="/Propuesta">
+                {!autenticado ? <Redirect to="/sicass_app" /> :<PropuestasFacultad />}
+              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -629,4 +636,10 @@ function InfoAlumnosObservaciones(){
 }
 function InfoNoAptos(){
   return <InformeNoAptos />
+}
+function InfoTiempo(){
+  return <InformeTiempo />
+}
+function PropuestasFacultad(){
+  return <Propuesta />
 }

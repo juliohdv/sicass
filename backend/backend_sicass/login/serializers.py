@@ -166,10 +166,6 @@ class EncargadoFacultadSerializer(serializers.ModelSerializer):
         model = EncargadoFacultad
         fields = "__all__"
         
-class ActividadSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RegistroActividad
-        fields = "__all__"
 
 class ProyectoSerializer(serializers.ModelSerializer):
     solicitud_servicio_detalle = SolicitudServicioSerializer(source='solicitud_servicio', read_only=True)
@@ -179,4 +175,10 @@ class ProyectoSerializer(serializers.ModelSerializer):
     def create(self, validate_data):
         proyecto = Proyecto.objects.create(**validate_data)
         return proyecto
+
+class ActividadSerializer(serializers.ModelSerializer):
+    proyecto_detalle = ProyectoSerializer(source='proyecto', read_only=True)
+    class Meta:
+        model = RegistroActividad
+        fields = "__all__"
         

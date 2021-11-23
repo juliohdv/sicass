@@ -283,7 +283,6 @@ class RegistroActividadVista(viewsets.ModelViewSet):
 
 class ActividadServicioVistas(viewsets.ModelViewSet):
     serializer_class = ActividadSerializer
-    
     def get_queryset(self):
         proyecto = self.request.query_params.get('proyecto')
         queryset = RegistroActividad.objects.all().filter(proyecto_id=proyecto)
@@ -389,4 +388,17 @@ class SolicitudUpsRechazadas(viewsets.ModelViewSet):
         docente = encargadoEscuela.__getattribute__('docente_encargado')
         escuela = docente.__getattribute__('escuela')
         queryset = SolicitudUps.objects.all().filter(estudiante__carrera__escuela=escuela, estado_solicitud="Rechazado")
+        return queryset
+
+class PropuestasPorFacultad(viewsets.ModelViewSet):
+    serializer_class = PropuestaSerializer
+    def get_queryset(self):
+        nombre_usuario = self.request.query_params.get('user')
+        usuario = User.objects.get(username=nombre_usuario)
+        encargadoFacultad = EncargadoFacultad.objects.get(user=usuario)
+        docente = encargadoFacultad.__getattribute__('docente_encargado')
+        escuela = docente.__getattribute__('escuela')
+        carrera = escuela.__getattribute__('carrera')
+        facultad = carrera.__getattribute__('facultad')
+        queryset = Propuesta.objects.all().filter(carrera__facultad=facultad)
         return queryset
