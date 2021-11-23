@@ -59,7 +59,7 @@ export const itemsEscuela = (
       opcion3={"Estudiantes no aptos"}
       link3={"/estudiantesNoAptos"}
       opcion4={"Estudiantes con observaciones"}
-      link4={"/estudiantesObservacion"}
+      link4={"/InformeAlumnosObservaciones"}
       opcion5={"Tiempo de finalización"}
       link5={"/tiempoFinalizacion"}
     />

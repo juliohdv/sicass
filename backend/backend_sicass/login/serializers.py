@@ -105,6 +105,7 @@ class ServicioSocialSerializer(serializers.ModelSerializer):
     tipo_servicio_social_detalle = TipoServicioSocialSerializer(source = 'tipo_servicio_social', read_only=True)
     solicitud_detalle = SolicitudSerializer(source = 'solicitud', read_only=True)
     propuesta_detalle = PropuestaSerializer(source = 'propuesta', read_only=True)
+    estudiante_detalle = EstudianteSerializer(source = 'estudiante', read_only=True)
     class Meta:
         model = ServicioSocial
         fields = "__all__"
@@ -130,6 +131,7 @@ class TipoContenidoSerializer(serializers.ModelSerializer):
 
 class SolicitudServicioSerializer(serializers.ModelSerializer):
     servicio_social_detalle = ServicioSocialSerializer(source='servicio_social', read_only=True)
+    estudiante_detalle = EstudianteSerializer(source='estudiante', read_only=True)
     class Meta:
         model = SolicitudServicioSocial
         fields = "__all__"
