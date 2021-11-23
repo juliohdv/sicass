@@ -114,9 +114,10 @@ class ServicioSocialSerializer(serializers.ModelSerializer):
         return servicioSocial
 
 class SolicitudUpsSerializer(serializers.ModelSerializer):
+    estudiante_detalle = EstudianteSerializer(source='estudiante', read_only=True)
     class Meta:
         model = SolicitudUps
-        fields = ['codigo_solicitud_ups','enlace','observaciones','estado_solicitud','estudiante']
+        fields = "__all__"
     def create(self, validate_data):
         solicitudUps = SolicitudUps.objects.create(**validate_data)
         return solicitudUps

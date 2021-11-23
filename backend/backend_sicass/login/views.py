@@ -379,3 +379,14 @@ class ServicioSocialConProyectos(viewsets.ModelViewSet):
             solicitud_servicio = SolicitudServicioSocial.objects.get(servicio_social=servicio)
             proyectos = Proyecto.objects.filter(solicitud_servicio=solicitud_servicio)
             return proyectos
+
+class SolicitudUpsRechazadas(viewsets.ModelViewSet):
+    serializer_class = SolicitudUpsSerializer
+    def get_queryset(self):
+        nombre_usuario = self.request.query_params.get('user')
+        usuario = User.objects.get(username=nombre_usuario)
+        encargadoEscuela = EncargadoEscuela.objects.get(user=usuario)
+        docente = encargadoEscuela.__getattribute__('docente_encargado')
+        escuela = docente.__getattribute__('escuela')
+        queryset = SolicitudUps.objects.all().filter(estudiante__carrera__escuela=escuela, estado_solicitud="Rechazado")
+        return queryset

@@ -50,6 +50,7 @@ import Resolucion from "./componentes/estudiante/Resolucion";
 import InformeProyectos from "./componentes/encargado_escuela/InformeProyectos";
 import ResolucionActividades from "./componentes/encargado_escuela/ResolucionActividades";
 import InformeAlumnosObservaciones from "./componentes/encargado_escuela/InformeAlumnosObservaciones";
+import InformeNoAptos from "./componentes/encargado_escuela/InformeNoAptos";
 
 
 //LOGIN
@@ -535,6 +536,9 @@ export default function App() {
               <Route path="/InformeAlumnosObservaciones">
                 {!autenticado ? <Redirect to="/sicass_app" /> :<InfoAlumnosObservaciones />}
               </Route>
+              <Route path="/estudiantesNoAptos">
+                {!autenticado ? <Redirect to="/sicass_app" /> :<InfoNoAptos />}
+              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -622,4 +626,7 @@ function ResActividades(){
 }
 function InfoAlumnosObservaciones(){
   return <InformeAlumnosObservaciones/>
+}
+function InfoNoAptos(){
+  return <InformeNoAptos />
 }

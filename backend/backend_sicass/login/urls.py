@@ -51,6 +51,7 @@ router.register('proyecto', ProyectoVista, basename="proyecto")
 router.register('proyectoActivos', ProyectoActivos, basename="proyectoActivos")
 router.register('proyectosPorEscuelaRevision', ProyectosPorEscuelaRevision, basename="proyectoPorEscuelaRevision")
 router.register('servicioSocialConProyectos', ServicioSocialConProyectos, basename="ServicioSocialConProyectos")
+router.register('SolicitudUpsRechazadas',SolicitudUpsRechazadas, basename='SolicitudUpsRechazadas')
 
 
 urlpatterns = [
