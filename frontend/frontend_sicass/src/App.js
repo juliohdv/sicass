@@ -53,6 +53,7 @@ import InformeAlumnosObservaciones from "./componentes/encargado_escuela/Informe
 import InformeNoAptos from "./componentes/encargado_escuela/InformeNoAptos";
 import InformeTiempo from "./componentes/encargado_escuela/InformeTiempo";
 import Propuesta from "./componentes/encargado_facultad/Propuesta";
+import Solicitud from "./componentes/encargado_facultad/Solicitud";
 
 //LOGIN
 /*function leerCookie(nombre){
@@ -546,6 +547,9 @@ export default function App() {
               <Route path="/Propuesta">
                 {!autenticado ? <Redirect to="/sicass_app" /> :<PropuestasFacultad />}
               </Route>
+              <Route path="/Solicitud">
+                {!autenticado ? <Redirect to="/sicass_app" /> :<SolicitudFacultad />}
+              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -642,4 +646,7 @@ function InfoTiempo(){
 }
 function PropuestasFacultad(){
   return <Propuesta />
+}
+function SolicitudFacultad(){
+  return <Solicitud/>
 }

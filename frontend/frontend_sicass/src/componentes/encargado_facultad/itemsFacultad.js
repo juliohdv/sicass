@@ -44,7 +44,7 @@ export const itemsFacultad = (
       </ListItemIcon>
       <ListItemText primary="Propuestas" />
     </ListItem>
-    <ListItem button component={Link} to="">
+    <ListItem button component={Link} to="/Solicitud">
       <ListItemIcon>
         <LibraryBooks />
       </ListItemIcon>

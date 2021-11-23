@@ -402,3 +402,16 @@ class PropuestasPorFacultad(viewsets.ModelViewSet):
         facultad = carrera.__getattribute__('facultad')
         queryset = Propuesta.objects.all().filter(carrera__facultad=facultad)
         return queryset
+
+class SolicitudesPorFacultad(viewsets.ModelViewSet):
+    serializer_class = SolicitudSerializer
+    def get_queryset(self):
+        nombre_usuario = self.request.query_params.get('user')
+        usuario = User.objects.get(username=nombre_usuario)
+        encargadoFacultad = EncargadoFacultad.objects.get(user=usuario)
+        docente = encargadoFacultad.__getattribute__('docente_encargado')
+        escuela = docente.__getattribute__('escuela')
+        carrera = escuela.__getattribute__('carrera')
+        facultad = carrera.__getattribute__('facultad')
+        queryset = Solicitud.objects.all().filter(carrera__facultad=facultad)
+        return queryset

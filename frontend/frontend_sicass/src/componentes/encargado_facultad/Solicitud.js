@@ -38,7 +38,7 @@ const options = {
   tableBodyHeight: "290px",
   textLabels: {
     body: {
-      noMatch: "No hay registros de propuestas",
+      noMatch: "No hay registros de solicitudes",
       toolTip: "Sort",
       columnHeaderTooltip: (column) => `Odernar por ${column.label}`,
     },
@@ -73,25 +73,24 @@ const options = {
 };
 
 //Constannte que contiene la url de conexion con la api de rest
-const url = "http://127.0.0.1:8000/login/PropuestasPorFacultad/";
+const url = "http://127.0.0.1:8000/login/SolicitudesPorFacultad/";
 
 //Clase principal del componente
-class Propuesta extends Component {
+class Solicitud extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      propuestas: [],
+      solicitudes: [],
       modalConfirmar: false,
       form: {
         tipoModal: "",
-        codigo_propuesta: "",
+        codigo_solicitud: "",
         codigo_carrera: "",
         codigo_tipo_servicio_social: "",
         codigo_entidad_externa: "",
         fecha_inicio: "",
         fecha_fin: "",
         estado: "",
-        descripcion: ""
       },
     };
   }
@@ -100,17 +99,16 @@ class Propuesta extends Component {
   peticionPut = () => {
     axios
       .put(
-        "http://127.0.0.1:8000/login/propuestas/" +
-          this.state.form.codigo_propuesta +
+        "http://127.0.0.1:8000/login/solicitudes/" +
+          this.state.form.codigo_solicitud +
           "/",
         {
             carrera: this.state.form.codigo_carrera,
             tipo_servicio_social: this.state.form.codigo_tipo_servicio_social,
             entidad_externa: this.state.form.codigo_entidad_externa,
-            fecha_inicio_propuesta: this.state.form.fecha_inicio,
-            fecha_fin_propuesta: this.state.form.fecha_fin,
-            estado_propuesta: "Aprobado",
-            descripcion_propuesta: this.state.form.descripcion
+            fecha_inicio_solicitud: this.state.form.fecha_inicio,
+            fecha_fin_solicitud: this.state.form.fecha_fin,
+            estado_solicitud: "Aprobado",
         }
       )
       .then((response) => {
@@ -136,16 +134,15 @@ class Propuesta extends Component {
   };
 
   //Metodo que funciona para saber que elemento a selecciconado de la tabla y mandarlo al modal
-  seleccionPropuesta = (propuesta) => {
+  seleccionSolicitud = (solicitud) => {
     this.setState({
       form: {
-        codigo_propuesta: propuesta[3],
-        codigo_carrera: propuesta[0],
-        codigo_tipo_servicio_social: propuesta[1],
-        codigo_entidad_externa: propuesta[2],
-        fecha_inicio: propuesta[4],
-        fecha_fin: propuesta[5],
-        descripcion: propuesta[7]
+        codigo_solicitud: solicitud[3],
+        codigo_carrera: solicitud[0],
+        codigo_tipo_servicio_social: solicitud[1],
+        codigo_entidad_externa: solicitud[2],
+        fecha_inicio: solicitud[4],
+        fecha_fin: solicitud[5],
       },
     });
   };
@@ -171,14 +168,13 @@ class Propuesta extends Component {
       })
       .then((response) => {
         const arreglo_inicial = response.data;
-        const propuestas = [];
+        const solicitudes = [];
         for (var i = 0; i < arreglo_inicial.length; i++) {
-          propuestas[i] = {
-            codigo_propuesta: arreglo_inicial[i].codigo_propuesta,
-            fecha_inicio: arreglo_inicial[i].fecha_inicio_propuesta,
-            fecha_fin: arreglo_inicial[i].fecha_fin_propuesta,
-            descripcion: arreglo_inicial[i].descripcion_propuesta,
-            estado: arreglo_inicial[i].estado_propuesta,
+          solicitudes[i] = {
+            codigo_solicitud: arreglo_inicial[i].codigo_solicitud,
+            fecha_inicio: arreglo_inicial[i].fecha_inicio_solicitud,
+            fecha_fin: arreglo_inicial[i].fecha_fin_solicitud,
+            estado: arreglo_inicial[i].estado_solicitud,
             carrera_nombre: arreglo_inicial[i].carrera_detalle.nombre_carrera,
             carrera:arreglo_inicial[i].carrera,
             tipo_servicio_social: arreglo_inicial[i].tipo_servicio_social,
@@ -187,7 +183,7 @@ class Propuesta extends Component {
             tipo_servicio_social_nombre: arreglo_inicial[i].tipo_servicio_social_detalle.nombre_tipo_servicio_social,
           };
         }
-        this.setState({ propuestas: propuestas });
+        this.setState({ solicitudes: solicitudes });
       })
       .catch((error) => {});
   }
@@ -217,7 +213,7 @@ class Propuesta extends Component {
         },
       },
       {
-        name: "codigo_propuesta",
+        name: "codigo_solicitud",
         label: "Codigo",
         options: {
           display: false,
@@ -234,13 +230,6 @@ class Propuesta extends Component {
       {
         name: "entidad_externa_nombre",
         label: "Entidad Externa",
-      },
-      {
-        name: "descripcion",
-        label: "Descripción",
-        options: {
-          display: true,
-        },
       },
       {
         name: "estado",
@@ -267,7 +256,7 @@ class Propuesta extends Component {
                       size="sm"
                       variant="outline-primary"
                       onClick={() => {
-                        this.seleccionPropuesta(tableMeta.rowData);
+                        this.seleccionSolicitud(tableMeta.rowData);
                         this.setState({ modalConfirmar: true });
                       }}
                     >
@@ -288,8 +277,8 @@ class Propuesta extends Component {
           <>
             <div className="pt-5">
               <MUIDataTable
-                title={"Propuestas"}
-                data={this.state.propuestas}
+                title={"Solicitudes"}
+                data={this.state.solicitudes}
                 columns={columns}
                 options={options}
               />
@@ -297,13 +286,13 @@ class Propuesta extends Component {
               {/* Modal para confirmar */}
               <Modal isOpen={this.state.modalConfirmar} centered>
                 <ModalHeader style={{ display: "block" }}>
-                  <span>Aprobar propuesta</span>
+                  <span>Aprobar solicitud</span>
                 </ModalHeader>
                 <ModalBody>
-                  ¿Esta seguro de aprobar la propuesta?
+                  ¿Esta seguro de aprobar la solicitud?
                   <ul>
                     <li>
-                      Esto cambiará el estado de la propuesta a Aprobada.
+                      Esto cambiará el estado de la solicitud a Aprobada.
                     </li>
                   </ul>
                 </ModalBody>
@@ -327,4 +316,4 @@ class Propuesta extends Component {
   }
 }
 
-export default Propuesta;
+export default Solicitud;
