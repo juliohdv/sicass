@@ -56,16 +56,16 @@ export const itemsFacultad = (
       </ListItemIcon>
       <ListItemText primary="Servicios Sociales" />
     </ListItem>
-    {/* <DesplegarServicioSocial
-      opcionGeneral={"Servicios Sociales"}
-      opcion1={"Registrar Servicio Social"}
-      link1={""}
-      opcion2={"Consultar Servicio Social"}
+    { <DesplegarInformes
+      opcionGeneral={"Informes"}
+      opcion1={"Docentes Encargados"}
+      link1={"/InformeDocentes"}
+      opcion2={"Informe de Servicio Social"}
       link2={""}
-    /> */}
+    /> }
   </div>
 );
-function DesplegarServicioSocial(props) {
+function DesplegarInformes(props) {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
   return (

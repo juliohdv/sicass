@@ -62,6 +62,8 @@ export const itemsEscuela = (
       link4={"/InformeAlumnosObservaciones"}
       opcion5={"Tiempo de finalización"}
       link5={"/InformeTiempo"}
+      opcion6={"Certificado de finalización"}
+      link6={"/Certificado"}
     />
   </div>
 );
@@ -146,6 +148,19 @@ function DesplegarInformes(props) {
             <Description />
           </ListItemIcon>
           <ListItemText primary={props.opcion5} />
+        </ListItem>
+      </Collapse>
+      <Collapse in={open} timeout="auto">
+        <ListItem
+          button
+          className={classes.nested}
+          component={Link}
+          to={props.link6}
+        >
+          <ListItemIcon>
+            <Description />
+          </ListItemIcon>
+          <ListItemText primary={props.opcion6} />
         </ListItem>
       </Collapse>
     </>

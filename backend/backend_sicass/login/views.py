@@ -370,14 +370,11 @@ class ProyectosPorEscuelaRevision(viewsets.ModelViewSet):
             carrera = escuela.__getattribute__('carrera')
             queryset = Proyecto.objects.filter(solicitud_servicio__estudiante__carrera=carrera, estado_proyecto="Revision")
             return queryset
-class ServicioSocialConProyectos(viewsets.ModelViewSet):
-        serializer_class =ProyectoSerializer
+class ServiciosInforme(viewsets.ModelViewSet):
+        serializer_class = ActividadSerializer
         def get_queryset(self):
-            servicio_social_id = self.request.query_params.get('servicio_id')
-            servicio = ServicioSocial.objects.get(codigo_servicio_social=servicio_social_id)
-            solicitud_servicio = SolicitudServicioSocial.objects.get(servicio_social=servicio)
-            proyectos = Proyecto.objects.filter(solicitud_servicio=solicitud_servicio)
-            return proyectos
+            servicio = RegistroActividad.objects.all().select_related('proyecto')
+            return servicio
 
 class SolicitudUpsRechazadas(viewsets.ModelViewSet):
     serializer_class = SolicitudUpsSerializer
