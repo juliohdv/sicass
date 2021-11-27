@@ -230,7 +230,7 @@ class Resolucion extends Component {
             ) {
               return (
                 <>
-                  <Tooltip title="Editar">
+                  <Tooltip title="Revisión">
                     <Button
                       size="sm"
                       variant="outline-primary"

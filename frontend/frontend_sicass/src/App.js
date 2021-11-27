@@ -56,6 +56,8 @@ import Propuesta from "./componentes/encargado_facultad/Propuesta";
 import Solicitud from "./componentes/encargado_facultad/Solicitud";
 import InformeDocentes from "./componentes/encargado_facultad/InformeDocentes";
 import Certificado from "./componentes/encargado_escuela/Certificado";
+import InformeActividades from "./componentes/estudiante/InformeActividades";
+import InformeEstadistico from "./componentes/encargado_escuela/InformeEstadistico";
 
 //LOGIN
 /*function leerCookie(nombre){
@@ -558,6 +560,12 @@ export default function App() {
               <Route path="/Certificado">
                 {!autenticado ? <Redirect to="/sicass_app" /> :<InfoCertificado />}
               </Route>
+              <Route path="/ReporteActividad">
+                {!autenticado ? <Redirect to="/sicass_app" /> :<RepoActividad />}
+              </Route>
+              <Route path="/estadisticos">
+                {!autenticado ? <Redirect to="/sicass_app" /> :<Estadistico />}
+              </Route>
             </Switch>
           </Container>
           <Box pt={4}>
@@ -663,4 +671,10 @@ function InfoDocentes(){
 }
 function InfoCertificado(){
   return <Certificado />
+}
+function RepoActividad(){
+  return <InformeActividades />
+}
+function Estadistico(){
+  return <InformeEstadistico />
 }

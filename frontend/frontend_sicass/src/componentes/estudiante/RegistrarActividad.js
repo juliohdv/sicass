@@ -8,6 +8,7 @@ import MUIDataTable from "mui-datatables";
 import { Tooltip } from "@material-ui/core";
 import Edit from "@material-ui/icons/Edit";
 
+
 //Funcion para obtener el nombre del usuario
 function leerCookie(nombre) {
   let key = nombre + "=";
@@ -368,15 +369,6 @@ class RegistrarActividad extends Component {
                         </Form.Group>
                       </Col>
                       <Col className="text-right" sm={2}>
-                        <Button
-                          variant="secondary"
-                          /* onClick={() => {
-                      this.setState({ form: null, tipoModal: "insertar" });
-                      this.modalInsertar(); 
-                    }} */
-                        >
-                          Imprimir
-                        </Button>
                       </Col>
                     </Row>
                   </div>
