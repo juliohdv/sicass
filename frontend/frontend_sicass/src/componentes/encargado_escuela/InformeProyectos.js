@@ -41,25 +41,28 @@ export default class InformeProyectos extends Component {
           arreglo_inicial[0].solicitud_servicio_detalle.servicio_social_detalle
             .tipo_servicio_social_detalle.carrera_detalle.nombre_carrera;
         const proyecto = [];
+        var posiciones = 1;
         for (var i = 0; i < arreglo_inicial.length; i++) {
-          proyecto[i] = {
-            posicion: i,
-            carnet: arreglo_inicial[i].solicitud_servicio_detalle.estudiante,
-            carrera:
-              arreglo_inicial[i].solicitud_servicio_detalle
-                .servicio_social_detalle.tipo_servicio_social_detalle
-                .carrera_detalle.nombre_carrera,
-            entidad:
-              arreglo_inicial[i].solicitud_servicio_detalle
-                .servicio_social_detalle.entidad,
-            descripcion:
-              arreglo_inicial[i].solicitud_servicio_detalle
-                .servicio_social_detalle.descripcion,
-            horas:
-              arreglo_inicial[i].solicitud_servicio_detalle
-                .servicio_social_detalle.cantidad_horas,
-            estado: arreglo_inicial[i].estado_proyecto,
-          };
+          if(arreglo_inicial[i].estado_proyecto === "En Proceso"){
+            proyecto[i] = {
+              posicion: posiciones++,
+              carnet: arreglo_inicial[i].solicitud_servicio_detalle.estudiante,
+              carrera:
+                arreglo_inicial[i].solicitud_servicio_detalle
+                  .servicio_social_detalle.tipo_servicio_social_detalle
+                  .carrera_detalle.nombre_carrera,
+              entidad:
+                arreglo_inicial[i].solicitud_servicio_detalle
+                  .servicio_social_detalle.entidad,
+              descripcion:
+                arreglo_inicial[i].solicitud_servicio_detalle
+                  .servicio_social_detalle.descripcion,
+              horas:
+                arreglo_inicial[i].solicitud_servicio_detalle
+                  .servicio_social_detalle.cantidad_horas,
+              estado: arreglo_inicial[i].estado_proyecto,
+            };
+          }
         }
         this.fechaActual();
         this.setState({ proyectos: proyecto, carrera: carrera });
@@ -136,8 +139,7 @@ export default class InformeProyectos extends Component {
               }
               filas={
                 <>
-                  {this.state.proyectos.map((elemento) =>
-                    elemento.estado === "En Proceso" ? (
+                  {this.state.proyectos.map((elemento) =>(
                       <tr>
                         <td>{elemento.posicion}</td>
                         <td>{elemento.carnet}</td>
@@ -147,10 +149,7 @@ export default class InformeProyectos extends Component {
                         <td>{elemento.horas}</td>
                         <td>{elemento.estado}</td>
                       </tr>
-                    ) : (
-                      <tr></tr>
-                    )
-                  )}
+                  ))}
                 </>
               }
             />
