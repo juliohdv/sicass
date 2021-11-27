@@ -50,6 +50,7 @@ router.register('proyectoPorEstudiante', ProyectoPorEstudiante, basename="proyec
 router.register('proyecto', ProyectoVista, basename="proyecto")
 router.register('proyectoActivos', ProyectoActivos, basename="proyectoActivos")
 router.register('proyectosPorEscuelaRevision', ProyectosPorEscuelaRevision, basename="proyectoPorEscuelaRevision")
+router.register('proyectosPorEscuelaRechazados', ProyectosPorEscuelaRechazados, basename="proyectoPorEscuelaRechazados")
 router.register('ServiciosInforme', ServiciosInforme, basename="ServiciosInforme")
 router.register('SolicitudUpsRechazadas',SolicitudUpsRechazadas, basename='SolicitudUpsRechazadas')
 router.register('PropuestasPorFacultad', PropuestasPorFacultad, basename='PropuestasPorFacultad')

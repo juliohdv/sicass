@@ -84,11 +84,14 @@ class ResolucionActividades extends Component {
       modalActividades: false,
       modalObservacion: false,
       modalConfirmar: false,
+      fecha:"",
       form: {
         tipoModal: "",
         codigo_proyecto: "",
         observaciones: "",
         estado_proyecto: "",
+        inicio:"",
+        fin:"",
         solicitud_servicio_id: "",
         estudiante_id:"",
         observaciones_solicitud:"",
@@ -108,6 +111,8 @@ class ResolucionActividades extends Component {
         {
           observaciones: this.state.form.observaciones,
           estado_proyecto: "Rechazado",
+          inicio: this.state.form.inicio,
+          fin: this.state.form.fin,
           solicitud_servicio: this.state.form.solicitud_servicio_id,
         }
       )
@@ -141,6 +146,8 @@ class ResolucionActividades extends Component {
         {
           observaciones: this.state.form.observaciones,
           estado_proyecto: "Aprobado",
+          inicio: this.state.form.inicio,
+          fin: this.state.fecha,
           solicitud_servicio: this.state.form.solicitud_servicio_id,
         }
       ),
@@ -175,7 +182,16 @@ class ResolucionActividades extends Component {
         });
       });
   };
-
+  fechaActual() {
+    var fecha = new Date();
+    var mes = fecha.getMonth() + 1;
+    var dia = fecha.getDate();
+    var anio = fecha.getFullYear();
+    if (dia < 10) dia = "0" + dia;
+    if (mes < 10) mes = "0" + mes;
+    var fechaActual = anio+ "-" +mes+ "-" + dia  ;
+    this.setState({ fecha: fechaActual });
+  }
   //Metodo que funciona para saber que elemento a selecciconado de la tabla y mandarlo al modal
   seleccionProyecto = (proyecto) => {
     this.setState({
@@ -224,6 +240,8 @@ class ResolucionActividades extends Component {
           proyectos[i] = {
             codigo_proyecto: arreglo_inicial[i].codigo_proyecto,
             observaciones: arreglo_inicial[i].observaciones,
+            inicio: arreglo_inicial[i].inicio,
+            fin: arreglo_inicial[i].fin,
             estado_proyecto: arreglo_inicial[i].estado_proyecto,
             entidad:arreglo_inicial[i].solicitud_servicio_detalle.servicio_social_detalle.entidad,
             tipo_servicio_social:arreglo_inicial[i].solicitud_servicio_detalle.servicio_social_detalle.tipo_servicio_social_detalle.nombre_tipo_servicio_social,
@@ -235,6 +253,7 @@ class ResolucionActividades extends Component {
           };
         }
         this.setState({ proyecto: proyectos });
+        this.fechaActual()
       })
       .catch((error) => {});
   }
