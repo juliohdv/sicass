@@ -111,8 +111,6 @@ export default class Certificado extends Component {
   };
 
   handleBusqueda = async () => {
-    /* Esto tiene que ser un bucle con todas las api de los vendedores
-       Para obtener todo los repuestos */
     axios
       .get("http://127.0.0.1:8000/login/proyectoPorEstudiante/", {
         params: {
