@@ -107,7 +107,7 @@ class ResolucionActividades extends Component {
           "/",
         {
           observaciones: this.state.form.observaciones,
-          estado_proyecto: "En Proceso",
+          estado_proyecto: "Rechazado",
           solicitud_servicio: this.state.form.solicitud_servicio_id,
         }
       )

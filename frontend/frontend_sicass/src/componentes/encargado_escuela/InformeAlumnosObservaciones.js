@@ -139,7 +139,7 @@ export default class InformeAlumnosObservaciones extends Component {
               filas={
                 <>
                   {this.state.proyectos.map((elemento) =>
-                    elemento.estado === "Revisión" ? (
+                    elemento.estado === "Rechazado" ? (
                       <tr>
                         <td>{elemento.carnet}</td>
                         <td>{elemento.nombres + " " + elemento.apellidos }</td>
