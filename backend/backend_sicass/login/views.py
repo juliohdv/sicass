@@ -368,7 +368,7 @@ class ProyectosPorEscuelaRevision(viewsets.ModelViewSet):
             docente = encargado_escuela.__getattribute__('docente_encargado')
             escuela = docente.__getattribute__('escuela')
             carrera = escuela.__getattribute__('carrera')
-            queryset = Proyecto.objects.filter(solicitud_servicio__estudiante__carrera=carrera, estado_proyecto="Revision")
+            queryset = Proyecto.objects.filter(solicitud_servicio__estudiante__carrera=carrera, estado_proyecto="Rechazado")
             return queryset
 class ServiciosInforme(viewsets.ModelViewSet):
         serializer_class = ActividadSerializer
