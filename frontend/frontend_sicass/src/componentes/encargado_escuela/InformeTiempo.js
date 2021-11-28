@@ -32,7 +32,7 @@ export default class InformeTiempo extends Component {
   componentDidMount() {
     let nombre_usuario = leerCookie("usuario");
     axios
-      .get("http://127.0.0.1:8000/login/proyectoActivos/", {
+      .get("https://juliohdv.pythonanywhere.com/login/proyectoActivos/", {
         params: { user: nombre_usuario },
       })
       .then((response) => {

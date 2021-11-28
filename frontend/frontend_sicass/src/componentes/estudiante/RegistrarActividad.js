@@ -219,7 +219,7 @@ class RegistrarActividad extends Component {
   componentDidMount() {
     let nombre_usuario = leerCookie("usuario"); //Se obtiene el usuario logeado
     axios
-      .get("http://127.0.0.1:8000/login/proyectoPorEstudiante/", {
+      .get("https://juliohdv.pythonanywhere.com/login/proyectoPorEstudiante/", {
         params: {
           estudiante: nombre_usuario,
         },

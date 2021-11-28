@@ -51,7 +51,7 @@ class InformeActividades extends Component {
   componentDidMount() {
     let nombre_usuario = leerCookie("usuario"); //Se obtiene el usuario logeado
     axios
-      .get("http://127.0.0.1:8000/login/proyectoPorEstudiante/", {
+      .get("https://juliohdv.pythonanywhere.com/login/proyectoPorEstudiante/", {
         params: {
           estudiante: nombre_usuario,
         },
@@ -83,7 +83,7 @@ class InformeActividades extends Component {
           estado_proyecto: response.data[posicion].estado_proyecto,
         });
         axios
-          .get("http://127.0.0.1:8000/login/actividadesEstudiante/", {
+          .get("https://juliohdv.pythonanywhere.com/login/actividadesEstudiante/", {
             params: {
               proyecto: this.state.proyecto,
             },

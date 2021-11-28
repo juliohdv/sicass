@@ -73,7 +73,7 @@ const options = {
 };
 
 //Constannte que contiene la url de conexion con la api de rest
-const url = "http://127.0.0.1:8000/login/proyectosPorEscuelaRevision/";
+const url = "https://juliohdv.pythonanywhere.com/login/proyectosPorEscuelaRevision/";
 
 //Clase principal del componente
 class ResolucionActividades extends Component {
@@ -105,7 +105,7 @@ class ResolucionActividades extends Component {
   peticionPut = () => {
     axios
       .put(
-        "http://127.0.0.1:8000/login/proyecto/" +
+        "https://juliohdv.pythonanywhere.com/login/proyecto/" +
           this.state.form.codigo_proyecto +
           "/",
         {
@@ -140,7 +140,7 @@ class ResolucionActividades extends Component {
   peticionAprobar = () => {
     axios.all([
       axios.put(
-        "http://127.0.0.1:8000/login/proyecto/" +
+        "https://juliohdv.pythonanywhere.com/login/proyecto/" +
           this.state.form.codigo_proyecto +
           "/",
         {
@@ -151,7 +151,7 @@ class ResolucionActividades extends Component {
           solicitud_servicio: this.state.form.solicitud_servicio_id,
         }
       ),
-      axios.put("http://127.0.0.1:8000/login/solicitudServicio/"+this.state.form.solicitud_servicio_id+"/",
+      axios.put("https://juliohdv.pythonanywhere.com/login/solicitudServicio/"+this.state.form.solicitud_servicio_id+"/",
       {
         codigo_solicitud_servicio: this.state.form.solicitud_servicio_id,
         estado_solicitud:"Finalizado",
@@ -208,7 +208,7 @@ class ResolucionActividades extends Component {
   };
   obtenerActividades = (proyecto) =>{
       axios
-        .get("http://127.0.0.1:8000/login/actividadesEstudiante/",{params:{proyecto:proyecto[0]}})
+        .get("https://juliohdv.pythonanywhere.com/login/actividadesEstudiante/",{params:{proyecto:proyecto[0]}})
         .then((response) => {
             this.setState({ actividades:response.data})
         })

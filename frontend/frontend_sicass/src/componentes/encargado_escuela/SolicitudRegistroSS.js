@@ -71,7 +71,7 @@ const options = {
 
 //Constante con la url de la api (Backend)
 const url =
-  "http://127.0.0.1:8000/login/solicitudEstudiateASSPorEncargadoEscuela/";
+  "https://juliohdv.pythonanywhere.com/login/solicitudEstudiateASSPorEncargadoEscuela/";
 
 //Clase principal del componente
 class SolicitudRegistroSS extends Component {
@@ -101,7 +101,7 @@ class SolicitudRegistroSS extends Component {
     console.log(this.state.form);
     axios
       .put(
-        "http://127.0.0.1:8000/login/solicitudServicio/" +
+        "https://juliohdv.pythonanywhere.com/login/solicitudServicio/" +
           this.state.form.codigo_solicitud_servicio +
           "/",
         this.state.form
@@ -110,7 +110,7 @@ class SolicitudRegistroSS extends Component {
         this.setState({ modalConfirmar: false });
         if (this.state.form.estado_solicitud == "Aprobado") {
           axios
-            .post("http://127.0.0.1:8000/login/proyecto/", {
+            .post("https://juliohdv.pythonanywhere.com/login/proyecto/", {
               observaciones: "Ninguna",
               estado_proyecto: "En Proceso",
               inicio: this.state.fecha,

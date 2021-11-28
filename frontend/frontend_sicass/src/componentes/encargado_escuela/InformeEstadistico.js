@@ -74,7 +74,7 @@ class InformeEstadistico extends Component {
     let nombre_usuario = leerCookie("usuario"); //Se obtiene el usuario logeado
     //Proyectos en proceso
     axios
-      .get("http://127.0.0.1:8000/login/proyectoActivos/", {
+      .get("https://juliohdv.pythonanywhere.com/login/proyectoActivos/", {
         params: { user: nombre_usuario },
       })
       .then((response) => {

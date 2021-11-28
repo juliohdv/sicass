@@ -32,7 +32,7 @@ export default class InformeDocentes extends Component {
   componentDidMount() {
     let nombre_usuario = leerCookie("usuario");
     axios
-      .get("http://127.0.0.1:8000/login/encargadosEscuelaPorFacultad/", {
+      .get("https://juliohdv.pythonanywhere.com/login/encargadosEscuelaPorFacultad/", {
         params: { user: nombre_usuario },
       })
       .then((response) => {

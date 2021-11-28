@@ -70,7 +70,7 @@ const options = {
 };
 
 //Constannte que contiene la url de conexion con la api de rest
-const url = "http://127.0.0.1:8000/login/proyectoPorEstudiante/";
+const url = "https://juliohdv.pythonanywhere.com/login/proyectoPorEstudiante/";
 
 //Clase principal del componente
 class Resolucion extends Component {
@@ -93,7 +93,7 @@ class Resolucion extends Component {
   peticionPut = () => {
     axios
       .put(
-        "http://127.0.0.1:8000/login/proyecto/" +
+        "https://juliohdv.pythonanywhere.com/login/proyecto/" +
           this.state.form.codigo_proyecto +
           "/",
         {

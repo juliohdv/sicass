@@ -70,7 +70,7 @@ export default class Certificado extends Component {
   componentDidMount() {
     let nombre_usuario = leerCookie("usuario");
     axios
-      .get("http://127.0.0.1:8000/login/encargadoEscuela/")
+      .get("https://juliohdv.pythonanywhere.com/login/encargadoEscuela/")
       .then((response) => {
         const arreglo_inicial = response.data;
         var facultad;
@@ -114,7 +114,7 @@ export default class Certificado extends Component {
 
   handleBusqueda = async () => {
     axios
-      .get("http://127.0.0.1:8000/login/proyectoPorEstudiante/", {
+      .get("https://juliohdv.pythonanywhere.com/login/proyectoPorEstudiante/", {
         params: {
           estudiante: this.state.form.carnet,
         },

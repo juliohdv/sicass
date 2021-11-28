@@ -195,7 +195,7 @@ class GestionServicioSocial extends Component {
   };
   obtenerProyectos = (servicio) => {
     axios
-      .get("http://127.0.0.1:8000/login/servicioSocialConProyectos/",{params:{servicio_id: servicio[0]}})
+      .get("https://juliohdv.pythonanywhere.com/login/servicioSocialConProyectos/",{params:{servicio_id: servicio[0]}})
       .then((response)=>{
         this.setState({proyectos: response.data})
         console.log(this.state.proyectos)
@@ -298,7 +298,7 @@ class GestionServicioSocial extends Component {
                       this.modalEstado();
                       this.obtenerProyectos(tableMeta.rowData);
                       axios
-                          .get("http://127.0.0.1:8000/login/tipoServicioFacultad/",{
+                          .get("https://juliohdv.pythonanywhere.com/login/tipoServicioFacultad/",{
                             params:{user:leerCookie("usuario")}
                           })
                           .then((response) => {
