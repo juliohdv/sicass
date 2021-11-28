@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Dashboard from "./Dashboard";
+import Dashboard from "../layout/Dashboard";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -7,7 +7,6 @@ import { Tooltip } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import { Button, Form } from "react-bootstrap";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
-
 
 //Funcion para obtener el nombre del usuario
 function leerCookie(nombre) {
@@ -24,7 +23,6 @@ function leerCookie(nombre) {
   }
   return null;
 }
-
 
 //Constante con las opciones de la tabla
 const options = {
@@ -72,13 +70,15 @@ const options = {
 };
 
 //Constante con la url de la api (Backend)
-const url = "https://juliohdv.pythonanywhere.com/login/solicitudEstudiateASSPorEncargadoEscuela/";
+const url =
+  "http://127.0.0.1:8000/login/solicitudEstudiateASSPorEncargadoEscuela/";
 
 //Clase principal del componente
 class SolicitudRegistroSS extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      fecha:"",
       solicitudes: [],
       solicitudSS: [],
       form: {
@@ -94,16 +94,50 @@ class SolicitudRegistroSS extends Component {
       },
       modalConfirmar: false,
     };
-
   }
 
   //Metodo en que realiza la peticion para actualizar los datos a la BD mediante la api
   peticionPut = () => {
     console.log(this.state.form);
     axios
-      .put("https://juliohdv.pythonanywhere.com/login/solicitudServicio/" + this.state.form.codigo_solicitud_servicio + "/", this.state.form)
+      .put(
+        "http://127.0.0.1:8000/login/solicitudServicio/" +
+          this.state.form.codigo_solicitud_servicio +
+          "/",
+        this.state.form
+      )
       .then((response) => {
         this.setState({ modalConfirmar: false });
+        if (this.state.form.estado_solicitud == "Aprobado") {
+          axios
+            .post("http://127.0.0.1:8000/login/proyecto/", {
+              observaciones: "Ninguna",
+              estado_proyecto: "En Proceso",
+              inicio: this.state.fecha,
+              fin: null,
+              solicitud_servicio: this.state.form.codigo_solicitud_servicio,
+            })
+            .then((response) => {
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Se ha guardado con éxito",
+                showConfirmButton: false,
+                timer: 2500,
+              });
+              this.componentDidMount();
+            })
+            .catch((error) => {
+              Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Ocurrió un error en actualizar",
+                showConfirmButton: false,
+                timer: 2500,
+              });
+            });
+          return;
+        }
         Swal.fire({
           position: "center",
           icon: "success",
@@ -114,7 +148,6 @@ class SolicitudRegistroSS extends Component {
         this.componentDidMount();
       })
       .catch((error) => {
-        console.log(error);
         Swal.fire({
           position: "center",
           icon: "error",
@@ -124,7 +157,16 @@ class SolicitudRegistroSS extends Component {
         });
       });
   };
-
+  fechaActual() {
+    var fecha = new Date();
+    var mes = fecha.getMonth() + 1;
+    var dia = fecha.getDate();
+    var anio = fecha.getFullYear();
+    if (dia < 10) dia = "0" + dia;
+    if (mes < 10) mes = "0" + mes;
+    var fechaActual = anio+ "-" +mes+ "-" + dia  ;
+    this.setState({ fecha: fechaActual });
+  }
   //Metodo que va guardado el estado_solicitud de lo que digita el usuario en el formulario
   handleChange = async (e) => {
     e.persist();
@@ -156,8 +198,8 @@ class SolicitudRegistroSS extends Component {
     let nombre_usuario = leerCookie("usuario"); //Se obtiene el usuario logeado
     console.log(nombre_usuario);
     axios
-      .get(url,{
-        params:{user:nombre_usuario}
+      .get(url, {
+        params: { user: nombre_usuario },
       })
       .then((response) => {
         const arreglo_inicial = response.data; //Guardamos el arreglo inicial para su reescritura
@@ -167,19 +209,24 @@ class SolicitudRegistroSS extends Component {
           solicitud[i] =
             //Asignamos los campos del arrelgo inicial a los del nuevo objeto
             {
-              codigo_solicitud_servicio: arreglo_inicial[i].codigo_solicitud_servicio,
-              servicio_social_cantidad_estudiantes: arreglo_inicial[i].servicio_social_detalle.cantidad_estudiantes,
-              servicio_social_cantidad_horas: arreglo_inicial[i].servicio_social_detalle.cantidad_horas,
-              servicio_social_descripcion: arreglo_inicial[i].servicio_social_detalle.descripcion,
-              servicio_social_entidad: arreglo_inicial[i].servicio_social_detalle.entidad,
-              observaciones:arreglo_inicial[i].observaciones,
+              codigo_solicitud_servicio:
+                arreglo_inicial[i].codigo_solicitud_servicio,
+              servicio_social_cantidad_estudiantes:
+                arreglo_inicial[i].servicio_social_detalle.cantidad_estudiantes,
+              servicio_social_cantidad_horas:
+                arreglo_inicial[i].servicio_social_detalle.cantidad_horas,
+              servicio_social_descripcion:
+                arreglo_inicial[i].servicio_social_detalle.descripcion,
+              servicio_social_entidad:
+                arreglo_inicial[i].servicio_social_detalle.entidad,
+              observaciones: arreglo_inicial[i].observaciones,
               estado_solicitud: arreglo_inicial[i].estado_solicitud,
               servicio_social: arreglo_inicial[i].servicio_social,
-              estudiante:arreglo_inicial[i].estudiante,
+              estudiante: arreglo_inicial[i].estudiante,
             };
         }
         this.setState({ solicitudes: solicitud });
-        
+        this.fechaActual()
       })
       .catch((error) => {
         Swal.fire({
@@ -191,7 +238,6 @@ class SolicitudRegistroSS extends Component {
       });
   }
   render() {
-
     const { form } = this.state;
 
     //Constante con las columnas de la tabla
@@ -202,7 +248,7 @@ class SolicitudRegistroSS extends Component {
         key: "codigo_solicitud_servicio",
         options: {
           display: false,
-        }
+        },
       },
       {
         name: "estudiante",
@@ -218,19 +264,16 @@ class SolicitudRegistroSS extends Component {
         name: "observaciones",
         label: "Observaciones",
         key: "observaciones",
-
       },
       {
         name: "servicio_social_cantidad_horas",
         label: "Cantidad de Horas",
         key: "servicio_social_cantidad_horas",
-
       },
       {
         name: "servicio_social_entidad",
         label: "Entidad",
         key: "servicio_social_entidad",
-
       },
       {
         name: "servicio_social",
@@ -238,14 +281,12 @@ class SolicitudRegistroSS extends Component {
         key: "servicio_social",
         options: {
           display: false,
-      },
-
+        },
       },
       {
         name: "servicio_social_descripcion",
         label: "Descripción",
         key: "servicio_social_descripcion",
-
       },
       {
         name: "tipo_servicio_social",
@@ -253,14 +294,13 @@ class SolicitudRegistroSS extends Component {
         key: "tipo_servicio_social",
         options: {
           display: false,
-        }
+        },
       },
       {
         name: "acciones",
         label: "Acciones",
         options: {
           customBodyRender: (value, tableMeta, updateValue) => {
-
             return (
               /* Boton para redirigir hacia el proyecto que le corresponde a la propuesta */
               <Tooltip title="Ver proyecto">
@@ -301,9 +341,7 @@ class SolicitudRegistroSS extends Component {
               </ModalHeader>
               <ModalBody>
                 <Form.Group>
-                  <Form.Label>
-                    Observaciones
-                  </Form.Label>
+                  <Form.Label>Observaciones</Form.Label>
                   <Form.Control
                     type="text"
                     id="observaciones"
@@ -312,24 +350,27 @@ class SolicitudRegistroSS extends Component {
                     autoComplete="off"
                     value={form ? form.observaciones : ""}
                     onChange={this.handleChange}
-                  >
-                  </Form.Control>
+                  ></Form.Control>
                 </Form.Group>
               </ModalBody>
               <ModalFooter>
-                <Button variant="primary" onClick={() => {
-                  this.state.form.estado_solicitud = "Aprobado"
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    this.state.form.estado_solicitud = "Aprobado";
 
-                  this.peticionPut();
-                }} >
+                    this.peticionPut();
+                  }}
+                >
                   Aprobar
                 </Button>
                 <Button
                   variant="danger"
                   onClick={() => {
-                    this.state.form.estado_solicitud = "Rechazado"
+                    this.state.form.estado_solicitud = "Rechazado";
                     this.peticionPut();
-                  }}>
+                  }}
+                >
                   Rechazar
                 </Button>
                 <Button

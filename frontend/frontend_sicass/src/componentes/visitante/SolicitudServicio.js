@@ -48,8 +48,7 @@ class SolicitudServicio extends Component {
       .catch((error)=>{
         console.log(error)
       })
-    
-      
+
     axios
       .get('https://juliohdv.pythonanywhere.com/login/tiposServicioSocial/')
       .then((response) => {

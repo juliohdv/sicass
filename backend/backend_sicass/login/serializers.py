@@ -17,10 +17,6 @@ class UsuarioSerializer(serializers.ModelSerializer):
         return usuario
     
 
-class TipoServicioSocialSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TipoServicioSocial
-        fields = ['condigo_tipo_servicio_social', 'nombre_tipo_servicio_social','carrera']
     
 class FacultadSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,6 +27,12 @@ class CarreraSerializer(serializers.ModelSerializer):
     facultad_detalle = FacultadSerializer(source='facultad', read_only=True)
     class Meta:
         model = Carrera
+        fields = "__all__"
+
+class TipoServicioSocialSerializer(serializers.ModelSerializer):
+    carrera_detalle = CarreraSerializer(source = 'carrera',read_only=True)
+    class Meta:
+        model = TipoServicioSocial
         fields = "__all__"
 
 class EstudianteSerializer(serializers.ModelSerializer):
@@ -103,6 +105,7 @@ class ServicioSocialSerializer(serializers.ModelSerializer):
     tipo_servicio_social_detalle = TipoServicioSocialSerializer(source = 'tipo_servicio_social', read_only=True)
     solicitud_detalle = SolicitudSerializer(source = 'solicitud', read_only=True)
     propuesta_detalle = PropuestaSerializer(source = 'propuesta', read_only=True)
+    estudiante_detalle = EstudianteSerializer(source = 'estudiante', read_only=True)
     class Meta:
         model = ServicioSocial
         fields = "__all__"
@@ -111,9 +114,10 @@ class ServicioSocialSerializer(serializers.ModelSerializer):
         return servicioSocial
 
 class SolicitudUpsSerializer(serializers.ModelSerializer):
+    estudiante_detalle = EstudianteSerializer(source='estudiante', read_only=True)
     class Meta:
         model = SolicitudUps
-        fields = ['codigo_solicitud_ups','enlace','observaciones','estado_solicitud','estudiante']
+        fields = "__all__"
     def create(self, validate_data):
         solicitudUps = SolicitudUps.objects.create(**validate_data)
         return solicitudUps
@@ -128,6 +132,7 @@ class TipoContenidoSerializer(serializers.ModelSerializer):
 
 class SolicitudServicioSerializer(serializers.ModelSerializer):
     servicio_social_detalle = ServicioSocialSerializer(source='servicio_social', read_only=True)
+    estudiante_detalle = EstudianteSerializer(source='estudiante', read_only=True)
     class Meta:
         model = SolicitudServicioSocial
         fields = "__all__"
@@ -161,8 +166,19 @@ class EncargadoFacultadSerializer(serializers.ModelSerializer):
         model = EncargadoFacultad
         fields = "__all__"
         
+
+class ProyectoSerializer(serializers.ModelSerializer):
+    solicitud_servicio_detalle = SolicitudServicioSerializer(source='solicitud_servicio', read_only=True)
+    class Meta:
+        model = Proyecto
+        fields = "__all__"
+    def create(self, validate_data):
+        proyecto = Proyecto.objects.create(**validate_data)
+        return proyecto
+
 class ActividadSerializer(serializers.ModelSerializer):
+    proyecto_detalle = ProyectoSerializer(source='proyecto', read_only=True)
     class Meta:
         model = RegistroActividad
-        fields = "__all__"         
+        fields = "__all__"
         

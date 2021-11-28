@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Dashboard from "../Dashboard";
+import Dashboard from "../layout/Dashboard";
 import axios from "axios";
 import { Button, Form, Table, Row, Col, Alert } from "react-bootstrap";
 import Swal from "sweetalert2";
@@ -7,6 +7,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import MUIDataTable from "mui-datatables";
 import { Tooltip } from "@material-ui/core";
 import Edit from "@material-ui/icons/Edit";
+
 
 //Funcion para obtener el nombre del usuario
 function leerCookie(nombre) {
@@ -81,10 +82,10 @@ class RegistrarActividad extends Component {
       tipo_servicio_social: "",
       entidad: "",
       cantidad_horas: "",
-      estado_solicitud: "",
+      estado_proyecto: "",
       modalInsertar: false,
       modalEliminar: false,
-      solicitud_servicio: "",
+      proyecto: "",
       form: {
         tipoModal: "",
         codigo_actividad: "",
@@ -111,7 +112,7 @@ class RegistrarActividad extends Component {
             descripcion: this.state.form.descripcion,
             encargado: this.state.form.encargado,
             total_horas: this.state.form.total_horas,
-            solicitud_servicio: this.state.solicitud_servicio,
+            proyecto: this.state.proyecto,
           })
           .then((response) => {
             this.modalInsertar();
@@ -151,7 +152,7 @@ class RegistrarActividad extends Component {
         descripcion: this.state.form.descripcion,
         encargado: this.state.form.encargado,
         total_horas: this.state.form.total_horas,
-        solicitud_servicio: this.state.solicitud_servicio,
+        proyecto: this.state.proyecto,
       })
       .then((response) => {
         this.modalInsertar();
@@ -218,7 +219,7 @@ class RegistrarActividad extends Component {
   componentDidMount() {
     let nombre_usuario = leerCookie("usuario"); //Se obtiene el usuario logeado
     axios
-      .get("https://juliohdv.pythonanywhere.com/login/solicitudServicioEstudiante/", {
+      .get("http://127.0.0.1:8000/login/proyectoPorEstudiante/", {
         params: {
           estudiante: nombre_usuario,
         },
@@ -226,29 +227,24 @@ class RegistrarActividad extends Component {
       .then((response) => {
         const arreglo_inicial = response.data;
         var posicion = response.data.length - 1;
-        for (var i = 0; i < response.data.length; i++) {
-          this.setState({
-            estado_solicitud: response.data[i].estado_solicitud,
-          });
-          if (this.state.estado_solicitud === "Aprobado") {
-            this.setState({
-              solicitud_servicio:
-                arreglo_inicial[posicion].codigo_solicitud_servicio,
-              entidad:
-                arreglo_inicial[posicion].servicio_social_detalle.entidad,
-              cantidad_horas:
-                arreglo_inicial[posicion].servicio_social_detalle
-                  .cantidad_horas,
-              tipo_servicio_social:
-                arreglo_inicial[posicion].servicio_social_detalle
-                  .tipo_servicio_social_detalle.nombre_tipo_servicio_social,
-            });
-          }
-        }
+        this.setState({
+          proyecto: arreglo_inicial[posicion].codigo_proyecto,
+          entidad:
+            arreglo_inicial[posicion].solicitud_servicio_detalle
+              .servicio_social_detalle.entidad,
+          cantidad_horas:
+            arreglo_inicial[posicion].solicitud_servicio_detalle
+              .servicio_social_detalle.cantidad_horas,
+          tipo_servicio_social:
+            arreglo_inicial[posicion].solicitud_servicio_detalle
+              .servicio_social_detalle.tipo_servicio_social_detalle
+              .nombre_tipo_servicio_social,
+          estado_proyecto: response.data[posicion].estado_proyecto,
+        });
         axios
           .get("https://juliohdv.pythonanywhere.com/login/actividadesEstudiante/", {
             params: {
-              servicio: this.state.solicitud_servicio,
+              proyecto: this.state.proyecto,
             },
           })
           .then((response) => {
@@ -319,7 +315,7 @@ class RegistrarActividad extends Component {
         contenedor={
           <div className="pt-4">
             <div>
-              {this.state.estado_solicitud === "Aprobado" ? (
+              {this.state.estado_proyecto === "En Proceso" || this.state.estado_proyecto === "Rechazado" ? (
                 <>
                   <Table striped bordered hover responsive>
                     <thead>
@@ -373,15 +369,6 @@ class RegistrarActividad extends Component {
                         </Form.Group>
                       </Col>
                       <Col className="text-right" sm={2}>
-                        {/* <Button
-                          variant="secondary"
-                           onClick={() => {
-                      this.setState({ form: null, tipoModal: "insertar" });
-                      this.modalInsertar();
-                    }} 
-                        >
-                          Imprimir
-                        </Button>  */}
                       </Col>
                     </Row>
                   </div>

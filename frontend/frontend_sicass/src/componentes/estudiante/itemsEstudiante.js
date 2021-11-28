@@ -3,55 +3,57 @@ import { Link } from "react-router-dom";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import {Home, LockOpen, PersonAdd, ImportContacts, LibraryBooks, Visibility, Add} from "@material-ui/icons/";
+import {Home, Pages, Visibility, Add, Schedule, AssignmentTurnedIn,Widgets, Description, Work} from "@material-ui/icons/";
 import { Collapse } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { ListSubheader } from "@material-ui/core";
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
-
 const useStyles = makeStyles((theme) => ({
   nested: {
-    paddingLeft: theme.spacing(4),  
+    paddingLeft: theme.spacing(4),
+    
   },
 }));
+export const itemsEstudiante = (
 
-export const itemsVisitante = (
   <div>
-    <ListSubheader>Menú</ListSubheader>
-    <ListItem button component={Link} to="/">
+    <ListSubheader>Menú Estudiante</ListSubheader>
+    <ListItem button component={Link} to="/sicass_app">
       <ListItemIcon>
         <Home />
       </ListItemIcon>
       <ListItemText primary="Inicio" />
     </ListItem>
-    <ListItem button component={Link} to="/RegistroEstudiante">
-      <ListItemIcon>
-        <PersonAdd />
-      </ListItemIcon>
-      <ListItemText primary="Registro de Estudiante" />
-    </ListItem>
-    <DesplegarPropuestas
-      opcionGeneral={"Propuestas"}
-      opcion1={"Consultar Propuestas"}
-      link1={"/ConsultarPropuesta"}
-      opcion2={"Registrar Propuestas"}
-      link2={"/RegistrarPropuesta"}
+    <DesplegarUPS
+      opcionGeneral={"UPS"}
+      opcion1={"Registro"}
+      link1={"/RegistroUps"}
+      opcion2={"Consultar Registro"}
+      link2={"/SolicitudInscripcion"}
     />
-    <DesplegarSolicitudes
-      opcionGeneral={"Solicitudes"}
-      opcion1={"Consultar Solicitudes"}
-      link1={"/ConsultarSolicitud"}
-      opcion2={"Registrar Solicitud"}
-      link2={"/RegistrarSolicitud"}
+    <DesplegarServicioSocial
+      opcionGeneral={"Servicio Social"}
+      opcion1={"Consultar SS Disponible"}
+      link1={"/ServicioSocial"}
+      opcion2={"Estado de Mis Servicios Sociales"}
+      link2={"/SolicitudProyecto"}
+    />
+    <DesplegarProyecto
+      opcionGeneral={"Proyecto"}
+      opcion1={"Registrar Actividades"}
+      link1={"/Actividades"}
+      opcion2={"Reporte Actividades"}
+      link2={"/ReporteActividad"}
+      opcion3={"Resolución"}
+      link3={"/Resolucion"}
     />
   </div>
 );
-function DesplegarPropuestas(props) {
+function DesplegarUPS(props) {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
-
   return (
     <>
       <ListItem
@@ -61,7 +63,7 @@ function DesplegarPropuestas(props) {
         aria-expanded={open}
       >
         <ListItemIcon>
-          <ImportContacts />
+          <Pages />
         </ListItemIcon>
         <ListItemText primary={props.opcionGeneral} />
         {open ? <ExpandLess /> : <ExpandMore />}
@@ -74,7 +76,7 @@ function DesplegarPropuestas(props) {
           to={props.link1}
         >
           <ListItemIcon>
-            <Visibility />
+            <Add />
           </ListItemIcon>
           <ListItemText primary={props.opcion1} />
         </ListItem>
@@ -87,7 +89,7 @@ function DesplegarPropuestas(props) {
           to={props.link2}
         >
           <ListItemIcon>
-            <Add />
+            <Visibility />
           </ListItemIcon>
           <ListItemText primary={props.opcion2} />
         </ListItem>
@@ -95,7 +97,7 @@ function DesplegarPropuestas(props) {
     </>
   );
 }
-function DesplegarSolicitudes(props) {
+function DesplegarServicioSocial(props) {
   const [open, setOpen] = useState(false);
   const classes = useStyles();
   return (
@@ -107,7 +109,7 @@ function DesplegarSolicitudes(props) {
         aria-expanded={open}
       >
         <ListItemIcon>
-          <LibraryBooks />
+          <Widgets />
         </ListItemIcon>
         <ListItemText primary={props.opcionGeneral} />
         {open ? <ExpandLess /> : <ExpandMore />}
@@ -133,11 +135,72 @@ function DesplegarSolicitudes(props) {
           to={props.link2}
         >
           <ListItemIcon>
-            <Add />
+            <Schedule />
           </ListItemIcon>
           <ListItemText primary={props.opcion2} />
         </ListItem>
       </Collapse>
+      
+    </>
+  );
+}
+
+function DesplegarProyecto(props) {
+  const [open, setOpen] = useState(false);
+  const classes = useStyles();
+  return (
+    <>
+      <ListItem
+        button
+        onClick={() => setOpen(!open)}
+        aria-controls="example-collapse-text"
+        aria-expanded={open}
+      >
+        <ListItemIcon>
+          <Work />
+        </ListItemIcon>
+        <ListItemText primary={props.opcionGeneral} />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      <Collapse in={open} timeout="auto">
+        <ListItem
+          button
+          className={classes.nested}
+          component={Link}
+          to={props.link1}
+        >
+          <ListItemIcon>
+          <Add />
+          </ListItemIcon>
+          <ListItemText primary={props.opcion1} />
+        </ListItem>
+      </Collapse>
+      {/* <Collapse in={open} timeout="auto">
+        <ListItem
+          button
+          className={classes.nested}
+          component={Link}
+          to={props.link2}
+        >
+          <ListItemIcon>
+          <Description />
+          </ListItemIcon>
+          <ListItemText primary={props.opcion2} />
+        </ListItem>
+      </Collapse>
+      <Collapse in={open} timeout="auto">
+        <ListItem
+          button
+          className={classes.nested}
+          component={Link}
+          to={props.link3}
+        >
+          <ListItemIcon>
+          <AssignmentTurnedIn />
+          </ListItemIcon>
+          <ListItemText primary={props.opcion3} />
+        </ListItem>
+      </Collapse> */}
     </>
   );
 }

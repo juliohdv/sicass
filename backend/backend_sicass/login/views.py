@@ -283,12 +283,11 @@ class RegistroActividadVista(viewsets.ModelViewSet):
 
 class ActividadServicioVistas(viewsets.ModelViewSet):
     serializer_class = ActividadSerializer
-    
     def get_queryset(self):
-        servicio = self.request.query_params.get('servicio')
-        queryset = RegistroActividad.objects.all().filter(solicitud_servicio_id=servicio)
-        if servicio is not None:
-            queryset = queryset.filter(solicitud_servicio_id=servicio)
+        proyecto = self.request.query_params.get('proyecto')
+        queryset = RegistroActividad.objects.all().filter(proyecto_id=proyecto)
+        if proyecto is not None:
+            queryset = queryset.filter(proyecto_id=proyecto)
         return queryset
 
 
@@ -336,4 +335,90 @@ class ServicioSocialPorPropuesta(viewsets.ModelViewSet):
         codigo_propuesta = self.request.query_params.get('codigo_propuesta')
         propuesta = Propuesta.objects.get(codigo_propuesta=codigo_propuesta)
         queryset = ServicioSocial.objects.filter(propuesta=propuesta)
+        return queryset
+
+class ProyectoPorEstudiante(viewsets.ModelViewSet):
+    serializer_class = ProyectoSerializer
+    def get_queryset(self):
+        estudiante = self.request.query_params.get('estudiante')
+        queryset = Proyecto.objects.filter(solicitud_servicio_id__estudiante_id=estudiante)
+        return queryset
+
+class ProyectoVista(viewsets.ModelViewSet):
+    serializer_class = ProyectoSerializer
+    queryset = Proyecto.objects.all()
+
+class ProyectoActivos(viewsets.ModelViewSet):
+    serializer_class = ProyectoSerializer
+    def get_queryset(self):
+        nombre_usuario = self.request.query_params.get('user')
+        usuario = User.objects.get(username=nombre_usuario)
+        encargadoEscuela = EncargadoEscuela.objects.get(user=usuario)
+        docente = encargadoEscuela.__getattribute__('docente_encargado')
+        escuela = docente.__getattribute__('escuela')
+        carrera = escuela.__getattribute__('carrera')
+        queryset = Proyecto.objects.filter(solicitud_servicio__estudiante__carrera=carrera)
+        return queryset
+
+class ProyectosPorEscuelaRevision(viewsets.ModelViewSet):
+        serializer_class = ProyectoSerializer
+        def get_queryset(self):
+            usuario = User.objects.get(username=self.request.query_params.get('user'))
+            encargado_escuela = EncargadoEscuela.objects.get(user=usuario)
+            docente = encargado_escuela.__getattribute__('docente_encargado')
+            escuela = docente.__getattribute__('escuela')
+            carrera = escuela.__getattribute__('carrera')
+            queryset = Proyecto.objects.filter(solicitud_servicio__estudiante__carrera=carrera, estado_proyecto="Revision")
+            return queryset
+class ProyectosPorEscuelaRechazados(viewsets.ModelViewSet):
+        serializer_class = ProyectoSerializer
+        def get_queryset(self):
+            usuario = User.objects.get(username=self.request.query_params.get('user'))
+            encargado_escuela = EncargadoEscuela.objects.get(user=usuario)
+            docente = encargado_escuela.__getattribute__('docente_encargado')
+            escuela = docente.__getattribute__('escuela')
+            carrera = escuela.__getattribute__('carrera')
+            queryset = Proyecto.objects.filter(solicitud_servicio__estudiante__carrera=carrera, estado_proyecto="Rechazado")
+            return queryset
+class ServiciosInforme(viewsets.ModelViewSet):
+        serializer_class = ActividadSerializer
+        def get_queryset(self):
+            servicio = RegistroActividad.objects.all().select_related('proyecto')
+            return servicio
+
+class SolicitudUpsRechazadas(viewsets.ModelViewSet):
+    serializer_class = SolicitudUpsSerializer
+    def get_queryset(self):
+        nombre_usuario = self.request.query_params.get('user')
+        usuario = User.objects.get(username=nombre_usuario)
+        encargadoEscuela = EncargadoEscuela.objects.get(user=usuario)
+        docente = encargadoEscuela.__getattribute__('docente_encargado')
+        escuela = docente.__getattribute__('escuela')
+        queryset = SolicitudUps.objects.all().filter(estudiante__carrera__escuela=escuela, estado_solicitud="Rechazado")
+        return queryset
+
+class PropuestasPorFacultad(viewsets.ModelViewSet):
+    serializer_class = PropuestaSerializer
+    def get_queryset(self):
+        nombre_usuario = self.request.query_params.get('user')
+        usuario = User.objects.get(username=nombre_usuario)
+        encargadoFacultad = EncargadoFacultad.objects.get(user=usuario)
+        docente = encargadoFacultad.__getattribute__('docente_encargado')
+        escuela = docente.__getattribute__('escuela')
+        carrera = escuela.__getattribute__('carrera')
+        facultad = carrera.__getattribute__('facultad')
+        queryset = Propuesta.objects.all().filter(carrera__facultad=facultad)
+        return queryset
+
+class SolicitudesPorFacultad(viewsets.ModelViewSet):
+    serializer_class = SolicitudSerializer
+    def get_queryset(self):
+        nombre_usuario = self.request.query_params.get('user')
+        usuario = User.objects.get(username=nombre_usuario)
+        encargadoFacultad = EncargadoFacultad.objects.get(user=usuario)
+        docente = encargadoFacultad.__getattribute__('docente_encargado')
+        escuela = docente.__getattribute__('escuela')
+        carrera = escuela.__getattribute__('carrera')
+        facultad = carrera.__getattribute__('facultad')
+        queryset = Solicitud.objects.all().filter(carrera__facultad=facultad)
         return queryset
