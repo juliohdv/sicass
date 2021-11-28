@@ -124,7 +124,9 @@ export default class Certificado extends Component {
         const proyectos = [];
         var total = 0;
         for (var i = 0; i < arreglo_inicial.length; i++) {
+
           if (arreglo_inicial[i].estado_proyecto === "Aprobado") {
+
             proyectos[i] = {
               tipo_servicio:
                 arreglo_inicial[i].solicitud_servicio_detalle
@@ -133,6 +135,7 @@ export default class Certificado extends Component {
               total_horas:
                 arreglo_inicial[i].solicitud_servicio_detalle
                   .servicio_social_detalle.cantidad_horas,
+
               fecha_inicio: arreglo_inicial[i].inicio,
               fecha_fin: arreglo_inicial[i].fin,
               entidad:
