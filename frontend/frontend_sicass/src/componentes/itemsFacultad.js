@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 export const itemsFacultad = (
   <div>
     <ListSubheader>Menú Encargado de Facultad</ListSubheader>
-    <ListItem button component={Link} to="/sicass">
+    <ListItem button component={Link} to="/sicass_app">
       <ListItemIcon>
         <Home />
       </ListItemIcon>
