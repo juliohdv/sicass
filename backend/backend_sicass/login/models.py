@@ -169,6 +169,8 @@ class Proyecto(models.Model):
     observaciones = models.CharField(max_length=500)
     estado_proyecto = TextField(max_length=50, default='En Proceso')
     solicitud_servicio = models.ForeignKey(SolicitudServicioSocial, on_delete=models.CASCADE)
+    inicio = models.DateField(null=True)
+    fin = models.DateField(null=True)
 
 class RegistroActividad(models.Model):
     codigo_actividad = models.BigAutoField(primary_key=True, unique=True)

@@ -54,6 +54,8 @@ export default class Certificado extends Component {
       fecha: "",
       escuela: "",
       nombre_alumno: "",
+      inicio:"",
+      fin:"",
       carrera: "",
       encargado_facultad: "",
       encargado_escuela: "",
@@ -78,7 +80,7 @@ export default class Certificado extends Component {
         for (var i = 0; i < arreglo_inicial.length; i++) {
           if (arreglo_inicial[i].usuario_detalle.username === nombre_usuario) {
             encargado_escuela =
-              arreglo_inicial[i].docente_detalle.nombres_docente;
+              arreglo_inicial[i].docente_detalle.nombres_docente + " " + arreglo_inicial[i].docente_detalle.apellidos_docente;
             facultad =
               arreglo_inicial[i].docente_detalle.escuela_detalle.carrera_detalle
                 .facultad_detalle.nombre_facultad;
@@ -122,7 +124,9 @@ export default class Certificado extends Component {
         const proyectos = [];
         var total = 0;
         for (var i = 0; i < arreglo_inicial.length; i++) {
-          if (arreglo_inicial[i].estado_proyecto === "En Proceso") {
+
+          if (arreglo_inicial[i].estado_proyecto === "Aprobado") {
+
             proyectos[i] = {
               tipo_servicio:
                 arreglo_inicial[i].solicitud_servicio_detalle
@@ -131,8 +135,9 @@ export default class Certificado extends Component {
               total_horas:
                 arreglo_inicial[i].solicitud_servicio_detalle
                   .servicio_social_detalle.cantidad_horas,
-              fecha_inicio: arreglo_inicial[i].fecha_incio,
-              fecha_fin: arreglo_inicial[i].fecha_fin,
+
+              fecha_inicio: arreglo_inicial[i].inicio,
+              fecha_fin: arreglo_inicial[i].fin,
               entidad:
                 arreglo_inicial[i].solicitud_servicio_detalle
                   .servicio_social_detalle.entidad,

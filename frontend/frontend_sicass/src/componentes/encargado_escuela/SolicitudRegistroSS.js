@@ -78,6 +78,7 @@ class SolicitudRegistroSS extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      fecha:"",
       solicitudes: [],
       solicitudSS: [],
       form: {
@@ -112,6 +113,8 @@ class SolicitudRegistroSS extends Component {
             .post("http://127.0.0.1:8000/login/proyecto/", {
               observaciones: "Ninguna",
               estado_proyecto: "En Proceso",
+              inicio: this.state.fecha,
+              fin: null,
               solicitud_servicio: this.state.form.codigo_solicitud_servicio,
             })
             .then((response) => {
@@ -154,7 +157,16 @@ class SolicitudRegistroSS extends Component {
         });
       });
   };
-
+  fechaActual() {
+    var fecha = new Date();
+    var mes = fecha.getMonth() + 1;
+    var dia = fecha.getDate();
+    var anio = fecha.getFullYear();
+    if (dia < 10) dia = "0" + dia;
+    if (mes < 10) mes = "0" + mes;
+    var fechaActual = anio+ "-" +mes+ "-" + dia  ;
+    this.setState({ fecha: fechaActual });
+  }
   //Metodo que va guardado el estado_solicitud de lo que digita el usuario en el formulario
   handleChange = async (e) => {
     e.persist();
@@ -214,6 +226,7 @@ class SolicitudRegistroSS extends Component {
             };
         }
         this.setState({ solicitudes: solicitud });
+        this.fechaActual()
       })
       .catch((error) => {
         Swal.fire({
